@@ -25,66 +25,29 @@ namespace XHTD_SERVICES.Helper
 
             var requestData = new GetTokenRequest
             {
-                grant_type = account["grant_type"].ToString(),
-                client_secret = account["client_secret"].ToString(),
-                username = account["username"].ToString(),
+                userName = account["username"].ToString(),
                 password = account["password"].ToString(),
-                client_id = account["client_id"].ToString(),
             };
 
             var client = new RestClient(apiUrl["GetToken"]);
             var request = new RestRequest();
 
             request.Method = Method.POST;
+
+            request.AddJsonBody(requestData);
             request.AddHeader("Accept", "application/json");
-            request.AddHeader("Content-Type", "multipart/form-data");
-            request.Parameters.Clear();
-            request.AddParameter("grant_type", requestData.grant_type);
-            request.AddParameter("client_secret", requestData.client_secret);
-            request.AddParameter("username", requestData.username);
-            request.AddParameter("password", requestData.password);
-            request.AddParameter("client_id", requestData.client_id);
+            request.AddHeader("Content-Type", "application/json");
+            request.RequestFormat = DataFormat.Json;
+
+            //request.AddHeader("Accept", "application/json");
+            //request.AddHeader("Content-Type", "multipart/form-data");
+            //request.Parameters.Clear();
+            //request.AddParameter("username", requestData.userName);
+            //request.AddParameter("password", requestData.password);
 
             IRestResponse response = client.Execute(request);
 
             return response;
-        }
-
-        public static string GetScaleToken()
-        {
-            var apiUrl = ConfigurationManager.GetSection("API_Scale/Url") as NameValueCollection;
-            var account = ConfigurationManager.GetSection("API_Scale/Account") as NameValueCollection;
-
-            var requestData = new GetTokenRequest
-            {
-                grant_type = account["grant_type"].ToString(),
-                client_secret = account["client_secret"].ToString(),
-                username = account["username"].ToString(),
-                password = account["password"].ToString(),
-                client_id = account["client_id"].ToString(),
-            };
-
-            var client = new RestClient(apiUrl["GetToken"]);
-            var request = new RestRequest();
-
-            request.Method = Method.POST;
-            request.AddHeader("Accept", "application/json");
-            request.AddHeader("Content-Type", "multipart/form-data");
-            request.Parameters.Clear();
-            request.AddParameter("grant_type", requestData.grant_type);
-            request.AddParameter("client_secret", requestData.client_secret);
-            request.AddParameter("username", requestData.username);
-            request.AddParameter("password", requestData.password);
-            request.AddParameter("client_id", requestData.client_id);
-
-            IRestResponse response = client.Execute(request);
-
-            var content = response.Content;
-
-            var responseData = JsonConvert.DeserializeObject<GetTokenResponse>(content);
-            var strToken = responseData.access_token;
-
-            return strToken;
         }
 
         public static IRestResponse GetWebsaleOrder(string token, int numberHoursSearchOrder)

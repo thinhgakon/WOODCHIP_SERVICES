@@ -19,8 +19,7 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
 {
     public class SyncOrderJob : IJob
     {
-        protected readonly RfidRepository _rfidRepository;
-
+        protected readonly ScaleBillRepository _scaleBillRepository;
 
         protected readonly SyncOrderLogger _syncOrderLogger;
 
@@ -35,11 +34,11 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
         private static int numberHoursSearchOrder = 48;
 
         public SyncOrderJob(
-            RfidRepository rfidRepository,
+            ScaleBillRepository scaleBillRepository,
             SyncOrderLogger syncOrderLogger
             )
         {
-            _rfidRepository = rfidRepository;
+            _scaleBillRepository = scaleBillRepository;
             _syncOrderLogger = syncOrderLogger;
         }
 
@@ -62,24 +61,14 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
 
             GetToken();
 
-            List<OrderItemResponse> websaleOrders = GetWebsaleOrder();
+            List<ScaleBill> scaleBills = _scaleBillRepository.GetList();
 
-            if (websaleOrders == null || websaleOrders.Count == 0)
+            if (scaleBills == null || scaleBills.Count == 0)
             {
                 return;
             }
 
-            bool isChanged = false;
-
-            foreach (var websaleOrder in websaleOrders)
-            {
-                // Không đồng bộ các đơn tại sông Thao
-                if (websaleOrder.shippointId != "13") { 
-                    bool isSynced = await SyncWebsaleOrderToDMS(websaleOrder);
-
-                    if (!isChanged) isChanged = isSynced;
-                }
-            }
+            bool isSynced = await SyncWebsaleOrderToDMS(scaleBills);
         }
 
         public void GetToken()
@@ -90,8 +79,8 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
 
                 var content = response.Content;
 
-                var responseData = JsonConvert.DeserializeObject<GetTokenResponse>(content);
-                strToken = responseData.access_token;
+                var responseData = JsonConvert.DeserializeObject<GetMmesTokenResponse>(content);
+                strToken = responseData.data.accessToken;
             }
             catch (Exception ex)
             {
@@ -99,24 +88,7 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
             }
         }
 
-        public List<OrderItemResponse> GetWebsaleOrder()
-        {
-            IRestResponse response = HttpRequest.GetWebsaleOrder(strToken, numberHoursSearchOrder);
-            var content = response.Content;
-
-            if (response.StatusDescription.Equals("Unauthorized"))
-            {
-                _syncOrderLogger.LogInfo("Unauthorized GetWebsaleOrder");
-
-                return null;
-            }
-
-            var responseData = JsonConvert.DeserializeObject<SearchOrderResponse>(content);
-
-            return responseData.collection.OrderBy(x => x.id).ToList();
-        }
-
-        public async Task<bool> SyncWebsaleOrderToDMS(OrderItemResponse websaleOrder)
+        public async Task<bool> SyncWebsaleOrderToDMS(List<ScaleBill> scaleBills)
         {
             return true;
         }
