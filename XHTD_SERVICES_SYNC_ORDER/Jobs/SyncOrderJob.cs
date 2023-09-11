@@ -19,15 +19,8 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
 {
     public class SyncOrderJob : IJob
     {
-        protected readonly StoreOrderOperatingRepository _storeOrderOperatingRepository;
+        protected readonly RfidRepository _rfidRepository;
 
-        protected readonly VehicleRepository _vehicleRepository;
-
-        protected readonly CallToTroughRepository _callToTroughRepository;
-
-        protected readonly SystemParameterRepository _systemParameterRepository;
-
-        protected readonly Notification _notification;
 
         protected readonly SyncOrderLogger _syncOrderLogger;
 
@@ -42,19 +35,11 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
         private static int numberHoursSearchOrder = 48;
 
         public SyncOrderJob(
-            StoreOrderOperatingRepository storeOrderOperatingRepository,
-            VehicleRepository vehicleRepository,
-            CallToTroughRepository callToTroughRepository,
-            SystemParameterRepository systemParameterRepository,
-            Notification notification,
+            RfidRepository rfidRepository,
             SyncOrderLogger syncOrderLogger
             )
         {
-            _storeOrderOperatingRepository = storeOrderOperatingRepository;
-            _vehicleRepository = vehicleRepository;
-            _callToTroughRepository = callToTroughRepository;
-            _systemParameterRepository = systemParameterRepository;
-            _notification = notification;
+            _rfidRepository = rfidRepository;
             _syncOrderLogger = syncOrderLogger;
         }
 
@@ -67,39 +52,8 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
 
             await Task.Run(async () =>
             {
-                // Get System Parameters
-                await LoadSystemParameters();
-
-                if (!isActiveService)
-                {
-                    _syncOrderLogger.LogInfo("Service dong bo don hang dang TAT");
-                    return;
-                }
-
                 await SyncOrderProcess();
             });
-        }
-
-        public async Task LoadSystemParameters()
-        {
-            var parameters = await _systemParameterRepository.GetSystemParameters();
-
-            var activeParameter = parameters.FirstOrDefault(x => x.Code == SERVICE_ACTIVE_CODE);
-            var numberHoursParameter = parameters.FirstOrDefault(x => x.Code == SYNC_ORDER_HOURS);
-
-            if(activeParameter == null || activeParameter.Value == "0")
-            {
-                isActiveService = false;
-            }
-            else
-            {
-                isActiveService = true;
-            }
-
-            if (numberHoursParameter != null)
-            {
-                numberHoursSearchOrder = Convert.ToInt32(numberHoursParameter.Value);
-            }
         }
 
         public async Task SyncOrderProcess()
@@ -164,70 +118,7 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
 
         public async Task<bool> SyncWebsaleOrderToDMS(OrderItemResponse websaleOrder)
         {
-            bool isSynced = false;
-
-            var stateId = 0;
-            switch (websaleOrder.status.ToUpper())
-            {
-                case "BOOKED":
-                    stateId = (int)OrderState.DA_DAT_HANG;
-                    break;
-                case "VOIDED":
-                    stateId = (int)OrderState.DA_HUY_DON;
-                    break;
-                case "RECEIVING":
-                    stateId = (int)OrderState.DANG_LAY_HANG;
-                    break;
-                case "RECEIVED":
-                    stateId = (int)OrderState.DA_XUAT_HANG;
-                    break;
-            }
-
-            //if (stateId == (int)OrderState.DA_DAT_HANG)
-            //{
-            //    isSynced = await _storeOrderOperatingRepository.CreateAsync(websaleOrder);
-
-            //    if (isSynced)
-            //    {
-            //        var vehicleCode = websaleOrder.vehicleCode.Replace("-", "").Replace("  ", "").Replace(" ", "").Replace("/", "").Replace(".", "").ToUpper();
-            //        await _vehicleRepository.CreateAsync(vehicleCode);
-            //    }
-            //}
-            //else 
-            if (stateId == (int)OrderState.DANG_LAY_HANG)
-            {
-                if (!_storeOrderOperatingRepository.CheckExist(websaleOrder.id))
-                {
-                    isSynced = await _storeOrderOperatingRepository.CreateAsync(websaleOrder);
-                }
-                else 
-                { 
-                    isSynced = await _storeOrderOperatingRepository.UpdateReceivingOrder(websaleOrder.id, websaleOrder.timeIn, websaleOrder.loadweightnull);
-                }
-            }
-            else if (stateId == (int)OrderState.DA_XUAT_HANG)
-            {
-                // Kiểm tra có deliveryCode và isDone = false trong tblCallToTrough không => nếu có thì set isDone = true
-                await _callToTroughRepository.UpdateWhenCanRa(websaleOrder.deliveryCode);
-
-                if (!_storeOrderOperatingRepository.CheckExist(websaleOrder.id))
-                {
-                    isSynced = await _storeOrderOperatingRepository.CreateAsync(websaleOrder);
-                }
-                else 
-                { 
-                    isSynced = await _storeOrderOperatingRepository.UpdateReceivedOrder(websaleOrder.id, websaleOrder.timeOut, websaleOrder.loadweightfull);
-                }
-            }
-            else if (stateId == (int)OrderState.DA_HUY_DON)
-            {
-                // Kiểm tra có deliveryCode và isDone = false trong tblCallToTrough không => nếu có thì set isDone = true
-                await _callToTroughRepository.UpdateWhenHuyDon(websaleOrder.deliveryCode);
-
-                isSynced = await _storeOrderOperatingRepository.CancelOrder(websaleOrder.id);
-            }
-
-            return isSynced;
+            return true;
         }
     }
 }

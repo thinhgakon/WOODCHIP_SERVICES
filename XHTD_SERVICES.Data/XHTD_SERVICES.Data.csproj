@@ -64,100 +64,40 @@
     <Compile Include="Common\ScaleCode.cs" />
     <Compile Include="Common\ScaleConfig.cs" />
     <Compile Include="Common\URIConfig.cs" />
-    <Compile Include="Entities\tblAccount.cs">
+    <Compile Include="Entities\MdArea.cs">
       <DependentUpon>XHTDModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Entities\tblAccountGroup.cs">
+    <Compile Include="Entities\MdDevice.cs">
       <DependentUpon>XHTDModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Entities\tblAccountGroupFunction.cs">
+    <Compile Include="Entities\MdDeviceGroup.cs">
       <DependentUpon>XHTDModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Entities\tblCallToTrough.cs">
+    <Compile Include="Entities\MdDeviceType.cs">
       <DependentUpon>XHTDModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Entities\tblCategoriesDevice.cs">
+    <Compile Include="Entities\MdItem.cs">
       <DependentUpon>XHTDModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Entities\tblCategoriesDevicesLog.cs">
+    <Compile Include="Entities\MdItemType.cs">
       <DependentUpon>XHTDModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Entities\tblCategory.cs">
+    <Compile Include="Entities\MdPartner.cs">
       <DependentUpon>XHTDModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Entities\tblCompany.cs">
+    <Compile Include="Entities\MdRfid.cs">
       <DependentUpon>XHTDModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Entities\tblConfigApp.cs">
+    <Compile Include="Entities\MdUnit.cs">
       <DependentUpon>XHTDModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Entities\tblDevice.cs">
+    <Compile Include="Entities\MdVehicle.cs">
       <DependentUpon>XHTDModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Entities\tblDeviceGroup.cs">
+    <Compile Include="Entities\MdVehicleType.cs">
       <DependentUpon>XHTDModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Entities\tblDeviceOperating.cs">
-      <DependentUpon>XHTDModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\tblDriver.cs">
-      <DependentUpon>XHTDModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\tblDriverVehicle.cs">
-      <DependentUpon>XHTDModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\tblFunction.cs">
-      <DependentUpon>XHTDModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\tblLongVehicle.cs">
-      <DependentUpon>XHTDModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\tblMachine.cs">
-      <DependentUpon>XHTDModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\tblMachineTypeProduct.cs">
-      <DependentUpon>XHTDModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\tblNotification.cs">
-      <DependentUpon>XHTDModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\tblPrintConfig.cs">
-      <DependentUpon>XHTDModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\tblRfid.cs">
-      <DependentUpon>XHTDModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\tblRfidSign.cs">
-      <DependentUpon>XHTDModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\tblScaleOperating.cs">
-      <DependentUpon>XHTDModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\tblStoreOrderLocation.cs">
-      <DependentUpon>XHTDModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\tblStoreOrderOperating.cs">
-      <DependentUpon>XHTDModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\tblStoreOrderOperatingPriority.cs">
-      <DependentUpon>XHTDModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\tblStoreOrderOperatingVoice.cs">
-      <DependentUpon>XHTDModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\tblSystemParameter.cs">
-      <DependentUpon>XHTDModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\tblTrough.cs">
-      <DependentUpon>XHTDModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\tblTroughTypeProduct.cs">
-      <DependentUpon>XHTDModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\tblTypeProduct.cs">
-      <DependentUpon>XHTDModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\tblVehicle.cs">
+    <Compile Include="Entities\ScaleBill.cs">
       <DependentUpon>XHTDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Entities\XHTDModel.Context.cs">
@@ -184,24 +124,8 @@
     <Compile Include="Models\Values\ConfirmType.cs" />
     <Compile Include="Models\Values\OrderStep.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\CallToTroughRepository.cs" />
-    <Compile Include="Repositories\MachineRepository .cs" />
-    <Compile Include="Repositories\StoreOrderOperatingRepository.Led.cs" />
-    <Compile Include="Repositories\StoreOrderOperatingRepository.Scale.cs" />
-    <Compile Include="Repositories\StoreOrderOperatingRepository.Gateway.cs" />
-    <Compile Include="Repositories\StoreOrderOperatingRepository.Common.cs" />
-    <Compile Include="Repositories\StoreOrderOperatingRepository.SyncOrder.cs" />
-    <Compile Include="Repositories\SystemParameterRepository.cs" />
-    <Compile Include="Repositories\TroughRepository.cs" />
-    <Compile Include="Repositories\ScaleOperatingRepository.cs" />
-    <Compile Include="Repositories\LongVehicleRepository.cs" />
-    <Compile Include="Repositories\VehicleRepository.cs" />
     <Compile Include="Repositories\RfidRepository.cs" />
-    <Compile Include="Repositories\CategoriesDevicesLogRepository.cs" />
-    <Compile Include="Repositories\CategoriesDevicesRepository.cs" />
-    <Compile Include="Repositories\StoreOrderOperatingRepository.cs" />
     <Compile Include="Repositories\BaseRepository.cs" />
-    <Compile Include="Repositories\AccountRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

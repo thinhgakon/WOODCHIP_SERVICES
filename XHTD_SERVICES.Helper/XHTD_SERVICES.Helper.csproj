@@ -72,7 +72,6 @@
   <ItemGroup>
     <Compile Include="BaseLogger.cs" />
     <Compile Include="Models\Request\UpdateWeightRequest.cs" />
-    <Compile Include="OrderValidator.cs" />
     <Compile Include="Calculator.cs" />
     <Compile Include="HttpRequest.cs" />
     <Compile Include="LedHelper.cs" />

@@ -16,11 +16,7 @@ namespace XHTD_SERVICES_SYNC_ORDER
             var builder = new ContainerBuilder();
 
             builder.RegisterType<XHTD_Entities>().AsSelf();
-            builder.RegisterType<StoreOrderOperatingRepository>().AsSelf();
-            builder.RegisterType<VehicleRepository>().AsSelf();
-            builder.RegisterType<CallToTroughRepository>().AsSelf();
-            builder.RegisterType<SystemParameterRepository>().AsSelf();
-            builder.RegisterType<Notification>().AsSelf();
+            builder.RegisterType<RfidRepository>().AsSelf();
             builder.RegisterType<SyncOrderLogger>().AsSelf();
 
             RegisterScheduler(builder);

@@ -10,7 +10,7 @@ using log4net;
 
 namespace XHTD_SERVICES.Data.Repositories
 {
-    public class RfidRepository : BaseRepository <tblRfid>
+    public class RfidRepository : BaseRepository <MdRfid>
     {
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -23,7 +23,7 @@ namespace XHTD_SERVICES.Data.Repositories
             bool isValid = false;
             using (var dbContext = new XHTD_Entities())
             {
-                isValid = dbContext.tblRfids.Any(x => x.Code == code.Trim());
+                isValid = dbContext.MdRfids.Any(x => x.Code == code.Trim());
             }
 
             //if (code.Trim().StartsWith("999"))
@@ -37,30 +37,11 @@ namespace XHTD_SERVICES.Data.Repositories
             return isValid;
         }
 
-        public string GetVehicleCodeByCardNo(string cardNo)
-        {
-            using (var dbContext = new XHTD_Entities())
-            {
-                var rfidRecord = dbContext.tblRfids.FirstOrDefault(x => x.Code == cardNo);
-                if (rfidRecord == null)
-                {
-                    return null;
-                }
-
-                if (String.IsNullOrEmpty(rfidRecord.Vehicle))
-                {
-                    return null;
-                }
-
-                return rfidRecord.Vehicle;
-            }
-        }
-
         public string GetRfidbyVehicle(string vehicle)
         {
             using (var dbContext = new XHTD_Entities())
             {
-                var rfidRecord = dbContext.tblRfids.FirstOrDefault(x => x.Vehicle == vehicle);
+                var rfidRecord = dbContext.MdRfids.FirstOrDefault(x => x.VehicleCode == vehicle);
                 if (rfidRecord == null)
                 {
                     return null;
