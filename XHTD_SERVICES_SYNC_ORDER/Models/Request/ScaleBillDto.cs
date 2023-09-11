@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace XHTD_SERVICES_SYNC_ORDER.Models.Request
 {
-    public class ScaleBillRequest
+    public class ScaleBillDto
     {
         public string Code { get; set; }
         public string OrderCode { get; set; }

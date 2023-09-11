@@ -12,6 +12,8 @@ using RestSharp;
 using Newtonsoft.Json;
 using log4net;
 using XHTD_SERVICES.Data.Entities;
+using XHTD_SERVICES.Data.Models;
+using XHTD_SERVICES.Data.Models.Response;
 
 namespace XHTD_SERVICES.Helper
 {
@@ -45,7 +47,7 @@ namespace XHTD_SERVICES.Helper
             return response;
         }
 
-        public static IRestResponse SyncScaleBillToDMS(string token, List<ScaleBill> scaleBills)
+        public static IRestResponse SyncScaleBillToDMS(string token, List<ScaleBillDto> scaleBills)
         {
             try { 
                 var apiUrl = ConfigurationManager.GetSection("API_WebSale/Url") as NameValueCollection;

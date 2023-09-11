@@ -61,7 +61,7 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
 
             GetToken();
 
-            List<ScaleBill> scaleBills = _scaleBillRepository.GetList();
+            List<ScaleBillDto> scaleBills = _scaleBillRepository.GetList();
 
             if (scaleBills == null || scaleBills.Count == 0)
             {
@@ -88,7 +88,7 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
             }
         }
 
-        public async Task<bool> SyncWebsaleOrderToDMS(List<ScaleBill> scaleBills)
+        public async Task<bool> SyncWebsaleOrderToDMS(List<ScaleBillDto> scaleBills)
         {
             IRestResponse response = HttpRequest.SyncScaleBillToDMS(strToken, scaleBills);
             return true;

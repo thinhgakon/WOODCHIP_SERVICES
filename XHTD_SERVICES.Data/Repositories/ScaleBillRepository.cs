@@ -18,16 +18,28 @@ namespace XHTD_SERVICES.Data.Repositories
         {
         }
 
-        public List<ScaleBill> GetList()
+        public List<ScaleBillDto> GetList()
         {
             using (var dbContext = new XHTD_Entities())
             {
                 try { 
-                    var items = dbContext.ScaleBills.ToList();
-                    if (items == null)
+                    var items = dbContext.ScaleBills.ToList().Select(x => new ScaleBillDto
                     {
-                        return null;
-                    }
+                        Code = x.Code,
+                        ScaleTypeCode = x.ScaleTypeCode,
+                        PartnerCode = x.PartnerCode,
+                        VehicleCode = x.VehicleCode,
+                        DriverName = x.DriverName,
+                        ItemCode = x.ItemCode,
+                        Note = x.Note,
+                        Weight1 = x.Weight1,
+                        Weight2 = x.Weight2,
+                        TimeWeight1 = x.TimeWeight1,
+                        TimeWeight2 = x.TimeWeight2,
+                        //StationCode = x.StationCode,
+                        //AreaCodes = x.AreaCode,
+                    })
+                    .ToList();
 
                     return items;
                 }
