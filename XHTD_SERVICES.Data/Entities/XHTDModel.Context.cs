@@ -25,37 +25,17 @@ namespace XHTD_SERVICES.Data.Entities
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<tblAccount> tblAccounts { get; set; }
-        public virtual DbSet<tblAccountGroup> tblAccountGroups { get; set; }
-        public virtual DbSet<tblAccountGroupFunction> tblAccountGroupFunctions { get; set; }
-        public virtual DbSet<tblCallToTrough> tblCallToTroughs { get; set; }
-        public virtual DbSet<tblCategory> tblCategories { get; set; }
-        public virtual DbSet<tblCategoriesDevice> tblCategoriesDevices { get; set; }
-        public virtual DbSet<tblCategoriesDevicesLog> tblCategoriesDevicesLogs { get; set; }
-        public virtual DbSet<tblConfigApp> tblConfigApps { get; set; }
-        public virtual DbSet<tblDevice> tblDevices { get; set; }
-        public virtual DbSet<tblDeviceGroup> tblDeviceGroups { get; set; }
-        public virtual DbSet<tblDeviceOperating> tblDeviceOperatings { get; set; }
-        public virtual DbSet<tblDriver> tblDrivers { get; set; }
-        public virtual DbSet<tblDriverVehicle> tblDriverVehicles { get; set; }
-        public virtual DbSet<tblFunction> tblFunctions { get; set; }
-        public virtual DbSet<tblLongVehicle> tblLongVehicles { get; set; }
-        public virtual DbSet<tblMachine> tblMachines { get; set; }
-        public virtual DbSet<tblMachineTypeProduct> tblMachineTypeProducts { get; set; }
-        public virtual DbSet<tblNotification> tblNotifications { get; set; }
-        public virtual DbSet<tblPrintConfig> tblPrintConfigs { get; set; }
-        public virtual DbSet<tblRfid> tblRfids { get; set; }
-        public virtual DbSet<tblRfidSign> tblRfidSigns { get; set; }
-        public virtual DbSet<tblScaleOperating> tblScaleOperatings { get; set; }
-        public virtual DbSet<tblStoreOrderLocation> tblStoreOrderLocations { get; set; }
-        public virtual DbSet<tblStoreOrderOperating> tblStoreOrderOperatings { get; set; }
-        public virtual DbSet<tblStoreOrderOperatingPriority> tblStoreOrderOperatingPriorities { get; set; }
-        public virtual DbSet<tblSystemParameter> tblSystemParameters { get; set; }
-        public virtual DbSet<tblTrough> tblTroughs { get; set; }
-        public virtual DbSet<tblTroughTypeProduct> tblTroughTypeProducts { get; set; }
-        public virtual DbSet<tblTypeProduct> tblTypeProducts { get; set; }
-        public virtual DbSet<tblVehicle> tblVehicles { get; set; }
-        public virtual DbSet<tblCompany> tblCompanies { get; set; }
-        public virtual DbSet<tblStoreOrderOperatingVoice> tblStoreOrderOperatingVoices { get; set; }
+        public virtual DbSet<MdArea> MdAreas { get; set; }
+        public virtual DbSet<MdDevice> MdDevices { get; set; }
+        public virtual DbSet<MdDeviceGroup> MdDeviceGroups { get; set; }
+        public virtual DbSet<MdDeviceType> MdDeviceTypes { get; set; }
+        public virtual DbSet<MdItem> MdItems { get; set; }
+        public virtual DbSet<MdItemType> MdItemTypes { get; set; }
+        public virtual DbSet<MdPartner> MdPartners { get; set; }
+        public virtual DbSet<MdRfid> MdRfids { get; set; }
+        public virtual DbSet<MdUnit> MdUnits { get; set; }
+        public virtual DbSet<MdVehicle> MdVehicles { get; set; }
+        public virtual DbSet<MdVehicleType> MdVehicleTypes { get; set; }
+        public virtual DbSet<ScaleBill> ScaleBills { get; set; }
     }
 }

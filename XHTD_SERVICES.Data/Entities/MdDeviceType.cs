@@ -12,23 +12,23 @@ namespace XHTD_SERVICES.Data.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class tblDevice
+    public partial class MdDeviceType
     {
-        public int Id { get; set; }
-        public string CodeParent { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public MdDeviceType()
+        {
+            this.MdDevices = new HashSet<MdDevice>();
+        }
+    
         public string Code { get; set; }
         public string Name { get; set; }
-        public Nullable<int> OperID { get; set; }
-        public Nullable<int> DoorOrAuxoutID { get; set; }
-        public Nullable<int> OutputAddrType { get; set; }
-        public Nullable<int> DoorAction { get; set; }
-        public Nullable<int> InputPort { get; set; }
-        public Nullable<int> OutputPort { get; set; }
-        public string Ipaddress { get; set; }
-        public string Port { get; set; }
-        public Nullable<System.DateTime> CreateDay { get; set; }
+        public Nullable<bool> IsActive { get; set; }
         public string CreateBy { get; set; }
-        public Nullable<System.DateTime> UpdateDay { get; set; }
         public string UpdateBy { get; set; }
+        public Nullable<System.DateTime> CreateDate { get; set; }
+        public Nullable<System.DateTime> UpdateDate { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MdDevice> MdDevices { get; set; }
     }
 }

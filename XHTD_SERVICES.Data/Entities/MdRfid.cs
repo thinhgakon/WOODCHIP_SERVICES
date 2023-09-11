@@ -12,15 +12,16 @@ namespace XHTD_SERVICES.Data.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class tblRfidSign
+    public partial class MdRfid
     {
-        public int Id { get; set; }
-        public string Vehicle { get; set; }
-        public string RfidCode { get; set; }
-        public string Image { get; set; }
-        public Nullable<System.DateTime> CreateDay { get; set; }
+        public string Code { get; set; }
+        public string VehicleCode { get; set; }
+        public Nullable<bool> IsActive { get; set; }
         public string CreateBy { get; set; }
-        public Nullable<System.DateTime> UpdateDay { get; set; }
         public string UpdateBy { get; set; }
+        public Nullable<System.DateTime> CreateDate { get; set; }
+        public Nullable<System.DateTime> UpdateDate { get; set; }
+    
+        public virtual MdVehicle MdVehicle { get; set; }
     }
 }

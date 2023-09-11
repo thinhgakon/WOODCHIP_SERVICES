@@ -12,15 +12,24 @@ namespace XHTD_SERVICES.Data.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class tblTypeProduct
+    public partial class MdDevice
     {
-        public int Id { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
-        public Nullable<bool> State { get; set; }
-        public Nullable<System.DateTime> CreateDay { get; set; }
+        public string TypeCode { get; set; }
+        public string GroupCode { get; set; }
+        public string IpAdress { get; set; }
+        public int IpPort { get; set; }
+        public int DevicePort { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public Nullable<bool> IsActive { get; set; }
         public string CreateBy { get; set; }
-        public Nullable<System.DateTime> UpdateDay { get; set; }
         public string UpdateBy { get; set; }
+        public Nullable<System.DateTime> CreateDate { get; set; }
+        public Nullable<System.DateTime> UpdateDate { get; set; }
+    
+        public virtual MdDeviceGroup MdDeviceGroup { get; set; }
+        public virtual MdDeviceType MdDeviceType { get; set; }
     }
 }

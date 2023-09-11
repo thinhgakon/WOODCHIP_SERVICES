@@ -12,14 +12,14 @@ namespace XHTD_SERVICES.Data.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class tblConfigApp
+    public partial class MdArea
     {
-        public int Id { get; set; }
-        public string KeyItem { get; set; }
-        public string ValueItem { get; set; }
-        public Nullable<System.DateTime> CreateDay { get; set; }
+        public string Code { get; set; }
+        public string Name { get; set; }
+        public Nullable<bool> IsActive { get; set; }
         public string CreateBy { get; set; }
-        public Nullable<System.DateTime> UpdateDay { get; set; }
         public string UpdateBy { get; set; }
+        public Nullable<System.DateTime> CreateDate { get; set; }
+        public Nullable<System.DateTime> UpdateDate { get; set; }
     }
 }

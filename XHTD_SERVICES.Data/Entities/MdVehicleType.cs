@@ -12,18 +12,23 @@ namespace XHTD_SERVICES.Data.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class tblDeviceGroup
+    public partial class MdVehicleType
     {
-        public int Id { get; set; }
-        public Nullable<int> TypeId { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public MdVehicleType()
+        {
+            this.MdVehicles = new HashSet<MdVehicle>();
+        }
+    
         public string Code { get; set; }
         public string Name { get; set; }
-        public string IpAddress { get; set; }
-        public Nullable<int> PortNumber { get; set; }
-        public Nullable<bool> State { get; set; }
-        public Nullable<System.DateTime> CreateDay { get; set; }
+        public Nullable<bool> IsActive { get; set; }
         public string CreateBy { get; set; }
-        public Nullable<System.DateTime> UpdateDay { get; set; }
         public string UpdateBy { get; set; }
+        public Nullable<System.DateTime> CreateDate { get; set; }
+        public Nullable<System.DateTime> UpdateDate { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MdVehicle> MdVehicles { get; set; }
     }
 }
