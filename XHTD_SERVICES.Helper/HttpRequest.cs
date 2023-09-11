@@ -11,6 +11,7 @@ using XHTD_SERVICES.Helper.Models.Response;
 using RestSharp;
 using Newtonsoft.Json;
 using log4net;
+using XHTD_SERVICES.Data.Entities;
 
 namespace XHTD_SERVICES.Helper
 {
@@ -39,15 +40,38 @@ namespace XHTD_SERVICES.Helper
             request.AddHeader("Content-Type", "application/json");
             request.RequestFormat = DataFormat.Json;
 
-            //request.AddHeader("Accept", "application/json");
-            //request.AddHeader("Content-Type", "multipart/form-data");
-            //request.Parameters.Clear();
-            //request.AddParameter("username", requestData.userName);
-            //request.AddParameter("password", requestData.password);
-
             IRestResponse response = client.Execute(request);
 
             return response;
+        }
+
+        public static IRestResponse SyncScaleBillToDMS(string token, List<ScaleBill> scaleBills)
+        {
+            try { 
+                var apiUrl = ConfigurationManager.GetSection("API_WebSale/Url") as NameValueCollection;
+
+                var requestData = scaleBills;
+
+                var xx = apiUrl["SyncScaleBill"];
+
+                var client = new RestClient(apiUrl["SyncScaleBill"]);
+                var request = new RestRequest();
+
+                request.Method = Method.PUT;
+                request.AddJsonBody(requestData);
+                request.AddHeader("Authorization", "Bearer " + token);
+                request.AddHeader("Accept", "application/json");
+                request.AddHeader("Content-Type", "application/json");
+                request.RequestFormat = DataFormat.Json;
+
+                IRestResponse response = client.Execute(request);
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         public static IRestResponse GetDMSToken()

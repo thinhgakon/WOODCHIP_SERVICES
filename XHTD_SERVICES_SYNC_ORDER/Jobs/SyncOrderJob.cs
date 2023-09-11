@@ -90,6 +90,7 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
 
         public async Task<bool> SyncWebsaleOrderToDMS(List<ScaleBill> scaleBills)
         {
+            IRestResponse response = HttpRequest.SyncScaleBillToDMS(strToken, scaleBills);
             return true;
         }
     }
