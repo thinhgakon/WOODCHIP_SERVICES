@@ -123,9 +123,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DIBootstrapper.cs" />
-    <Compile Include="Jobs\SyncBookedOrderJob.cs" />
-    <Compile Include="Jobs\SyncChangedOrderJob.cs" />
-    <Compile Include="Jobs\SyncInProgressOrderJob.cs" />
     <Compile Include="SyncOrderLogger.cs" />
     <Compile Include="Jobs\SyncOrderJob.cs" />
     <Compile Include="Models\Request\GetTokenRequest.cs" />
