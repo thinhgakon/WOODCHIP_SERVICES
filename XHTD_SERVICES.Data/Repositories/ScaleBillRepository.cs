@@ -36,16 +36,16 @@ namespace XHTD_SERVICES.Data.Repositories
                         Code = x.Code,
                         CompanyCode = "VJ",
                         ScaleTypeCode = x.ScaleTypeCode,
-                        PartnerCode = x.MdPartner.SyncCode,
+                        PartnerCode = x.MdPartner?.SyncCode,
                         VehicleCode = x.VehicleCode,
                         DriverName = x.DriverName,
-                        ItemCode = x.MdItem.SyncCode,
+                        ItemCode = x.MdItem?.SyncCode,
                         Note = x.Note,
                         Weight1 = x.Weight1,
                         Weight2 = x.Weight2,
                         TimeWeight1 = x.TimeWeight1,
                         TimeWeight2 = x.TimeWeight2,
-                        AreaCode = x.MdArea.SyncCode,
+                        AreaCode = x.MdArea?.SyncCode,
                     })
                     .ToList();
 
