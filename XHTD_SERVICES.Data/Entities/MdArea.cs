@@ -14,6 +14,12 @@ namespace XHTD_SERVICES.Data.Entities
     
     public partial class MdArea
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public MdArea()
+        {
+            this.ScaleBills = new HashSet<ScaleBill>();
+        }
+    
         public string Code { get; set; }
         public string Name { get; set; }
         public Nullable<bool> IsActive { get; set; }
@@ -22,5 +28,8 @@ namespace XHTD_SERVICES.Data.Entities
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<System.DateTime> UpdateDate { get; set; }
         public string SyncCode { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ScaleBill> ScaleBills { get; set; }
     }
 }

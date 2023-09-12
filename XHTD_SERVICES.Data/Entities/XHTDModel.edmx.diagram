@@ -4,21 +4,22 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="752e4d48567e46008592a3b45bda6466" Name="Diagram1">
+      <Diagram DiagramId="b6840369d1074c678c12a2ce7827e5a7" Name="Diagram1">
         <EntityTypeShape EntityType="XHTD_SERVICES.Data.Entities.ItemFormula" Width="1.5" PointX="0.75" PointY="4.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="XHTD_SERVICES.Data.Entities.MdArea" Width="1.5" PointX="9.75" PointY="8.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="XHTD_SERVICES.Data.Entities.MdDevice" Width="1.5" PointX="10" PointY="2.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="XHTD_SERVICES.Data.Entities.MdDeviceGroup" Width="1.5" PointX="7.75" PointY="3.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="XHTD_SERVICES.Data.Entities.MdDeviceType" Width="1.5" PointX="7.75" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="XHTD_SERVICES.Data.Entities.MdArea" Width="1.5" PointX="3" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="XHTD_SERVICES.Data.Entities.MdDevice" Width="1.5" PointX="10" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="XHTD_SERVICES.Data.Entities.MdDeviceGroup" Width="1.5" PointX="7.75" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="XHTD_SERVICES.Data.Entities.MdDeviceType" Width="1.5" PointX="7.75" PointY="8.375" IsExpanded="true" />
         <EntityTypeShape EntityType="XHTD_SERVICES.Data.Entities.MdItem" Width="1.5" PointX="3" PointY="3.5" IsExpanded="true" />
         <EntityTypeShape EntityType="XHTD_SERVICES.Data.Entities.MdItemType" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="XHTD_SERVICES.Data.Entities.MdPartner" Width="1.5" PointX="3" PointY="10.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="XHTD_SERVICES.Data.Entities.MdRfid" Width="1.5" PointX="5.25" PointY="15.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="XHTD_SERVICES.Data.Entities.MdPartner" Width="1.5" PointX="3" PointY="12.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="XHTD_SERVICES.Data.Entities.MdRfid" Width="1.5" PointX="5.25" PointY="17.875" IsExpanded="true" />
         <EntityTypeShape EntityType="XHTD_SERVICES.Data.Entities.MdUnit" Width="1.5" PointX="0.75" PointY="8" IsExpanded="true" />
-        <EntityTypeShape EntityType="XHTD_SERVICES.Data.Entities.MdVehicle" Width="1.5" PointX="3" PointY="15" IsExpanded="true" />
-        <EntityTypeShape EntityType="XHTD_SERVICES.Data.Entities.MdVehicleType" Width="1.5" PointX="0.75" PointY="15.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="XHTD_SERVICES.Data.Entities.ScaleBill" Width="1.5" PointX="5.25" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="XHTD_SERVICES.Data.Entities.MdVehicle" Width="1.5" PointX="3" PointY="17.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="XHTD_SERVICES.Data.Entities.MdVehicleType" Width="1.5" PointX="0.75" PointY="17.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="XHTD_SERVICES.Data.Entities.ScaleBill" Width="1.5" PointX="5.25" PointY="2.625" IsExpanded="true" />
         <AssociationConnector Association="XHTD_SERVICES.Data.Entities.FK_dbo_MdItem_dbo_ItemFormula_ItemFormula_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="XHTD_SERVICES.Data.Entities.FK_dbo_ScaleBill_dbo_MdArea_AreaCode" ManuallyRouted="false" />
         <AssociationConnector Association="XHTD_SERVICES.Data.Entities.FK_dbo_MdDevice_dbo_MdDeviceGroup_GroupCode" ManuallyRouted="false" />
         <AssociationConnector Association="XHTD_SERVICES.Data.Entities.FK_dbo_MdDevice_dbo_MdDeviceType_TypeCode" ManuallyRouted="false" />
         <AssociationConnector Association="XHTD_SERVICES.Data.Entities.FK_dbo_MdItem_dbo_MdItemType_TypeCode" ManuallyRouted="false" />

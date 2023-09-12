@@ -44,7 +44,6 @@ namespace XHTD_SERVICES.Data.Repositories
                         Weight2 = x.Weight2,
                         TimeWeight1 = x.TimeWeight1,
                         TimeWeight2 = x.TimeWeight2,
-                        //StationCode = x.StationCode,
                         //AreaCodes = x.AreaCode,
                     })
                     .ToList();

@@ -21,6 +21,7 @@ namespace XHTD_SERVICES.Data.Entities
         }
     
         public string Code { get; set; }
+        public string SyncCode { get; set; }
         public string Name { get; set; }
         public string UnitCode { get; set; }
         public string TypeCode { get; set; }
@@ -32,7 +33,6 @@ namespace XHTD_SERVICES.Data.Entities
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<System.DateTime> UpdateDate { get; set; }
         public Nullable<System.Guid> ItemFormula_Id { get; set; }
-        public string SyncCode { get; set; }
     
         public virtual ItemFormula ItemFormula { get; set; }
         public virtual MdItemType MdItemType { get; set; }

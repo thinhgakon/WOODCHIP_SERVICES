@@ -21,6 +21,7 @@ namespace XHTD_SERVICES.Data.Entities
         }
     
         public string Code { get; set; }
+        public string SyncCode { get; set; }
         public string Name { get; set; }
         public bool IsCustomer { get; set; }
         public bool IsProvider { get; set; }
@@ -33,7 +34,6 @@ namespace XHTD_SERVICES.Data.Entities
         public string UpdateBy { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<System.DateTime> UpdateDate { get; set; }
-        public string SyncCode { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ScaleBill> ScaleBills { get; set; }

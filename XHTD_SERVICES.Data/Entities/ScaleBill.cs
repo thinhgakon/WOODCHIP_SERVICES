@@ -35,7 +35,9 @@ namespace XHTD_SERVICES.Data.Entities
         public Nullable<bool> IsSynced { get; set; }
         public Nullable<System.DateTime> SyncDate { get; set; }
         public string SyncLog { get; set; }
+        public string AreaCode { get; set; }
     
+        public virtual MdArea MdArea { get; set; }
         public virtual MdItem MdItem { get; set; }
         public virtual MdPartner MdPartner { get; set; }
         public virtual MdVehicle MdVehicle { get; set; }

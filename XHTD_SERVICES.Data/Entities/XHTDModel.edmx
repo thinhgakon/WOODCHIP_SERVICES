@@ -78,6 +78,7 @@
             <PropertyRef Name="Code" />
           </Key>
           <Property Name="Code" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="SyncCode" Type="nvarchar" MaxLength="50" />
           <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="UnitCode" Type="nvarchar" MaxLength="50" />
           <Property Name="TypeCode" Type="nvarchar" MaxLength="50" />
@@ -89,7 +90,6 @@
           <Property Name="CreateDate" Type="datetime" />
           <Property Name="UpdateDate" Type="datetime" />
           <Property Name="ItemFormula_Id" Type="uniqueidentifier" />
-          <Property Name="SyncCode" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="MdItemType">
           <Key>
@@ -108,6 +108,7 @@
             <PropertyRef Name="Code" />
           </Key>
           <Property Name="Code" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="SyncCode" Type="nvarchar" MaxLength="50" />
           <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="IsCustomer" Type="bit" Nullable="false" />
           <Property Name="IsProvider" Type="bit" Nullable="false" />
@@ -120,7 +121,6 @@
           <Property Name="UpdateBy" Type="nvarchar" MaxLength="50" />
           <Property Name="CreateDate" Type="datetime" />
           <Property Name="UpdateDate" Type="datetime" />
-          <Property Name="SyncCode" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="MdRfid">
           <Key>
@@ -199,6 +199,7 @@
           <Property Name="IsSynced" Type="bit" />
           <Property Name="SyncDate" Type="datetime" />
           <Property Name="SyncLog" Type="nvarchar" MaxLength="1000" />
+          <Property Name="AreaCode" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <Association Name="FK_dbo_MdDevice_dbo_MdDeviceGroup_GroupCode">
           <End Role="MdDeviceGroup" Type="Self.MdDeviceGroup" Multiplicity="0..1" />
@@ -284,6 +285,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_dbo_ScaleBill_dbo_MdArea_AreaCode">
+          <End Role="MdArea" Type="Self.MdArea" Multiplicity="0..1" />
+          <End Role="ScaleBill" Type="Self.ScaleBill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MdArea">
+              <PropertyRef Name="Code" />
+            </Principal>
+            <Dependent Role="ScaleBill">
+              <PropertyRef Name="AreaCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_dbo_ScaleBill_dbo_MdItem_ItemCode">
           <End Role="MdItem" Type="Self.MdItem" Multiplicity="0..1" />
           <End Role="ScaleBill" Type="Self.ScaleBill" Multiplicity="*" />
@@ -362,6 +375,10 @@
             <End Role="MdVehicleType" EntitySet="MdVehicleType" />
             <End Role="MdVehicle" EntitySet="MdVehicle" />
           </AssociationSet>
+          <AssociationSet Name="FK_dbo_ScaleBill_dbo_MdArea_AreaCode" Association="Self.FK_dbo_ScaleBill_dbo_MdArea_AreaCode">
+            <End Role="MdArea" EntitySet="MdArea" />
+            <End Role="ScaleBill" EntitySet="ScaleBill" />
+          </AssociationSet>
           <AssociationSet Name="FK_dbo_ScaleBill_dbo_MdItem_ItemCode" Association="Self.FK_dbo_ScaleBill_dbo_MdItem_ItemCode">
             <End Role="MdItem" EntitySet="MdItem" />
             <End Role="ScaleBill" EntitySet="ScaleBill" />
@@ -405,6 +422,7 @@
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
           <Property Name="UpdateDate" Type="DateTime" Precision="3" />
           <Property Name="SyncCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ScaleBills" Relationship="Self.FK_dbo_ScaleBill_dbo_MdArea_AreaCode" FromRole="MdArea" ToRole="ScaleBill" />
         </EntityType>
         <EntityType Name="MdDevice">
           <Key>
@@ -458,6 +476,7 @@
             <PropertyRef Name="Code" />
           </Key>
           <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SyncCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="UnitCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TypeCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -469,7 +488,6 @@
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
           <Property Name="UpdateDate" Type="DateTime" Precision="3" />
           <Property Name="ItemFormula_Id" Type="Guid" />
-          <Property Name="SyncCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ItemFormula" Relationship="Self.FK_dbo_MdItem_dbo_ItemFormula_ItemFormula_Id" FromRole="MdItem" ToRole="ItemFormula" />
           <NavigationProperty Name="MdItemType" Relationship="Self.FK_dbo_MdItem_dbo_MdItemType_TypeCode" FromRole="MdItem" ToRole="MdItemType" />
           <NavigationProperty Name="MdUnit" Relationship="Self.FK_dbo_MdItem_dbo_MdUnit_UnitCode" FromRole="MdItem" ToRole="MdUnit" />
@@ -493,6 +511,7 @@
             <PropertyRef Name="Code" />
           </Key>
           <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SyncCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="IsCustomer" Type="Boolean" Nullable="false" />
           <Property Name="IsProvider" Type="Boolean" Nullable="false" />
@@ -505,7 +524,6 @@
           <Property Name="UpdateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
           <Property Name="UpdateDate" Type="DateTime" Precision="3" />
-          <Property Name="SyncCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ScaleBills" Relationship="Self.FK_dbo_ScaleBill_dbo_MdPartner_PartnerCode" FromRole="MdPartner" ToRole="ScaleBill" />
         </EntityType>
         <EntityType Name="MdRfid">
@@ -591,6 +609,8 @@
           <Property Name="IsSynced" Type="Boolean" />
           <Property Name="SyncDate" Type="DateTime" Precision="3" />
           <Property Name="SyncLog" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="AreaCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MdArea" Relationship="Self.FK_dbo_ScaleBill_dbo_MdArea_AreaCode" FromRole="ScaleBill" ToRole="MdArea" />
           <NavigationProperty Name="MdItem" Relationship="Self.FK_dbo_ScaleBill_dbo_MdItem_ItemCode" FromRole="ScaleBill" ToRole="MdItem" />
           <NavigationProperty Name="MdPartner" Relationship="Self.FK_dbo_ScaleBill_dbo_MdPartner_PartnerCode" FromRole="ScaleBill" ToRole="MdPartner" />
           <NavigationProperty Name="MdVehicle" Relationship="Self.FK_dbo_ScaleBill_dbo_MdVehicle_VehicleCode" FromRole="ScaleBill" ToRole="MdVehicle" />
@@ -604,6 +624,18 @@
             </Principal>
             <Dependent Role="MdItem">
               <PropertyRef Name="ItemFormula_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ScaleBill_dbo_MdArea_AreaCode">
+          <End Role="MdArea" Type="Self.MdArea" Multiplicity="0..1" />
+          <End Role="ScaleBill" Type="Self.ScaleBill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MdArea">
+              <PropertyRef Name="Code" />
+            </Principal>
+            <Dependent Role="ScaleBill">
+              <PropertyRef Name="AreaCode" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -733,6 +765,10 @@
             <End Role="ItemFormula" EntitySet="ItemFormulas" />
             <End Role="MdItem" EntitySet="MdItems" />
           </AssociationSet>
+          <AssociationSet Name="FK_dbo_ScaleBill_dbo_MdArea_AreaCode" Association="Self.FK_dbo_ScaleBill_dbo_MdArea_AreaCode">
+            <End Role="MdArea" EntitySet="MdAreas" />
+            <End Role="ScaleBill" EntitySet="ScaleBills" />
+          </AssociationSet>
           <AssociationSet Name="FK_dbo_MdDevice_dbo_MdDeviceGroup_GroupCode" Association="Self.FK_dbo_MdDevice_dbo_MdDeviceGroup_GroupCode">
             <End Role="MdDeviceGroup" EntitySet="MdDeviceGroups" />
             <End Role="MdDevice" EntitySet="MdDevices" />
@@ -853,6 +889,7 @@
             <EntityTypeMapping TypeName="XHTD_SERVICES.Data.Entities.MdItem">
               <MappingFragment StoreEntitySet="MdItem">
                 <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="SyncCode" ColumnName="SyncCode" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="UnitCode" ColumnName="UnitCode" />
                 <ScalarProperty Name="TypeCode" ColumnName="TypeCode" />
@@ -864,7 +901,6 @@
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
                 <ScalarProperty Name="ItemFormula_Id" ColumnName="ItemFormula_Id" />
-                <ScalarProperty Name="SyncCode" ColumnName="SyncCode" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -885,6 +921,7 @@
             <EntityTypeMapping TypeName="XHTD_SERVICES.Data.Entities.MdPartner">
               <MappingFragment StoreEntitySet="MdPartner">
                 <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="SyncCode" ColumnName="SyncCode" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="IsCustomer" ColumnName="IsCustomer" />
                 <ScalarProperty Name="IsProvider" ColumnName="IsProvider" />
@@ -897,7 +934,6 @@
                 <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="SyncCode" ColumnName="SyncCode" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -981,6 +1017,7 @@
                 <ScalarProperty Name="IsSynced" ColumnName="IsSynced" />
                 <ScalarProperty Name="SyncDate" ColumnName="SyncDate" />
                 <ScalarProperty Name="SyncLog" ColumnName="SyncLog" />
+                <ScalarProperty Name="AreaCode" ColumnName="AreaCode" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
