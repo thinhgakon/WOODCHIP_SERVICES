@@ -61,6 +61,7 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
 
             if (scaleBills == null || scaleBills.Count == 0)
             {
+                _syncOrderLogger.LogInfo("Tất cả phiếu đã được đồng bộ");
                 return;
             }
 
@@ -98,11 +99,13 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
 
             foreach ( var itemSuccess in successList )
             {
+                _syncOrderLogger.LogInfo($"Đồng bộ thành công: {itemSuccess.Code}");
                 await this._scaleBillRepository.UpdateSyncSuccess(itemSuccess.Code);
             }
 
             foreach (var itemFail in failList)
             {
+                _syncOrderLogger.LogInfo($"Đồng bộ thất bại: {itemFail.Code}");
                 await this._scaleBillRepository.UpdateSyncFail(itemFail.Code);
             }
 
