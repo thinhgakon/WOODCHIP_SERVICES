@@ -10,6 +10,8 @@ namespace XHTD_SERVICES.Data.Models.Response
     {
         public string Code { get; set; }
 
+        public string CompanyCode { get; set; }
+
         public string ScaleTypeCode { get; set; }
 
         public string PartnerCode { get; set; }

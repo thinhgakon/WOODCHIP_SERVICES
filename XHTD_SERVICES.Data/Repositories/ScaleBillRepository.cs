@@ -7,6 +7,7 @@ using System.Globalization;
 using XHTD_SERVICES.Data.Entities;
 using XHTD_SERVICES.Data.Models.Response;
 using log4net;
+using System.Data.Entity;
 
 namespace XHTD_SERVICES.Data.Repositories
 {
@@ -23,14 +24,20 @@ namespace XHTD_SERVICES.Data.Repositories
             using (var dbContext = new XHTD_Entities())
             {
                 try { 
-                    var items = dbContext.ScaleBills.ToList().Select(x => new ScaleBillDto
+                    var items = dbContext.ScaleBills
+                        .Include(x => x.MdItem)
+                        .Include(x => x.MdPartner)
+                        .Where(x => x.IsSynced == false)
+                        .ToList()
+                        .Select(x => new ScaleBillDto
                     {
                         Code = x.Code,
+                        CompanyCode = "VIJACHIP",
                         ScaleTypeCode = x.ScaleTypeCode,
-                        PartnerCode = x.PartnerCode,
+                        PartnerCode = x.MdPartner.SyncCode,
                         VehicleCode = x.VehicleCode,
                         DriverName = x.DriverName,
-                        ItemCode = x.ItemCode,
+                        ItemCode = x.MdItem.SyncCode,
                         Note = x.Note,
                         Weight1 = x.Weight1,
                         Weight2 = x.Weight2,
