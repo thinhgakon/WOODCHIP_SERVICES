@@ -80,7 +80,7 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
                 var content = response.Content;
 
                 var responseData = JsonConvert.DeserializeObject<GetMmesTokenResponse>(content);
-                strToken = responseData.data.accessToken;
+                strToken = responseData?.data?.accessToken;
             }
             catch (Exception ex)
             {
