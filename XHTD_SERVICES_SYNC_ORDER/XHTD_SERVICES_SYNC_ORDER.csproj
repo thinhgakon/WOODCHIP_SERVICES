@@ -124,6 +124,9 @@
   <ItemGroup>
     <Compile Include="DIBootstrapper.cs" />
     <Compile Include="Models\Request\ScaleBillDto.cs" />
+    <Compile Include="Models\Response\GetSyncResponse.cs" />
+    <Compile Include="Models\Response\DataSyncResponse.cs" />
+    <Compile Include="Models\Response\SyncResponse.cs" />
     <Compile Include="Models\Response\MmesTokenResponse.cs" />
     <Compile Include="Models\Response\GetMmesTokenResponse.cs" />
     <Compile Include="SyncOrderLogger.cs" />

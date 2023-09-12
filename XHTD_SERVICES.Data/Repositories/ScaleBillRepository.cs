@@ -8,6 +8,7 @@ using XHTD_SERVICES.Data.Entities;
 using XHTD_SERVICES.Data.Models.Response;
 using log4net;
 using System.Data.Entity;
+using XHTD_SERVICES.Data.Models.Values;
 
 namespace XHTD_SERVICES.Data.Repositories
 {
@@ -27,12 +28,12 @@ namespace XHTD_SERVICES.Data.Repositories
                     var items = dbContext.ScaleBills
                         .Include(x => x.MdItem)
                         .Include(x => x.MdPartner)
-                        .Where(x => x.IsSynced == false)
+                        .Where(x => x.IsSynced == null || x.IsSynced == false)
                         .ToList()
                         .Select(x => new ScaleBillDto
                     {
                         Code = x.Code,
-                        CompanyCode = "VIJACHIP",
+                        CompanyCode = "VJ",
                         ScaleTypeCode = x.ScaleTypeCode,
                         PartnerCode = x.MdPartner.SyncCode,
                         VehicleCode = x.VehicleCode,
@@ -53,6 +54,69 @@ namespace XHTD_SERVICES.Data.Repositories
                 catch(Exception ex)
                 {
                     return null;
+                }
+            }
+        }
+
+        public async Task<bool> UpdateSyncSuccess(string code)
+        {
+            using (var dbContext = new XHTD_Entities())
+            {
+                try
+                {
+                    string syncTime = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
+
+                    var order = await dbContext.ScaleBills
+                                            .Where(x => x.Code == code)
+                                            .FirstOrDefaultAsync();
+
+                    if (order == null)
+                    {
+                        return false;
+                    }
+
+                    order.IsSynced = true;
+                    order.SyncDate = DateTime.Now;
+                    order.SyncLog = $@"{order.SyncLog} #Đồng bộ lúc {syncTime} ";
+
+                    await dbContext.SaveChangesAsync();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    log.Error($@"Sync {code} Error: " + ex.Message);
+                    return false;
+                }
+            }
+        }
+
+        public async Task<bool> UpdateSyncFail(string code)
+        {
+            using (var dbContext = new XHTD_Entities())
+            {
+                try
+                {
+                    string syncTime = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
+
+                    var order = await dbContext.ScaleBills
+                                            .Where(x => x.Code == code)
+                                            .FirstOrDefaultAsync();
+
+                    if (order == null)
+                    {
+                        return false;
+                    }
+
+                    order.SyncDate = DateTime.Now;
+                    order.SyncLog = $@"{order.SyncLog} #Đồng bộ thất bại lúc {syncTime} ";
+
+                    await dbContext.SaveChangesAsync();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    log.Error($@"Sync {code} Error: " + ex.Message);
+                    return false;
                 }
             }
         }

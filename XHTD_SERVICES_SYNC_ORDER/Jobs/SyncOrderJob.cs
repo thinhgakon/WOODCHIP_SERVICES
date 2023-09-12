@@ -68,7 +68,7 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
                 return;
             }
 
-            bool isSynced = await SyncScaleBillToDMS(scaleBills);
+            bool isSynced = SyncScaleBillToDMS(scaleBills);
         }
 
         public void GetToken()
@@ -91,6 +91,25 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
         public async Task<bool> SyncScaleBillToDMS(List<ScaleBillDto> scaleBills)
         {
             IRestResponse response = HttpRequest.SyncScaleBillToDMS(strToken, scaleBills);
+
+            var content = response.Content;
+
+            var responseData = JsonConvert.DeserializeObject<GetSyncResponse>(content);
+
+            var successList = responseData.data.success;
+
+            var failList = responseData.data.fails;
+
+            foreach ( var itemSuccess in successList )
+            {
+                await this._scaleBillRepository.UpdateSyncSuccess(itemSuccess.Code);
+            }
+
+            foreach (var itemFail in failList)
+            {
+                await this._scaleBillRepository.UpdateSyncFail(itemFail.Code);
+            }
+
             return true;
         }
     }

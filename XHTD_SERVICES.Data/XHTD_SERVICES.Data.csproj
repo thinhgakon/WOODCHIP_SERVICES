@@ -64,6 +64,9 @@
     <Compile Include="Common\ScaleCode.cs" />
     <Compile Include="Common\ScaleConfig.cs" />
     <Compile Include="Common\URIConfig.cs" />
+    <Compile Include="Entities\ItemFormula.cs">
+      <DependentUpon>XHTDModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entities\MdArea.cs">
       <DependentUpon>XHTDModel.tt</DependentUpon>
     </Compile>
@@ -143,6 +146,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Entities\XHTDModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
