@@ -68,7 +68,7 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
                 return;
             }
 
-            bool isSynced = SyncScaleBillToDMS(scaleBills);
+            bool isSynced = await SyncScaleBillToDMS(scaleBills);
         }
 
         public void GetToken()
