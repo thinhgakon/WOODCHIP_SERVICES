@@ -68,7 +68,7 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
                 return;
             }
 
-            bool isSynced = await SyncWebsaleOrderToDMS(scaleBills);
+            bool isSynced = await SyncScaleBillToDMS(scaleBills);
         }
 
         public void GetToken()
@@ -88,7 +88,7 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
             }
         }
 
-        public async Task<bool> SyncWebsaleOrderToDMS(List<ScaleBillDto> scaleBills)
+        public async Task<bool> SyncScaleBillToDMS(List<ScaleBillDto> scaleBills)
         {
             IRestResponse response = HttpRequest.SyncScaleBillToDMS(strToken, scaleBills);
             return true;
