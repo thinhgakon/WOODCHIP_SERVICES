@@ -32,7 +32,9 @@ namespace XHTD_SERVICES.Data.Entities
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<System.DateTime> UpdateDate { get; set; }
         public Nullable<System.Guid> ItemFormula_Id { get; set; }
+        public string SyncCode { get; set; }
     
+        public virtual ItemFormula ItemFormula { get; set; }
         public virtual MdItemType MdItemType { get; set; }
         public virtual MdUnit MdUnit { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

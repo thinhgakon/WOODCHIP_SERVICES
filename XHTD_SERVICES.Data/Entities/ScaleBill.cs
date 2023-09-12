@@ -32,6 +32,9 @@ namespace XHTD_SERVICES.Data.Entities
         public string UpdateBy { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<System.DateTime> UpdateDate { get; set; }
+        public Nullable<bool> IsSynced { get; set; }
+        public Nullable<System.DateTime> SyncDate { get; set; }
+        public string SyncLog { get; set; }
     
         public virtual MdItem MdItem { get; set; }
         public virtual MdPartner MdPartner { get; set; }

@@ -25,6 +25,7 @@ namespace XHTD_SERVICES.Data.Entities
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<ItemFormula> ItemFormulas { get; set; }
         public virtual DbSet<MdArea> MdAreas { get; set; }
         public virtual DbSet<MdDevice> MdDevices { get; set; }
         public virtual DbSet<MdDeviceGroup> MdDeviceGroups { get; set; }
