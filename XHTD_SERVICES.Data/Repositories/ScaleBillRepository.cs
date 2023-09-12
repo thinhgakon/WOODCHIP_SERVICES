@@ -28,6 +28,7 @@ namespace XHTD_SERVICES.Data.Repositories
                     var items = dbContext.ScaleBills
                         .Include(x => x.MdItem)
                         .Include(x => x.MdPartner)
+                        .Include(x => x.MdArea)
                         .Where(x => x.IsSynced == null || x.IsSynced == false)
                         .ToList()
                         .Select(x => new ScaleBillDto
@@ -44,7 +45,7 @@ namespace XHTD_SERVICES.Data.Repositories
                         Weight2 = x.Weight2,
                         TimeWeight1 = x.TimeWeight1,
                         TimeWeight2 = x.TimeWeight2,
-                        //AreaCodes = x.AreaCode,
+                        AreaCode = x.MdArea.SyncCode,
                     })
                     .ToList();
 
