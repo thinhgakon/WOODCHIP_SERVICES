@@ -97,16 +97,20 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
 
             var failList = responseData.data?.fails;
 
-            foreach ( var itemSuccess in successList )
-            {
-                _syncOrderLogger.LogInfo($"Đồng bộ thành công: {itemSuccess.Code}");
-                await this._scaleBillRepository.UpdateSyncSuccess(itemSuccess.Code);
+            if(successList != null) { 
+                foreach ( var itemSuccess in successList )
+                {
+                    _syncOrderLogger.LogInfo($"Đồng bộ thành công: {itemSuccess.Code}");
+                    await this._scaleBillRepository.UpdateSyncSuccess(itemSuccess.Code);
+                }
             }
 
-            foreach (var itemFail in failList)
-            {
-                _syncOrderLogger.LogInfo($"Đồng bộ thất bại: {itemFail.Code}");
-                await this._scaleBillRepository.UpdateSyncFail(itemFail.Code);
+            if(failList != null) { 
+                foreach (var itemFail in failList)
+                {
+                    _syncOrderLogger.LogInfo($"Đồng bộ thất bại: {itemFail.Code}");
+                    await this._scaleBillRepository.UpdateSyncFail(itemFail.Code);
+                }
             }
 
             return true;
