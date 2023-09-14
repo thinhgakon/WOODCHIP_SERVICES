@@ -49,7 +49,9 @@ namespace XHTD_SERVICES.Helper
 
         public static IRestResponse SyncScaleBillToDMS(string token, List<ScaleBillDto> scaleBills)
         {
-            try { 
+            try {
+
+                var requestObj = scaleBills.Select(x=> new ScaleBillRequestDto(x)).ToList();
                 var apiUrl = ConfigurationManager.GetSection("API_WebSale/Url") as NameValueCollection;
 
                 var requestData = scaleBills;
@@ -60,7 +62,7 @@ namespace XHTD_SERVICES.Helper
                 var request = new RestRequest();
 
                 request.Method = Method.PUT;
-                request.AddJsonBody(requestData);
+                request.AddJsonBody(requestObj);
                 request.AddHeader("Authorization", "Bearer " + token);
                 request.AddHeader("Accept", "application/json");
                 request.AddHeader("Content-Type", "application/json");
