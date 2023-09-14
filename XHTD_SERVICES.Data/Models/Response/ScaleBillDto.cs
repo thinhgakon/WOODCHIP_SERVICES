@@ -35,6 +35,8 @@ namespace XHTD_SERVICES.Data.Models.Response
         public string StationCode { get; set; }
 
         public string AreaCode { get; set; }
+
+        public string UnitCode { get; set; } = "KG";
     }
 
     public class ScaleBillRequestDto {
@@ -53,6 +55,7 @@ namespace XHTD_SERVICES.Data.Models.Response
             this.AreaCode = dto.AreaCode;
             this.TimeWeight1 = dto.TimeWeight1?.ToString("s");
             this.TimeWeight2 = dto.TimeWeight2?.ToString("s");
+            this.UnitCode = dto.UnitCode;
         }
 
         public string Code { get; set; }
@@ -81,6 +84,6 @@ namespace XHTD_SERVICES.Data.Models.Response
 
         public string AreaCode { get; set; }
 
-
+        public string UnitCode { get; set; }
     }
 }
