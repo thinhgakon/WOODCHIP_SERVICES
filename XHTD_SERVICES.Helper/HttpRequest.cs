@@ -54,14 +54,11 @@ namespace XHTD_SERVICES.Helper
                 var requestObj = scaleBills.Select(x=> new ScaleBillRequestDto(x)).ToList();
                 var apiUrl = ConfigurationManager.GetSection("API_WebSale/Url") as NameValueCollection;
 
-                var requestData = scaleBills;
-
-                var xx = apiUrl["SyncScaleBill"];
-
                 var client = new RestClient(apiUrl["SyncScaleBill"]);
-                var request = new RestRequest();
-
-                request.Method = Method.PUT;
+                var request = new RestRequest
+                {
+                    Method = Method.PUT
+                };
                 request.AddJsonBody(requestObj);
                 request.AddHeader("Authorization", "Bearer " + token);
                 request.AddHeader("Accept", "application/json");
