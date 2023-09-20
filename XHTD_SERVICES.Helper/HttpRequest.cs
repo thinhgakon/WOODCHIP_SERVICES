@@ -81,10 +81,16 @@ namespace XHTD_SERVICES.Helper
             {
                 var requestObj = scaleImages.Select(x => new ScaleImageRequestDto
                 {
-                    ModuleType = x.Type,
-                    Code = x.Id.ToString(),
+                    ModuleType = x.Type == "IN" ? "SCALEIN" : "SCALEOUT",
+                    SyncCode = x.Id.ToString(),
                     ScaleCode = x.ScaleBillCode,
-                    File = Convert.FromBase64String(FileHelper.ConvertImageToBase64(x.Attachment.Url)),
+                    Files = new FileDto
+                    {
+                        //ByteData = Convert.FromBase64String(FileHelper.ConvertImageToBase64(x.Attachment.Url)),
+                        ByteData = FileHelper.ConvertImageToBase64(x.Attachment.Url),
+                        Name = x.Attachment.Title,
+                        Extension = x.Attachment.Extension,
+                    }
                 })
                 .ToList();
 

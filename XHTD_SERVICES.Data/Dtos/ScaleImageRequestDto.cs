@@ -10,10 +10,10 @@ namespace XHTD_SERVICES.Data.Dtos
     {
         public string ModuleType { get; set; }
 
-        public string Code { get; set; }
+        public string SyncCode { get; set; }
 
         public string ScaleCode { get; set; }
 
-        public byte[] File { get; set; }
+        public FileDto Files { get; set; }
     }
 }
