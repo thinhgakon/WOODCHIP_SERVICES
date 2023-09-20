@@ -26,7 +26,7 @@ namespace XHTD_SERVICES_SYNC_ORDER.Schedules
         {
             await _scheduler.Start();
 
-            // Đồng bộ đơn hàng
+            // Đồng bộ phiếu cân
             IJobDetail syncOrderJob = JobBuilder.Create<SyncOrderJob>().Build();
             ITrigger syncOrderTrigger = TriggerBuilder.Create()
                 .WithPriority(1)
@@ -36,6 +36,17 @@ namespace XHTD_SERVICES_SYNC_ORDER.Schedules
                     .RepeatForever())
                 .Build();
             await _scheduler.ScheduleJob(syncOrderJob, syncOrderTrigger);
+
+            // Đồng bộ ảnh phiếu cân
+            IJobDetail syncImageJob = JobBuilder.Create<SyncImageJob>().Build();
+            ITrigger syncImageTrigger = TriggerBuilder.Create()
+                .WithPriority(1)
+                 .StartNow()
+                 .WithSimpleSchedule(x => x
+                     .WithIntervalInSeconds(Convert.ToInt32(ConfigurationManager.AppSettings.Get("Sync_Image_Interval_In_Seconds")))
+                    .RepeatForever())
+                .Build();
+            await _scheduler.ScheduleJob(syncImageJob, syncImageTrigger);
         }
     }
 }

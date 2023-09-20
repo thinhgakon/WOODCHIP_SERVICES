@@ -14,24 +14,23 @@ using XHTD_SERVICES.Helper;
 using XHTD_SERVICES.Helper.Models.Request;
 using System.Threading;
 using XHTD_SERVICES.Data.Dtos;
+using log4net;
 
 namespace XHTD_SERVICES_SYNC_ORDER.Jobs
 {
     public class SyncImageJob : IJob
     {
-        protected readonly ScaleImageRepository _scaleImageRepository;
+        ILog _logger = LogManager.GetLogger("SecondFileAppender");
 
-        protected readonly SyncOrderLogger _syncOrderLogger;
+        protected readonly ScaleImageRepository _scaleImageRepository;
 
         private static string strToken;
 
         public SyncImageJob(
-            ScaleImageRepository scaleImageRepository,
-            SyncOrderLogger syncOrderLogger
+            ScaleImageRepository scaleImageRepository
             )
         {
             _scaleImageRepository = scaleImageRepository;
-            _syncOrderLogger = syncOrderLogger;
         }
 
         public async Task Execute(IJobExecutionContext context)
@@ -49,7 +48,7 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
 
         public async Task SyncImageProcess()
         {
-            _syncOrderLogger.LogInfo("Start process Sync Image job");
+            _logger.Info("Start process Sync Image job");
 
             GetToken();
 
@@ -57,7 +56,7 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
 
             if (scaleImages == null || scaleImages.Count == 0)
             {
-                _syncOrderLogger.LogInfo("Tất cả ảnh phiếu cân đã được đồng bộ");
+                _logger.Info("Tất cả ảnh phiếu cân đã được đồng bộ");
                 return;
             }
 
@@ -77,7 +76,7 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
             }
             catch (Exception ex)
             {
-                _syncOrderLogger.LogInfo("getToken error: " + ex.Message);
+                _logger.Info("getToken error: " + ex.Message);
             }
         }
 
@@ -96,7 +95,7 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
             if(successList != null) { 
                 foreach ( var itemSuccess in successList )
                 {
-                    _syncOrderLogger.LogInfo($"Đồng bộ thành công: {itemSuccess.Code}");
+                    _logger.Info($"Đồng bộ thành công: {itemSuccess.Code}");
                     await this._scaleImageRepository.UpdateSyncSuccess(itemSuccess.Code);
                 }
             }
@@ -104,7 +103,7 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
             if(failList != null) { 
                 foreach (var itemFail in failList)
                 {
-                    _syncOrderLogger.LogInfo($"Đồng bộ thất bại: {itemFail.Code}");
+                    _logger.Info($"Đồng bộ thất bại: {itemFail.Code}");
                     await this._scaleImageRepository.UpdateSyncFail(itemFail.Code);
                 }
             }
