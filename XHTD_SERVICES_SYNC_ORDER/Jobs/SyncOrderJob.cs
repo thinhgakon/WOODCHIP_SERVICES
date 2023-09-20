@@ -57,7 +57,7 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
 
             if (scaleBills == null || scaleBills.Count == 0)
             {
-                _syncOrderLogger.LogInfo("Tất cả phiếu đã được đồng bộ");
+                _syncOrderLogger.LogInfo("Tat ca phieu can da duoc dong bo");
                 return;
             }
 

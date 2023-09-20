@@ -56,7 +56,7 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
 
             if (scaleImages == null || scaleImages.Count == 0)
             {
-                _logger.Info("Tất cả ảnh phiếu cân đã được đồng bộ");
+                _logger.Info("Tat ca anh phieu can da duoc dong bo");
                 return;
             }
 
