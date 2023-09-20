@@ -45,7 +45,7 @@ namespace XHTD_SERVICES.Data.Repositories
             }
         }
 
-        public async Task<bool> UpdateSyncSuccess(string code)
+        public async Task<bool> UpdateSyncSuccess(string id)
         {
             using (var dbContext = new XHTD_Entities())
             {
@@ -53,8 +53,8 @@ namespace XHTD_SERVICES.Data.Repositories
                 {
                     string syncTime = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
 
-                    var order = await dbContext.ScaleBills
-                                            .Where(x => x.Code == code)
+                    var order = await dbContext.ScaleImages
+                                            .Where(x => x.Id.ToString() == id)
                                             .FirstOrDefaultAsync();
 
                     if (order == null)
@@ -71,13 +71,13 @@ namespace XHTD_SERVICES.Data.Repositories
                 }
                 catch (Exception ex)
                 {
-                    log.Error($@"Sync {code} Error: " + ex.Message);
+                    log.Error($@"Sync {id} Error: " + ex.Message);
                     return false;
                 }
             }
         }
 
-        public async Task<bool> UpdateSyncFail(string code)
+        public async Task<bool> UpdateSyncFail(string id)
         {
             using (var dbContext = new XHTD_Entities())
             {
@@ -85,8 +85,8 @@ namespace XHTD_SERVICES.Data.Repositories
                 {
                     string syncTime = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
 
-                    var order = await dbContext.ScaleBills
-                                            .Where(x => x.Code == code)
+                    var order = await dbContext.ScaleImages
+                                            .Where(x => x.Id.ToString() == id)
                                             .FirstOrDefaultAsync();
 
                     if (order == null)
@@ -102,7 +102,7 @@ namespace XHTD_SERVICES.Data.Repositories
                 }
                 catch (Exception ex)
                 {
-                    log.Error($@"Sync {code} Error: " + ex.Message);
+                    log.Error($@"Sync {id} Error: " + ex.Message);
                     return false;
                 }
             }
