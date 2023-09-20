@@ -43,13 +43,13 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
 
             await Task.Run(async () =>
             {
-                await SyncOrderProcess();
+                await SyncImageProcess();
             });
         }
 
-        public async Task SyncOrderProcess()
+        public async Task SyncImageProcess()
         {
-            _syncOrderLogger.LogInfo("Start process Sync Order service");
+            _syncOrderLogger.LogInfo("Start process Sync Image job");
 
             GetToken();
 
@@ -57,7 +57,7 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
 
             if (scaleBills == null || scaleBills.Count == 0)
             {
-                _syncOrderLogger.LogInfo("Tất cả phiếu đã được đồng bộ");
+                _syncOrderLogger.LogInfo("Tất cả ảnh phiếu cân đã được đồng bộ");
                 return;
             }
 
