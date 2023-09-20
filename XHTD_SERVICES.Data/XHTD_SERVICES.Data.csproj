@@ -64,6 +64,8 @@
     <Compile Include="Common\ScaleCode.cs" />
     <Compile Include="Common\ScaleConfig.cs" />
     <Compile Include="Common\URIConfig.cs" />
+    <Compile Include="Dtos\AttachmentDto.cs" />
+    <Compile Include="Dtos\ScaleImageDto.cs" />
     <Compile Include="Entities\Attachment.cs">
       <DependentUpon>XHTDModel.tt</DependentUpon>
     </Compile>
