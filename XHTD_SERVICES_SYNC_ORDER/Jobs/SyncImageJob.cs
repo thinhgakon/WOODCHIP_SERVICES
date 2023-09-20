@@ -20,6 +20,7 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
     public class SyncImageJob : IJob
     {
         protected readonly ScaleBillRepository _scaleBillRepository;
+        protected readonly ScaleImageRepository _scaleImageRepository;
 
         protected readonly SyncOrderLogger _syncOrderLogger;
 
@@ -27,10 +28,12 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
 
         public SyncImageJob(
             ScaleBillRepository scaleBillRepository,
+            ScaleImageRepository scaleImageRepository,
             SyncOrderLogger syncOrderLogger
             )
         {
             _scaleBillRepository = scaleBillRepository;
+            _scaleImageRepository = scaleImageRepository;
             _syncOrderLogger = syncOrderLogger;
         }
 
@@ -53,15 +56,15 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
 
             GetToken();
 
-            List<ScaleBillDto> scaleBills = _scaleBillRepository.GetList();
+            List<ScaleImageDto> scaleImages = _scaleImageRepository.GetList();
 
-            if (scaleBills == null || scaleBills.Count == 0)
+            if (scaleImages == null || scaleImages.Count == 0)
             {
                 _syncOrderLogger.LogInfo("Tất cả ảnh phiếu cân đã được đồng bộ");
                 return;
             }
 
-            bool isSynced = await SyncScaleBillToDMS(scaleBills);
+            bool isSynced = await SyncScaleBillToDMS(scaleImages);
         }
 
         public void GetToken()
@@ -81,9 +84,9 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
             }
         }
 
-        public async Task<bool> SyncScaleBillToDMS(List<ScaleBillDto> scaleBills)
+        public async Task<bool> SyncScaleBillToDMS(List<ScaleImageDto> scaleImages)
         {
-            IRestResponse response = HttpRequest.SyncScaleBillToDMS(strToken, scaleBills);
+            IRestResponse response = HttpRequest.SyncScaleImageToDMS(strToken, scaleImages);
 
             var content = response.Content;
 

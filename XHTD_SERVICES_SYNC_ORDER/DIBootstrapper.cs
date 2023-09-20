@@ -18,6 +18,7 @@ namespace XHTD_SERVICES_SYNC_ORDER
             builder.RegisterType<XHTD_Entities>().AsSelf();
             builder.RegisterType<RfidRepository>().AsSelf();
             builder.RegisterType<ScaleBillRepository>().AsSelf();
+            builder.RegisterType<ScaleImageRepository>().AsSelf();
             builder.RegisterType<SyncOrderLogger>().AsSelf();
 
             RegisterScheduler(builder);

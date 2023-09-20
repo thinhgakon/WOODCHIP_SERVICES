@@ -75,6 +75,34 @@ namespace XHTD_SERVICES.Helper
             }
         }
 
+        public static IRestResponse SyncScaleImageToDMS(string token, List<ScaleImageDto> scaleImages)
+        {
+            try
+            {
+                var requestObj = scaleImages;
+                var apiUrl = ConfigurationManager.GetSection("API_WebSale/Url") as NameValueCollection;
+
+                var client = new RestClient(apiUrl["SyncScaleBill"]);
+                var request = new RestRequest
+                {
+                    Method = Method.PUT
+                };
+                request.AddJsonBody(requestObj);
+                request.AddHeader("Authorization", "Bearer " + token);
+                request.AddHeader("Accept", "application/json");
+                request.AddHeader("Content-Type", "application/json");
+                request.RequestFormat = DataFormat.Json;
+
+                IRestResponse response = client.Execute(request);
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
         public static IRestResponse GetDMSToken()
         {
             var apiUrl = ConfigurationManager.GetSection("API_DMS/Url") as NameValueCollection;
