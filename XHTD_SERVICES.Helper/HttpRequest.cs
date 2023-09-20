@@ -79,7 +79,15 @@ namespace XHTD_SERVICES.Helper
         {
             try
             {
-                var requestObj = scaleImages;
+                var requestObj = scaleImages.Select(x => new ScaleImageRequestDto
+                {
+                    ModuleType = x.Type,
+                    Code = x.Id.ToString(),
+                    ScaleCode = x.ScaleBillCode,
+                    File = Convert.FromBase64String(FileHelper.ConvertImageToBase64(x.Attachment.Url)),
+                })
+                .ToList();
+
                 var apiUrl = ConfigurationManager.GetSection("API_WebSale/Url") as NameValueCollection;
 
                 var client = new RestClient(apiUrl["SyncImageBill"]);

@@ -30,9 +30,15 @@ namespace XHTD_SERVICES.Data.Repositories
                         .ToList()
                         .Select(x => new ScaleImageDto
                     {
+                        Id = x.Id,
                         ScaleBillCode = x.ScaleBillCode,
                         AttachmentId = x.AttachmentId,
                         Type = x.Type,
+                        Attachment = new AttachmentDto
+                        {
+                            Title = x.Attachment.Title,
+                            Url = x.Attachment.Url,
+                        },
                     })
                     .ToList();
 

@@ -8,6 +8,8 @@ namespace XHTD_SERVICES.Data.Dtos
 {
     public class ScaleImageDto
     {
+        public System.Guid Id { get; set; }
+
         public string ScaleBillCode { get; set; }
 
         public Guid AttachmentId { get; set; }
