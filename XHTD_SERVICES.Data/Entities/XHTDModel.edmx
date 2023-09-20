@@ -5,6 +5,23 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
       <Schema Namespace="XHTD_SERVICES.Data.Entities.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Attachment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="255" />
+          <Property Name="Url" Type="nvarchar" MaxLength="255" />
+          <Property Name="Thumbnail" Type="nvarchar" MaxLength="255" />
+          <Property Name="Extension" Type="nvarchar" MaxLength="255" />
+          <Property Name="Size" Type="float" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="UpdateBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UpdateDate" Type="datetime" />
+        </EntityType>
         <EntityType Name="ItemFormula">
           <Key>
             <PropertyRef Name="Id" />
@@ -185,21 +202,38 @@
           <Property Name="VehicleCode" Type="nvarchar" MaxLength="50" />
           <Property Name="DriverName" Type="nvarchar(max)" />
           <Property Name="ItemCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="AreaCode" Type="nvarchar" MaxLength="50" />
           <Property Name="Note" Type="nvarchar(max)" />
           <Property Name="Weight1" Type="float" />
           <Property Name="Weight2" Type="float" />
           <Property Name="TimeWeight1" Type="datetime" />
           <Property Name="TimeWeight2" Type="datetime" />
           <Property Name="Weight" Type="float" />
+          <Property Name="IsSynced" Type="bit" />
+          <Property Name="SyncDate" Type="datetime" />
+          <Property Name="SyncLog" Type="nvarchar" MaxLength="1000" />
           <Property Name="IsActive" Type="bit" />
           <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
           <Property Name="UpdateBy" Type="nvarchar" MaxLength="50" />
           <Property Name="CreateDate" Type="datetime" />
           <Property Name="UpdateDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ScaleImage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ScaleBillCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="AttachmentId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Type" Type="nvarchar(max)" />
           <Property Name="IsSynced" Type="bit" />
           <Property Name="SyncDate" Type="datetime" />
           <Property Name="SyncLog" Type="nvarchar" MaxLength="1000" />
-          <Property Name="AreaCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="UpdateBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UpdateDate" Type="datetime" />
         </EntityType>
         <Association Name="FK_dbo_MdDevice_dbo_MdDeviceGroup_GroupCode">
           <End Role="MdDeviceGroup" Type="Self.MdDeviceGroup" Multiplicity="0..1" />
@@ -333,7 +367,34 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_dbo_ScaleImage_dbo_Attachment_AttachmentId">
+          <End Role="Attachment" Type="Self.Attachment" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ScaleImage" Type="Self.ScaleImage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Attachment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ScaleImage">
+              <PropertyRef Name="AttachmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ScaleImage_dbo_ScaleBill_ScaleBillCode">
+          <End Role="ScaleBill" Type="Self.ScaleBill" Multiplicity="0..1" />
+          <End Role="ScaleImage" Type="Self.ScaleImage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ScaleBill">
+              <PropertyRef Name="Code" />
+            </Principal>
+            <Dependent Role="ScaleImage">
+              <PropertyRef Name="ScaleBillCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="XHTD_SERVICESDataEntitiesStoreContainer">
+          <EntitySet Name="Attachment" EntityType="Self.Attachment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ItemFormula" EntityType="Self.ItemFormula" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MdArea" EntityType="Self.MdArea" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MdDevice" EntityType="Self.MdDevice" Schema="dbo" store:Type="Tables" />
@@ -347,6 +408,7 @@
           <EntitySet Name="MdVehicle" EntityType="Self.MdVehicle" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MdVehicleType" EntityType="Self.MdVehicleType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ScaleBill" EntityType="Self.ScaleBill" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ScaleImage" EntityType="Self.ScaleImage" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_dbo_MdDevice_dbo_MdDeviceGroup_GroupCode" Association="Self.FK_dbo_MdDevice_dbo_MdDeviceGroup_GroupCode">
             <End Role="MdDeviceGroup" EntitySet="MdDeviceGroup" />
             <End Role="MdDevice" EntitySet="MdDevice" />
@@ -391,12 +453,38 @@
             <End Role="MdVehicle" EntitySet="MdVehicle" />
             <End Role="ScaleBill" EntitySet="ScaleBill" />
           </AssociationSet>
+          <AssociationSet Name="FK_dbo_ScaleImage_dbo_Attachment_AttachmentId" Association="Self.FK_dbo_ScaleImage_dbo_Attachment_AttachmentId">
+            <End Role="Attachment" EntitySet="Attachment" />
+            <End Role="ScaleImage" EntitySet="ScaleImage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ScaleImage_dbo_ScaleBill_ScaleBillCode" Association="Self.FK_dbo_ScaleImage_dbo_ScaleBill_ScaleBillCode">
+            <End Role="ScaleBill" EntitySet="ScaleBill" />
+            <End Role="ScaleImage" EntitySet="ScaleImage" />
+          </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="XHTD_SERVICES.Data.Entities" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Attachment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Url" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Thumbnail" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Extension" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Size" Type="Double" Nullable="false" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UpdateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="ScaleImages" Relationship="Self.FK_dbo_ScaleImage_dbo_Attachment_AttachmentId" FromRole="Attachment" ToRole="ScaleImage" />
+        </EntityType>
         <EntityType Name="ItemFormula">
           <Key>
             <PropertyRef Name="Id" />
@@ -595,26 +683,60 @@
           <Property Name="VehicleCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="DriverName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ItemCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AreaCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Weight1" Type="Double" />
           <Property Name="Weight2" Type="Double" />
           <Property Name="TimeWeight1" Type="DateTime" Precision="3" />
           <Property Name="TimeWeight2" Type="DateTime" Precision="3" />
           <Property Name="Weight" Type="Double" />
+          <Property Name="IsSynced" Type="Boolean" />
+          <Property Name="SyncDate" Type="DateTime" Precision="3" />
+          <Property Name="SyncLog" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="IsActive" Type="Boolean" />
           <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UpdateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
           <Property Name="UpdateDate" Type="DateTime" Precision="3" />
-          <Property Name="IsSynced" Type="Boolean" />
-          <Property Name="SyncDate" Type="DateTime" Precision="3" />
-          <Property Name="SyncLog" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="AreaCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="MdArea" Relationship="Self.FK_dbo_ScaleBill_dbo_MdArea_AreaCode" FromRole="ScaleBill" ToRole="MdArea" />
           <NavigationProperty Name="MdItem" Relationship="Self.FK_dbo_ScaleBill_dbo_MdItem_ItemCode" FromRole="ScaleBill" ToRole="MdItem" />
           <NavigationProperty Name="MdPartner" Relationship="Self.FK_dbo_ScaleBill_dbo_MdPartner_PartnerCode" FromRole="ScaleBill" ToRole="MdPartner" />
           <NavigationProperty Name="MdVehicle" Relationship="Self.FK_dbo_ScaleBill_dbo_MdVehicle_VehicleCode" FromRole="ScaleBill" ToRole="MdVehicle" />
+          <NavigationProperty Name="ScaleImages" Relationship="Self.FK_dbo_ScaleImage_dbo_ScaleBill_ScaleBillCode" FromRole="ScaleBill" ToRole="ScaleImage" />
         </EntityType>
+        <EntityType Name="ScaleImage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="ScaleBillCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AttachmentId" Type="Guid" Nullable="false" />
+          <Property Name="Type" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsSynced" Type="Boolean" />
+          <Property Name="SyncDate" Type="DateTime" Precision="3" />
+          <Property Name="SyncLog" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UpdateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Attachment" Relationship="Self.FK_dbo_ScaleImage_dbo_Attachment_AttachmentId" FromRole="ScaleImage" ToRole="Attachment" />
+          <NavigationProperty Name="ScaleBill" Relationship="Self.FK_dbo_ScaleImage_dbo_ScaleBill_ScaleBillCode" FromRole="ScaleImage" ToRole="ScaleBill" />
+        </EntityType>
+        <Association Name="FK_dbo_ScaleImage_dbo_Attachment_AttachmentId">
+          <End Role="Attachment" Type="Self.Attachment" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ScaleImage" Type="Self.ScaleImage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Attachment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ScaleImage">
+              <PropertyRef Name="AttachmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_dbo_MdItem_dbo_ItemFormula_ItemFormula_Id">
           <End Role="ItemFormula" Type="Self.ItemFormula" Multiplicity="0..1" />
           <End Role="MdItem" Type="Self.MdItem" Multiplicity="*" />
@@ -747,7 +869,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_dbo_ScaleImage_dbo_ScaleBill_ScaleBillCode">
+          <End Role="ScaleBill" Type="Self.ScaleBill" Multiplicity="0..1" />
+          <End Role="ScaleImage" Type="Self.ScaleImage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ScaleBill">
+              <PropertyRef Name="Code" />
+            </Principal>
+            <Dependent Role="ScaleImage">
+              <PropertyRef Name="ScaleBillCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="XHTD_Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Attachments" EntityType="Self.Attachment" />
           <EntitySet Name="ItemFormulas" EntityType="Self.ItemFormula" />
           <EntitySet Name="MdAreas" EntityType="Self.MdArea" />
           <EntitySet Name="MdDevices" EntityType="Self.MdDevice" />
@@ -761,6 +896,11 @@
           <EntitySet Name="MdVehicles" EntityType="Self.MdVehicle" />
           <EntitySet Name="MdVehicleTypes" EntityType="Self.MdVehicleType" />
           <EntitySet Name="ScaleBills" EntityType="Self.ScaleBill" />
+          <EntitySet Name="ScaleImages" EntityType="Self.ScaleImage" />
+          <AssociationSet Name="FK_dbo_ScaleImage_dbo_Attachment_AttachmentId" Association="Self.FK_dbo_ScaleImage_dbo_Attachment_AttachmentId">
+            <End Role="Attachment" EntitySet="Attachments" />
+            <End Role="ScaleImage" EntitySet="ScaleImages" />
+          </AssociationSet>
           <AssociationSet Name="FK_dbo_MdItem_dbo_ItemFormula_ItemFormula_Id" Association="Self.FK_dbo_MdItem_dbo_ItemFormula_ItemFormula_Id">
             <End Role="ItemFormula" EntitySet="ItemFormulas" />
             <End Role="MdItem" EntitySet="MdItems" />
@@ -805,6 +945,10 @@
             <End Role="MdVehicle" EntitySet="MdVehicles" />
             <End Role="ScaleBill" EntitySet="ScaleBills" />
           </AssociationSet>
+          <AssociationSet Name="FK_dbo_ScaleImage_dbo_ScaleBill_ScaleBillCode" Association="Self.FK_dbo_ScaleImage_dbo_ScaleBill_ScaleBillCode">
+            <End Role="ScaleBill" EntitySet="ScaleBills" />
+            <End Role="ScaleImage" EntitySet="ScaleImages" />
+          </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
@@ -812,6 +956,24 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="XHTD_SERVICESDataEntitiesStoreContainer" CdmEntityContainer="XHTD_Entities">
+          <EntitySetMapping Name="Attachments">
+            <EntityTypeMapping TypeName="XHTD_SERVICES.Data.Entities.Attachment">
+              <MappingFragment StoreEntitySet="Attachment">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Thumbnail" ColumnName="Thumbnail" />
+                <ScalarProperty Name="Extension" ColumnName="Extension" />
+                <ScalarProperty Name="Size" ColumnName="Size" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="ItemFormulas">
             <EntityTypeMapping TypeName="XHTD_SERVICES.Data.Entities.ItemFormula">
               <MappingFragment StoreEntitySet="ItemFormula">
@@ -1003,21 +1165,39 @@
                 <ScalarProperty Name="VehicleCode" ColumnName="VehicleCode" />
                 <ScalarProperty Name="DriverName" ColumnName="DriverName" />
                 <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+                <ScalarProperty Name="AreaCode" ColumnName="AreaCode" />
                 <ScalarProperty Name="Note" ColumnName="Note" />
                 <ScalarProperty Name="Weight1" ColumnName="Weight1" />
                 <ScalarProperty Name="Weight2" ColumnName="Weight2" />
                 <ScalarProperty Name="TimeWeight1" ColumnName="TimeWeight1" />
                 <ScalarProperty Name="TimeWeight2" ColumnName="TimeWeight2" />
                 <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="IsSynced" ColumnName="IsSynced" />
+                <ScalarProperty Name="SyncDate" ColumnName="SyncDate" />
+                <ScalarProperty Name="SyncLog" ColumnName="SyncLog" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
                 <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ScaleImages">
+            <EntityTypeMapping TypeName="XHTD_SERVICES.Data.Entities.ScaleImage">
+              <MappingFragment StoreEntitySet="ScaleImage">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ScaleBillCode" ColumnName="ScaleBillCode" />
+                <ScalarProperty Name="AttachmentId" ColumnName="AttachmentId" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="IsSynced" ColumnName="IsSynced" />
                 <ScalarProperty Name="SyncDate" ColumnName="SyncDate" />
                 <ScalarProperty Name="SyncLog" ColumnName="SyncLog" />
-                <ScalarProperty Name="AreaCode" ColumnName="AreaCode" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

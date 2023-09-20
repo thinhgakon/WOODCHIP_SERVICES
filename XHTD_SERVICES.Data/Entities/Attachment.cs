@@ -12,41 +12,27 @@ namespace XHTD_SERVICES.Data.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class ScaleBill
+    public partial class Attachment
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public ScaleBill()
+        public Attachment()
         {
             this.ScaleImages = new HashSet<ScaleImage>();
         }
     
-        public string Code { get; set; }
-        public string OrderCode { get; set; }
-        public string ScaleTypeCode { get; set; }
-        public string PartnerCode { get; set; }
-        public string VehicleCode { get; set; }
-        public string DriverName { get; set; }
-        public string ItemCode { get; set; }
-        public string AreaCode { get; set; }
-        public string Note { get; set; }
-        public Nullable<double> Weight1 { get; set; }
-        public Nullable<double> Weight2 { get; set; }
-        public Nullable<System.DateTime> TimeWeight1 { get; set; }
-        public Nullable<System.DateTime> TimeWeight2 { get; set; }
-        public Nullable<double> Weight { get; set; }
-        public Nullable<bool> IsSynced { get; set; }
-        public Nullable<System.DateTime> SyncDate { get; set; }
-        public string SyncLog { get; set; }
+        public System.Guid Id { get; set; }
+        public string Title { get; set; }
+        public string Url { get; set; }
+        public string Thumbnail { get; set; }
+        public string Extension { get; set; }
+        public double Size { get; set; }
+        public string Type { get; set; }
         public Nullable<bool> IsActive { get; set; }
         public string CreateBy { get; set; }
         public string UpdateBy { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<System.DateTime> UpdateDate { get; set; }
     
-        public virtual MdArea MdArea { get; set; }
-        public virtual MdItem MdItem { get; set; }
-        public virtual MdPartner MdPartner { get; set; }
-        public virtual MdVehicle MdVehicle { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ScaleImage> ScaleImages { get; set; }
     }

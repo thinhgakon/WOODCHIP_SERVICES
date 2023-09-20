@@ -25,6 +25,7 @@ namespace XHTD_SERVICES.Data.Entities
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Attachment> Attachments { get; set; }
         public virtual DbSet<ItemFormula> ItemFormulas { get; set; }
         public virtual DbSet<MdArea> MdAreas { get; set; }
         public virtual DbSet<MdDevice> MdDevices { get; set; }
@@ -38,5 +39,6 @@ namespace XHTD_SERVICES.Data.Entities
         public virtual DbSet<MdVehicle> MdVehicles { get; set; }
         public virtual DbSet<MdVehicleType> MdVehicleTypes { get; set; }
         public virtual DbSet<ScaleBill> ScaleBills { get; set; }
+        public virtual DbSet<ScaleImage> ScaleImages { get; set; }
     }
 }
