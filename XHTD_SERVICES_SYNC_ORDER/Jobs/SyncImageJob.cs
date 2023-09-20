@@ -13,7 +13,7 @@ using XHTD_SERVICES_SYNC_ORDER.Models.Values;
 using XHTD_SERVICES.Helper;
 using XHTD_SERVICES.Helper.Models.Request;
 using System.Threading;
-using XHTD_SERVICES.Data.Entities;
+using XHTD_SERVICES.Data.Dtos;
 
 namespace XHTD_SERVICES_SYNC_ORDER.Jobs
 {

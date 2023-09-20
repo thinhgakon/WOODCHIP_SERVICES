@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace XHTD_SERVICES.Data.Models.Response
+namespace XHTD_SERVICES.Data.Dtos
 {
     public class ScaleBillDto
     {

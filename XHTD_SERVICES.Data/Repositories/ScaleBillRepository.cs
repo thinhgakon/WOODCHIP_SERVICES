@@ -8,7 +8,7 @@ using XHTD_SERVICES.Data.Entities;
 using XHTD_SERVICES.Data.Models.Response;
 using log4net;
 using System.Data.Entity;
-using XHTD_SERVICES.Data.Models.Values;
+using XHTD_SERVICES.Data.Dtos;
 
 namespace XHTD_SERVICES.Data.Repositories
 {

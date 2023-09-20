@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 using log4net;
 using XHTD_SERVICES.Data.Entities;
 using XHTD_SERVICES.Data.Models;
-using XHTD_SERVICES.Data.Models.Response;
+using XHTD_SERVICES.Data.Dtos;
 
 namespace XHTD_SERVICES.Helper
 {
