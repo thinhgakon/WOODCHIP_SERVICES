@@ -19,7 +19,6 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
 {
     public class SyncImageJob : IJob
     {
-        protected readonly ScaleBillRepository _scaleBillRepository;
         protected readonly ScaleImageRepository _scaleImageRepository;
 
         protected readonly SyncOrderLogger _syncOrderLogger;
@@ -27,12 +26,10 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
         private static string strToken;
 
         public SyncImageJob(
-            ScaleBillRepository scaleBillRepository,
             ScaleImageRepository scaleImageRepository,
             SyncOrderLogger syncOrderLogger
             )
         {
-            _scaleBillRepository = scaleBillRepository;
             _scaleImageRepository = scaleImageRepository;
             _syncOrderLogger = syncOrderLogger;
         }
@@ -64,7 +61,7 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
                 return;
             }
 
-            bool isSynced = await SyncScaleBillToDMS(scaleImages);
+            bool isSynced = await SyncScaleImageToDMS(scaleImages);
         }
 
         public void GetToken()
@@ -84,7 +81,7 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
             }
         }
 
-        public async Task<bool> SyncScaleBillToDMS(List<ScaleImageDto> scaleImages)
+        public async Task<bool> SyncScaleImageToDMS(List<ScaleImageDto> scaleImages)
         {
             IRestResponse response = HttpRequest.SyncScaleImageToDMS(strToken, scaleImages);
 
@@ -100,7 +97,7 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
                 foreach ( var itemSuccess in successList )
                 {
                     _syncOrderLogger.LogInfo($"Đồng bộ thành công: {itemSuccess.Code}");
-                    await this._scaleBillRepository.UpdateSyncSuccess(itemSuccess.Code);
+                    await this._scaleImageRepository.UpdateSyncSuccess(itemSuccess.Code);
                 }
             }
 
@@ -108,7 +105,7 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
                 foreach (var itemFail in failList)
                 {
                     _syncOrderLogger.LogInfo($"Đồng bộ thất bại: {itemFail.Code}");
-                    await this._scaleBillRepository.UpdateSyncFail(itemFail.Code);
+                    await this._scaleImageRepository.UpdateSyncFail(itemFail.Code);
                 }
             }
 
