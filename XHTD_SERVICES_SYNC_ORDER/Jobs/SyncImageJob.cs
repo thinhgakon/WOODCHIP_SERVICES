@@ -88,9 +88,9 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
 
             var responseData = JsonConvert.DeserializeObject<GetSyncResponse>(content);
 
-            var successList = responseData.data?.success;
+            var successList = responseData?.data?.success;
 
-            var failList = responseData.data?.fails;
+            var failList = responseData?.data?.fails;
 
             if(successList != null) {
                 foreach ( var itemSuccess in successList )
