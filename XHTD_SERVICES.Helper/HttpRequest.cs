@@ -82,10 +82,10 @@ namespace XHTD_SERVICES.Helper
                 var requestObj = scaleImages;
                 var apiUrl = ConfigurationManager.GetSection("API_WebSale/Url") as NameValueCollection;
 
-                var client = new RestClient(apiUrl["SyncScaleBill"]);
+                var client = new RestClient(apiUrl["SyncImageBill"]);
                 var request = new RestRequest
                 {
-                    Method = Method.PUT
+                    Method = Method.POST
                 };
                 request.AddJsonBody(requestObj);
                 request.AddHeader("Authorization", "Bearer " + token);

@@ -92,7 +92,7 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
 
             var failList = responseData.data?.fails;
 
-            if(successList != null) { 
+            if(successList != null) {
                 foreach ( var itemSuccess in successList )
                 {
                     _logger.Info($"Đồng bộ thành công: {itemSuccess.Code}");
