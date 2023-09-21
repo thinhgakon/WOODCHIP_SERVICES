@@ -110,12 +110,14 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
                     iLastErr = CHCNet.NET_DVR_GetLastError();
                     str = "NET_DVR_Login_V30 failed, error code = " + iLastErr;
 
-                    _gatewayLogger.LogInfo("Khong the login camera.");
+                    _gatewayLogger.LogInfo("Khong the login camera");
+                    _gatewayLogger.LogInfo("----------------------------");
 
                     return;
                 }
 
-                _gatewayLogger.LogInfo("Login camera thanh cong.");
+                _gatewayLogger.LogInfo("Login camera thanh cong");
+                _gatewayLogger.LogInfo("----------------------------");
             }
             else
             {
@@ -316,7 +318,7 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
                                     var isLuongRa = doorCurrent == "3"
                                                     || doorCurrent == "4";
 
-                                    if(isLuongVao)
+                                    if (isLuongVao)
                                     {
                                         if (Program.IsLockingRfidIn) { 
                                             _gatewayLogger.LogInfo($"== Cong VAO dang xu ly => Ket thuc {cardNoCurrent} == ");
@@ -341,7 +343,7 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
 
                                     if (tmpInvalidCardNoLst.Exists(x => x.CardNo.Equals(cardNoCurrent) && x.DateTime > DateTime.Now.AddSeconds(-15)))
                                     {
-                                        _gatewayLogger.LogInfo($@"2. Tag da duoc check truoc do => Ket thuc.");
+                                        _gatewayLogger.LogInfo($"Tag {cardNoCurrent} da duoc check truoc do => Ket thuc.");
                                         continue;
                                     }
 
@@ -354,7 +356,7 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
 
                                         if (tmpCardNoLst_In.Exists(x => x.CardNo.Equals(cardNoCurrent) && x.DateTime > DateTime.Now.AddMinutes(-3)))
                                         {
-                                            _gatewayLogger.LogInfo($@"2. Tag da duoc check truoc do => Ket thuc.");
+                                            _gatewayLogger.LogInfo($"Tag {cardNoCurrent} da duoc check truoc do => Ket thuc.");
                                             continue;
                                         }
                                     }
@@ -367,7 +369,7 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
 
                                         if (tmpCardNoLst_Out.Exists(x => x.CardNo.Equals(cardNoCurrent) && x.DateTime > DateTime.Now.AddMinutes(-3)))
                                         {
-                                            _gatewayLogger.LogInfo($@"2. Tag da duoc check truoc do => Ket thuc.");
+                                            _gatewayLogger.LogInfo($"Tag {cardNoCurrent} da duoc check truoc do => Ket thuc.");
                                             continue;
                                         }
                                     }
@@ -395,7 +397,7 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
                                     }
 
                                     // Chụp ảnh
-                                    _gatewayLogger.LogInfo($"1. Thuc hien chup anh");
+                                    _gatewayLogger.LogInfo($"2. Thuc hien chup anh");
                                     var gatewayImage = CaptureScaleImage();
 
                                     FileInfo fi = new FileInfo(gatewayImage);
@@ -421,20 +423,20 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
                                         }
                                     };
 
-                                    _gatewayLogger.LogInfo($"1. Gui du lieu len MMES");
+                                    _gatewayLogger.LogInfo($"3. Gui du lieu len MMES");
                                     DIBootstrapper.Init().Resolve<ScaleApiLib>().SyncGatewayDataToDMS(checkInOutData);
 
                                     var currentTime = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
 
                                     if (isLuongVao)
                                     {
-                                        _gatewayLogger.LogInfo($"10. Giai phong RFID IN");
+                                        _gatewayLogger.LogInfo($"4. Giai phong RFID IN");
 
                                         Program.IsLockingRfidIn = false;
                                     }
                                     else if (isLuongRa)
                                     {
-                                        _gatewayLogger.LogInfo($"10. Giai phong RFID OUT");
+                                        _gatewayLogger.LogInfo($"4. Giai phong RFID OUT");
 
                                         Program.IsLockingRfidOut = false;
                                     }
