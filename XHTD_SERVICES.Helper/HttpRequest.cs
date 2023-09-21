@@ -14,12 +14,15 @@ using log4net;
 using XHTD_SERVICES.Data.Entities;
 using XHTD_SERVICES.Data.Models;
 using XHTD_SERVICES.Data.Dtos;
+using XHTD_SERVICES.Helper.Response;
 
 namespace XHTD_SERVICES.Helper
 {
     public static class HttpRequest
     {
         private static readonly ILog logger = LogManager.GetLogger(typeof(HttpRequest));
+
+        #region Get MMES Token
 
         public static IRestResponse GetWebsaleToken()
         {
@@ -46,6 +49,39 @@ namespace XHTD_SERVICES.Helper
 
             return response;
         }
+
+        public static string GetMmesToken()
+        {
+            var apiUrl = ConfigurationManager.GetSection("API_WebSale/Url") as NameValueCollection;
+            var account = ConfigurationManager.GetSection("API_WebSale/Account") as NameValueCollection;
+
+            var requestData = new GetTokenRequest
+            {
+                userName = account["username"].ToString(),
+                password = account["password"].ToString(),
+            };
+
+            var client = new RestClient(apiUrl["GetToken"]);
+            var request = new RestRequest();
+
+            request.Method = Method.POST;
+
+            request.AddJsonBody(requestData);
+            request.AddHeader("Accept", "application/json");
+            request.AddHeader("Content-Type", "application/json");
+            request.RequestFormat = DataFormat.Json;
+
+            IRestResponse response = client.Execute(request);
+
+            var content = response.Content;
+
+            var responseData = JsonConvert.DeserializeObject<GetMmesTokenResponse>(content);
+            var strToken = responseData?.data?.accessToken;
+
+            return strToken;
+        }
+
+        #endregion
 
         public static IRestResponse SyncScaleBillToDMS(string token, List<ScaleBillDto> scaleBills)
         {
@@ -93,6 +129,35 @@ namespace XHTD_SERVICES.Helper
                     }
                 })
                 .ToList();
+
+                var apiUrl = ConfigurationManager.GetSection("API_WebSale/Url") as NameValueCollection;
+
+                var client = new RestClient(apiUrl["SyncImageBill"]);
+                var request = new RestRequest
+                {
+                    Method = Method.POST
+                };
+                request.AddJsonBody(requestObj);
+                request.AddHeader("Authorization", "Bearer " + token);
+                request.AddHeader("Accept", "application/json");
+                request.AddHeader("Content-Type", "application/json");
+                request.RequestFormat = DataFormat.Json;
+
+                IRestResponse response = client.Execute(request);
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public static IRestResponse SyncGatewayDataToDMS(string token, GatewayCheckInOutRequestDto gatewayData)
+        {
+            try
+            {
+                var requestObj = gatewayData;
 
                 var apiUrl = ConfigurationManager.GetSection("API_WebSale/Url") as NameValueCollection;
 

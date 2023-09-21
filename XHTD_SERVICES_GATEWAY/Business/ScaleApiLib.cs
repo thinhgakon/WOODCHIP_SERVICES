@@ -1,30 +1,23 @@
 ﻿using Newtonsoft.Json;
 using XHTD_SERVICES_GATEWAY.Models.Response;
 using XHTD_SERVICES.Helper;
+using XHTD_SERVICES.Data.Dtos;
 
 namespace XHTD_SERVICES_GATEWAY.Business
 {
     public class ScaleApiLib
     {
-        //public DesicionScaleResponse SaleOrder(string deliveryCode)
-        //{
-        //    var strToken = HttpRequest.GetScaleToken();
+        public DesicionScaleResponse SaleOrder(GatewayCheckInOutRequestDto gatewayData)
+        {
+            var strToken = HttpRequest.GetMmesToken();
 
-        //    var updateResponse = HttpRequest.SaleOrderWebSale(strToken, deliveryCode);
+            var updateResponse = HttpRequest.SyncGatewayDataToDMS(strToken, gatewayData);
 
-        //    if (updateResponse.StatusDescription.Equals("Unauthorized"))
-        //    {
-        //        var unauthorizedResponse = new DesicionScaleResponse();
-        //        unauthorizedResponse.Code = "02";
-        //        unauthorizedResponse.Message = "Xác thực API cân WebSale không thành công";
-        //        return unauthorizedResponse;
-        //    }
+            var updateResponseContent = updateResponse.Content;
 
-        //    var updateResponseContent = updateResponse.Content;
+            var response = JsonConvert.DeserializeObject<DesicionScaleResponse>(updateResponseContent);
 
-        //    var response = JsonConvert.DeserializeObject<DesicionScaleResponse>(updateResponseContent);
-
-        //    return response;
-        //}
+            return response;
+        }
     }
 }

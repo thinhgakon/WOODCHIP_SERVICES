@@ -298,6 +298,8 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
                                         _gatewayLogger.LogInfo($"1. Xe RA cong");
                                     }
 
+                                    // Thực hiện nghiệp vụ
+
                                     var currentTime = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
 
                                     if (isLuongVao)
