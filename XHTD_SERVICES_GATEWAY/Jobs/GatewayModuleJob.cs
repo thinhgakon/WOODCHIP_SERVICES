@@ -221,14 +221,7 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
                                     {
                                         if (Program.IsLockingRfidIn) { 
                                             _gatewayLogger.LogInfo($"== Cong VAO dang xu ly => Ket thuc {cardNoCurrent} == ");
-
-                                            new GatewayHub().SendMessage("IS_LOCKING_RFID_IN", "1");
-
                                             //continue;
-                                        }
-                                        else
-                                        {
-                                            new GatewayHub().SendMessage("IS_LOCKING_RFID_IN", "0");
                                         }
                                     }
 
@@ -237,13 +230,7 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
                                         if (Program.IsLockingRfidOut) { 
                                             _gatewayLogger.LogInfo($"== Cong RA dang xu ly => Ket thuc {cardNoCurrent} == ");
 
-                                            new GatewayHub().SendMessage("IS_LOCKING_RFID_OUT", "1");
-
                                             //continue;
-                                        }
-                                        else
-                                        {
-                                            new GatewayHub().SendMessage("IS_LOCKING_RFID_OUT", "0");
                                         }
                                     }
 
@@ -291,34 +278,24 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
                                     _gatewayLogger.LogInfo("-----");
 
                                     var inout = "";
+                                    var newCardNoLog = new CardNoLog { CardNo = cardNoCurrent, DateTime = DateTime.Now };
                                     if (isLuongVao)
                                     {
+                                        tmpCardNoLst_In.Add(newCardNoLog);
+
+                                        Program.IsLockingRfidIn = true;
+
                                         inout = "IN";
                                         _gatewayLogger.LogInfo($"1. Xe VAO cong");
                                     }
                                     else
                                     {
+                                        tmpCardNoLst_Out.Add(newCardNoLog);
+
+                                        Program.IsLockingRfidOut = true;
+
                                         inout = "OUT";
                                         _gatewayLogger.LogInfo($"1. Xe RA cong");
-                                    }
-
-                                    _gatewayLogger.LogInfo($"2. Kiem tra tag da check truoc do");
-
-                                    // 3. Kiểm tra cardNoCurrent có hợp lệ hay không
-                                    string vehicleCodeCurrent = cardNoCurrent;
-
-                                    if (!String.IsNullOrEmpty(vehicleCodeCurrent))
-                                    {
-                                        _gatewayLogger.LogInfo($"3. Tag hop le: vehicle={vehicleCodeCurrent}");
-                                    }
-                                    else
-                                    {
-                                        _gatewayLogger.LogInfo($"3. Tag KHONG hop le => Ket thuc.");
-
-                                        var newCardNoLog = new CardNoLog { CardNo = cardNoCurrent, DateTime = DateTime.Now };
-                                        tmpInvalidCardNoLst.Add(newCardNoLog);
-
-                                        continue;
                                     }
 
                                     var currentTime = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
