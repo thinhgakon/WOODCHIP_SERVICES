@@ -234,6 +234,10 @@
       <Project>{ee357022-f104-42f0-bfbc-a5c4e9791300}</Project>
       <Name>XHTD_SERVICES.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\XHTD_SERVICES_GATEWAY\XHTD_SERVICES_GATEWAY.csproj">
+      <Project>{a155e121-cc6a-4a34-8808-d142454bb3db}</Project>
+      <Name>XHTD_SERVICES_GATEWAY</Name>
+    </ProjectReference>
     <ProjectReference Include="..\XHTD_SERVICES_SYNC_ORDER\XHTD_SERVICES_SYNC_ORDER.csproj">
       <Project>{65239e17-08cd-4427-85bd-ff7487654a74}</Project>
       <Name>XHTD_SERVICES_SYNC_ORDER</Name>
