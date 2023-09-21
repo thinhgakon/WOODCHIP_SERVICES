@@ -424,7 +424,7 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
                                     };
 
                                     _gatewayLogger.LogInfo($"3. Gui du lieu len MMES");
-                                    DIBootstrapper.Init().Resolve<ScaleApiLib>().SyncGatewayDataToDMS(checkInOutData);
+                                    var syncResponse = DIBootstrapper.Init().Resolve<ScaleApiLib>().SyncGatewayDataToDMS(checkInOutData);
 
                                     var currentTime = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
 
