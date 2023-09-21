@@ -67,6 +67,7 @@
     <Compile Include="Dtos\AttachmentDto.cs" />
     <Compile Include="Dtos\FileDto.cs" />
     <Compile Include="Dtos\ScaleImageDto.cs" />
+    <Compile Include="Dtos\GatewayCheckInOutRequestDto.cs" />
     <Compile Include="Dtos\ScaleImageRequestDto.cs" />
     <Compile Include="Entities\Attachment.cs">
       <DependentUpon>XHTDModel.tt</DependentUpon>

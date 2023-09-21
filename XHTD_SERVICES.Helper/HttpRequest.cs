@@ -161,7 +161,7 @@ namespace XHTD_SERVICES.Helper
 
                 var apiUrl = ConfigurationManager.GetSection("API_WebSale/Url") as NameValueCollection;
 
-                var client = new RestClient(apiUrl["SyncImageBill"]);
+                var client = new RestClient(apiUrl["SyncGatewayData"]);
                 var request = new RestRequest
                 {
                     Method = Method.POST

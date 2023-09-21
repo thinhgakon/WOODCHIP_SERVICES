@@ -17,6 +17,9 @@ using Autofac;
 using XHTD_SERVICES_GATEWAY.Business;
 using XHTD_SERVICES_GATEWAY.Hubs;
 using System.Net.NetworkInformation;
+using XHTD_SERVICES.Data.Dtos;
+using CHCNetSDK;
+using System.IO;
 
 namespace XHTD_SERVICES_GATEWAY.Jobs
 {
@@ -63,6 +66,17 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
         [DllImport(@"C:\\Windows\\System32\\plcommpro.dll", EntryPoint = "GetRTLog")]
         public static extern int GetRTLog(IntPtr h, ref byte buffer, int buffersize);
 
+        #region Camera variables
+        private uint iLastErr = 0;
+        private int m_lUserID = -1;
+        private bool m_bInitSDK = false;
+        private int m_lRealHandle = -1;
+        private string str;
+
+        CHCNet.REALDATACALLBACK RealData = null;
+        public CHCNet.NET_DVR_PTZPOS m_struPtzCfg;
+        #endregion
+
         public GatewayModuleJob(
             RfidRepository rfidRepository,
             Notification notification,
@@ -72,6 +86,88 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
             _rfidRepository = rfidRepository;
             _notification = notification;
             _gatewayLogger = gatewayLogger;
+
+            m_bInitSDK = CHCNet.NET_DVR_Init();
+            if (m_bInitSDK == false)
+            {
+                return;
+            }
+            else
+            {
+                Login();
+            }
+        }
+
+        private void Login()
+        {
+            if (m_lUserID < 0)
+            {
+                string DVRIPAddress = "10.15.15.33";
+                short DVRPortNumber = short.Parse("8002");
+                string DVRUserName = "admin";
+                string DVRPassword = "123456a@";
+
+                CHCNet.NET_DVR_DEVICEINFO_V30 DeviceInfo = new CHCNet.NET_DVR_DEVICEINFO_V30();
+
+                m_lUserID = CHCNet.NET_DVR_Login_V30(DVRIPAddress, DVRPortNumber, DVRUserName, DVRPassword, ref DeviceInfo);
+                if (m_lUserID < 0)
+                {
+                    iLastErr = CHCNet.NET_DVR_GetLastError();
+                    str = "NET_DVR_Login_V30 failed, error code = " + iLastErr;
+                    return;
+                }
+            }
+            else
+            {
+                if (m_lRealHandle >= 0)
+                {
+                    return;
+                }
+
+                if (!CHCNet.NET_DVR_Logout(m_lUserID))
+                {
+                    iLastErr = CHCNet.NET_DVR_GetLastError();
+                    str = "NET_DVR_Logout failed, error code = " + iLastErr;
+                    return;
+                }
+                m_lUserID = -1;
+            }
+            return;
+        }
+
+        private string CaptureScaleImage()
+        {
+            int lChannel = short.Parse("1");
+
+            CHCNet.NET_DVR_JPEGPARA lpJpegPara = new CHCNet.NET_DVR_JPEGPARA
+            {
+                wPicQuality = 0,
+                wPicSize = 0xff
+            };
+
+            string rootPath = "C:\\log4net";
+
+            string capturedTime = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+            //string folderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Captures");
+            string folderPath = Path.Combine(rootPath, "GatewayCaptures");
+            string imgFileName = Path.Combine(folderPath, capturedTime + ".jpg");
+
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+
+            if (!CHCNet.NET_DVR_CaptureJPEGPicture(m_lUserID, lChannel, ref lpJpegPara, imgFileName))
+            {
+                iLastErr = CHCNet.NET_DVR_GetLastError();
+                str = "NET_DVR_CaptureJPEGPicture failed, error code = " + iLastErr;
+            }
+            else
+            {
+                str = "Chụp ảnh thành công!";
+                return imgFileName;
+            }
+            return "";
         }
 
         public async Task Execute(IJobExecutionContext context)
@@ -298,7 +394,19 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
                                         _gatewayLogger.LogInfo($"1. Xe RA cong");
                                     }
 
+                                    // Chụp ảnh
+                                    var gatewayImage = CaptureScaleImage();
+
                                     // Thực hiện nghiệp vụ
+
+                                    var checkInOutData = new GatewayCheckInOutRequestDto
+                                    {
+                                        CheckTime = DateTime.Now,
+                                        RfId = cardNoCurrent,
+                                        //File = 
+                                    };
+
+                                    DIBootstrapper.Init().Resolve<ScaleApiLib>().SyncGatewayDataToDMS(checkInOutData);
 
                                     var currentTime = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
 

@@ -7,7 +7,7 @@ namespace XHTD_SERVICES_GATEWAY.Business
 {
     public class ScaleApiLib
     {
-        public DesicionScaleResponse SaleOrder(GatewayCheckInOutRequestDto gatewayData)
+        public DesicionScaleResponse SyncGatewayDataToDMS(GatewayCheckInOutRequestDto gatewayData)
         {
             var strToken = HttpRequest.GetMmesToken();
 
