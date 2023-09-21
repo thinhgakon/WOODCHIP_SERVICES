@@ -341,7 +341,7 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
 
                                     if (tmpInvalidCardNoLst.Exists(x => x.CardNo.Equals(cardNoCurrent) && x.DateTime > DateTime.Now.AddSeconds(-15)))
                                     {
-                                        //_gatewayLogger.LogInfo($@"2. Tag da duoc check truoc do => Ket thuc.");
+                                        _gatewayLogger.LogInfo($@"2. Tag da duoc check truoc do => Ket thuc.");
                                         continue;
                                     }
 
@@ -354,7 +354,7 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
 
                                         if (tmpCardNoLst_In.Exists(x => x.CardNo.Equals(cardNoCurrent) && x.DateTime > DateTime.Now.AddMinutes(-3)))
                                         {
-                                            //_gatewayLogger.LogInfo($@"2. Tag da duoc check truoc do => Ket thuc.");
+                                            _gatewayLogger.LogInfo($@"2. Tag da duoc check truoc do => Ket thuc.");
                                             continue;
                                         }
                                     }
@@ -367,7 +367,7 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
 
                                         if (tmpCardNoLst_Out.Exists(x => x.CardNo.Equals(cardNoCurrent) && x.DateTime > DateTime.Now.AddMinutes(-3)))
                                         {
-                                            //_gatewayLogger.LogInfo($@"2. Tag da duoc check truoc do => Ket thuc.");
+                                            _gatewayLogger.LogInfo($@"2. Tag da duoc check truoc do => Ket thuc.");
                                             continue;
                                         }
                                     }
