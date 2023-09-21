@@ -1,22 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Quartz;
 using XHTD_SERVICES.Data.Repositories;
 using XHTD_SERVICES_GATEWAY.Models.Response;
-using XHTD_SERVICES.Data.Models.Response;
 using System.Runtime.InteropServices;
-using XHTD_SERVICES.Data.Entities;
 using XHTD_SERVICES.Helper;
 using Microsoft.AspNet.SignalR.Client;
-using System.Threading;
 using XHTD_SERVICES.Data.Common;
 using Autofac;
 using XHTD_SERVICES_GATEWAY.Business;
-using XHTD_SERVICES_GATEWAY.Hubs;
-using System.Net.NetworkInformation;
 using XHTD_SERVICES.Data.Dtos;
 using CHCNetSDK;
 using System.IO;
@@ -87,6 +81,7 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
             _notification = notification;
             _gatewayLogger = gatewayLogger;
 
+            // Login camera
             m_bInitSDK = CHCNet.NET_DVR_Init();
             if (m_bInitSDK == false)
             {
@@ -114,8 +109,13 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
                 {
                     iLastErr = CHCNet.NET_DVR_GetLastError();
                     str = "NET_DVR_Login_V30 failed, error code = " + iLastErr;
+
+                    _gatewayLogger.LogInfo("Khong the login camera.");
+
                     return;
                 }
+
+                _gatewayLogger.LogInfo("Login camera thanh cong.");
             }
             else
             {
@@ -161,10 +161,13 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
             {
                 iLastErr = CHCNet.NET_DVR_GetLastError();
                 str = "NET_DVR_CaptureJPEGPicture failed, error code = " + iLastErr;
+
+                _gatewayLogger.LogInfo("Chup anh khong thanh cong.");
             }
             else
             {
                 str = "Chụp ảnh thành công!";
+                _gatewayLogger.LogInfo($"Chup anh thanh cong: {imgFileName}");
                 return imgFileName;
             }
             return "";
@@ -373,7 +376,6 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
                                     _gatewayLogger.LogInfo($"Tag: {cardNoCurrent}, door: {doorCurrent}, time: {timeCurrent}");
                                     _gatewayLogger.LogInfo("-----");
 
-                                    var inout = "";
                                     var newCardNoLog = new CardNoLog { CardNo = cardNoCurrent, DateTime = DateTime.Now };
                                     if (isLuongVao)
                                     {
@@ -381,7 +383,6 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
 
                                         Program.IsLockingRfidIn = true;
 
-                                        inout = "IN";
                                         _gatewayLogger.LogInfo($"1. Xe VAO cong");
                                     }
                                     else
@@ -390,11 +391,11 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
 
                                         Program.IsLockingRfidOut = true;
 
-                                        inout = "OUT";
                                         _gatewayLogger.LogInfo($"1. Xe RA cong");
                                     }
 
                                     // Chụp ảnh
+                                    _gatewayLogger.LogInfo($"1. Thuc hien chup anh");
                                     var gatewayImage = CaptureScaleImage();
 
                                     FileInfo fi = new FileInfo(gatewayImage);
@@ -407,7 +408,6 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
                                     long size = fi.Length;
 
                                     // Thực hiện nghiệp vụ
-
                                     var checkInOutData = new GatewayCheckInOutRequestDto
                                     {
                                         CheckTime = DateTime.Now,
@@ -421,6 +421,7 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
                                         }
                                     };
 
+                                    _gatewayLogger.LogInfo($"1. Gui du lieu len MMES");
                                     DIBootstrapper.Init().Resolve<ScaleApiLib>().SyncGatewayDataToDMS(checkInOutData);
 
                                     var currentTime = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
