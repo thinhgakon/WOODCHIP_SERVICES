@@ -7,7 +7,7 @@ namespace XHTD_SERVICES_GATEWAY.Business
 {
     public class ScaleApiLib
     {
-        public DesicionScaleResponse SyncGatewayDataToDMS(GatewayCheckInOutRequestDto gatewayData)
+        public GatewayCheckInOutResponse SyncGatewayDataToDMS(GatewayCheckInOutRequestDto gatewayData)
         {
             var strToken = HttpRequest.GetMmesToken();
 
@@ -15,7 +15,7 @@ namespace XHTD_SERVICES_GATEWAY.Business
 
             var updateResponseContent = updateResponse.Content;
 
-            var response = JsonConvert.DeserializeObject<DesicionScaleResponse>(updateResponseContent);
+            var response = JsonConvert.DeserializeObject<GatewayCheckInOutResponse>(updateResponseContent);
 
             return response;
         }

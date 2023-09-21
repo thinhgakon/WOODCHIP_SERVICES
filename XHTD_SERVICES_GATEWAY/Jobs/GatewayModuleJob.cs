@@ -180,7 +180,7 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
             await Task.Run(async () =>
             {
                 // Connect Scale Hub
-                ConnectScaleHubAsync();
+                //ConnectScaleHubAsync();
 
                 // Get System Parameters
                 await LoadSystemParameters();
@@ -397,13 +397,28 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
                                     // Chụp ảnh
                                     var gatewayImage = CaptureScaleImage();
 
+                                    FileInfo fi = new FileInfo(gatewayImage);
+
+                                    bool exists = fi.Exists;
+                                    string justFileName = fi.Name;
+                                    string fullFileName = fi.FullName;
+                                    string extn = fi.Extension;
+                                    string directoryName = fi.DirectoryName;
+                                    long size = fi.Length;
+
                                     // Thực hiện nghiệp vụ
 
                                     var checkInOutData = new GatewayCheckInOutRequestDto
                                     {
                                         CheckTime = DateTime.Now,
                                         RfId = cardNoCurrent,
-                                        //File = 
+                                        File = new FileDto
+                                        {
+                                            //ByteData = Convert.FromBase64String(FileHelper.ConvertImageToBase64(x.Attachment.Url)),
+                                            ByteData = FileHelper.ConvertImageToBase64(gatewayImage),
+                                            Name = justFileName,
+                                            Extension = extn,
+                                        }
                                     };
 
                                     DIBootstrapper.Init().Resolve<ScaleApiLib>().SyncGatewayDataToDMS(checkInOutData);
