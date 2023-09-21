@@ -38,6 +38,7 @@ namespace XHTD_SERVICES.Data.Repositories
                         {
                             Title = x.Attachment.Title,
                             Url = x.Attachment.Url,
+                            Extension = x.Attachment.Extension,
                         },
                     })
                     .ToList();
