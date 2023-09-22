@@ -16,6 +16,8 @@ namespace XHTD_SERVICES.Data.Dtos
 
         public string PartnerCode { get; set; }
 
+        public string Rfid { get; set; }
+
         public string VehicleCode { get; set; }
 
         public string DriverName { get; set; }

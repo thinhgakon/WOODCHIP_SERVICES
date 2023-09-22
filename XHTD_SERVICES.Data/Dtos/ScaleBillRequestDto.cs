@@ -13,6 +13,7 @@ namespace XHTD_SERVICES.Data.Dtos
             this.CompanyCode= dto.CompanyCode;
             this.ScaleTypeCode= dto.ScaleTypeCode;
             this.PartnerCode= dto.PartnerCode;  
+            this.Rfid= dto.Rfid;
             this.VehicleCode= dto.VehicleCode;
             this.DriverName= dto.DriverName;
             this.ItemCode= dto.ItemCode;
@@ -32,6 +33,8 @@ namespace XHTD_SERVICES.Data.Dtos
         public string ScaleTypeCode { get; set; }
 
         public string PartnerCode { get; set; }
+
+        public string Rfid { get; set; }
 
         public string VehicleCode { get; set; }
 

@@ -37,6 +37,7 @@ namespace XHTD_SERVICES.Data.Repositories
                         CompanyCode = "VJ",
                         ScaleTypeCode = x.ScaleTypeCode,
                         PartnerCode = x.MdPartner?.SyncCode,
+                        Rfid = x.Rfid,
                         VehicleCode = x.VehicleCode,
                         DriverName = x.DriverName,
                         ItemCode = x.MdItem?.SyncCode,
