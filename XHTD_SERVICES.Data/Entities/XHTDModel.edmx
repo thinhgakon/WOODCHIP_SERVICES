@@ -199,6 +199,7 @@
           <Property Name="OrderCode" Type="nvarchar(max)" />
           <Property Name="ScaleTypeCode" Type="nvarchar(max)" />
           <Property Name="PartnerCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="Rfid" Type="nvarchar(max)" />
           <Property Name="VehicleCode" Type="nvarchar" MaxLength="50" />
           <Property Name="DriverName" Type="nvarchar(max)" />
           <Property Name="ItemCode" Type="nvarchar" MaxLength="50" />
@@ -680,6 +681,7 @@
           <Property Name="OrderCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ScaleTypeCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="PartnerCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Rfid" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="VehicleCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="DriverName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ItemCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -1162,6 +1164,7 @@
                 <ScalarProperty Name="OrderCode" ColumnName="OrderCode" />
                 <ScalarProperty Name="ScaleTypeCode" ColumnName="ScaleTypeCode" />
                 <ScalarProperty Name="PartnerCode" ColumnName="PartnerCode" />
+                <ScalarProperty Name="Rfid" ColumnName="Rfid" />
                 <ScalarProperty Name="VehicleCode" ColumnName="VehicleCode" />
                 <ScalarProperty Name="DriverName" ColumnName="DriverName" />
                 <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />

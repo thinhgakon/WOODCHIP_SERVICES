@@ -24,6 +24,7 @@ namespace XHTD_SERVICES.Data.Entities
         public string OrderCode { get; set; }
         public string ScaleTypeCode { get; set; }
         public string PartnerCode { get; set; }
+        public string Rfid { get; set; }
         public string VehicleCode { get; set; }
         public string DriverName { get; set; }
         public string ItemCode { get; set; }
