@@ -60,8 +60,10 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
                 _syncOrderLogger.LogInfo("Tat ca phieu can da duoc dong bo");
                 return;
             }
-
-            bool isSynced = await SyncScaleBillToDMS(scaleBills);
+            foreach (var item in scaleBills)
+            {
+                bool isSynced = await SyncScaleBillToDMS(new List<ScaleBillDto>() { item });
+            }
         }
 
         public void GetToken()
@@ -93,15 +95,17 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
 
             var failList = responseData?.data?.fails;
 
-            if(successList != null) { 
-                foreach ( var itemSuccess in successList )
+            if (successList != null)
+            {
+                foreach (var itemSuccess in successList)
                 {
                     _syncOrderLogger.LogInfo($"Đồng bộ thành công: {itemSuccess.Code}");
                     await this._scaleBillRepository.UpdateSyncSuccess(itemSuccess.Code);
                 }
             }
 
-            if(failList != null) { 
+            if (failList != null)
+            {
                 foreach (var itemFail in failList)
                 {
                     _syncOrderLogger.LogInfo($"Đồng bộ thất bại: {itemFail.Code}");
