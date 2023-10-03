@@ -5,6 +5,21 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
       <Schema Namespace="XHTD_SERVICES.Data.Entities.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AdAccount">
+          <Key>
+            <PropertyRef Name="UserName" />
+          </Key>
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="Email" Type="nvarchar(max)" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="UpdateBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UpdateDate" Type="datetime" />
+        </EntityType>
         <EntityType Name="Attachment">
           <Key>
             <PropertyRef Name="Id" />
@@ -395,6 +410,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="XHTD_SERVICESDataEntitiesStoreContainer">
+          <EntitySet Name="AdAccount" EntityType="Self.AdAccount" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Attachment" EntityType="Self.Attachment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ItemFormula" EntityType="Self.ItemFormula" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MdArea" EntityType="Self.MdArea" Schema="dbo" store:Type="Tables" />
@@ -468,6 +484,21 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="XHTD_SERVICES.Data.Entities" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AdAccount">
+          <Key>
+            <PropertyRef Name="UserName" />
+          </Key>
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FullName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UpdateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+        </EntityType>
         <EntityType Name="Attachment">
           <Key>
             <PropertyRef Name="Id" />
@@ -884,6 +915,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="XHTD_Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AdAccounts" EntityType="Self.AdAccount" />
           <EntitySet Name="Attachments" EntityType="Self.Attachment" />
           <EntitySet Name="ItemFormulas" EntityType="Self.ItemFormula" />
           <EntitySet Name="MdAreas" EntityType="Self.MdArea" />
@@ -958,6 +990,22 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="XHTD_SERVICESDataEntitiesStoreContainer" CdmEntityContainer="XHTD_Entities">
+          <EntitySetMapping Name="AdAccounts">
+            <EntityTypeMapping TypeName="XHTD_SERVICES.Data.Entities.AdAccount">
+              <MappingFragment StoreEntitySet="AdAccount">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Attachments">
             <EntityTypeMapping TypeName="XHTD_SERVICES.Data.Entities.Attachment">
               <MappingFragment StoreEntitySet="Attachment">
