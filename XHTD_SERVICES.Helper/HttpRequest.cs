@@ -83,11 +83,12 @@ namespace XHTD_SERVICES.Helper
 
         #endregion
 
-        public static IRestResponse SyncScaleBillToDMS(string token, List<ScaleBillDto> scaleBills)
+        public static IRestResponse SyncScaleBillToDMS(string token, ScaleBillDto scaleBills)
         {
-            try {
-
-                var requestObj = scaleBills.Select(x=> new ScaleBillRequestDto(x)).ToList();
+            try
+            {
+                var obj = new List<ScaleBillDto>() { scaleBills };
+                var requestObj = obj.Select(x => new ScaleBillRequestDto(x)).ToList();
                 var apiUrl = ConfigurationManager.GetSection("API_WebSale/Url") as NameValueCollection;
 
                 var client = new RestClient(apiUrl["SyncScaleBill"]);
@@ -288,6 +289,59 @@ namespace XHTD_SERVICES.Helper
             IRestResponse response = client.Execute(request);
 
             return response;
+        }
+
+        public static IRestResponse GetPartner(string token, ScaleBillDto scaleBills)
+        {
+            try
+            {
+                var apiUrl = ConfigurationManager.GetSection("API_WebSale/Url") as NameValueCollection;
+
+                var client = new RestClient(apiUrl["GetPartner"] + $"?Code={scaleBills?.PartnerCode}");
+                var request = new RestRequest
+                {
+                    Method = Method.GET
+                };
+                request.AddHeader("Authorization", "Bearer " + token);
+                request.AddHeader("Accept", "application/json");
+                request.AddHeader("Content-Type", "application/json");
+                request.RequestFormat = DataFormat.Json;
+
+                IRestResponse response = client.Execute(request);
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public static IRestResponse AddPartner(string token, PartnerDto partner)
+        {
+            try
+            {
+                var apiUrl = ConfigurationManager.GetSection("API_WebSale/Url") as NameValueCollection;
+
+                var client = new RestClient(apiUrl["SyncPartner"]);
+                var request = new RestRequest
+                {
+                    Method = Method.POST
+                };
+                request.AddHeader("Authorization", "Bearer " + token);
+                request.AddHeader("Accept", "application/json");
+                request.AddHeader("Content-Type", "application/json");
+                request.RequestFormat = DataFormat.Json;
+                request.AddJsonBody(partner);
+
+                IRestResponse response = client.Execute(request);
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
     }
 }

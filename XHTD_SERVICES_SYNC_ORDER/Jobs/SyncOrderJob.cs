@@ -20,18 +20,20 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
     public class SyncOrderJob : IJob
     {
         protected readonly ScaleBillRepository _scaleBillRepository;
-
+        protected readonly PartnerRepository _partnerRepository;
         protected readonly SyncOrderLogger _syncOrderLogger;
 
         private static string strToken;
 
         public SyncOrderJob(
             ScaleBillRepository scaleBillRepository,
-            SyncOrderLogger syncOrderLogger
+            SyncOrderLogger syncOrderLogger,
+            PartnerRepository partnerRepository
             )
         {
             _scaleBillRepository = scaleBillRepository;
             _syncOrderLogger = syncOrderLogger;
+            _partnerRepository = partnerRepository;
         }
 
         public async Task Execute(IJobExecutionContext context)
@@ -62,7 +64,7 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
             }
             foreach (var item in scaleBills)
             {
-                bool isSynced = await SyncScaleBillToDMS(new List<ScaleBillDto>() { item });
+                bool isSynced = await SyncScaleBillToDMS(item);
             }
         }
 
@@ -83,8 +85,20 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
             }
         }
 
-        public async Task<bool> SyncScaleBillToDMS(List<ScaleBillDto> scaleBills)
+        public async Task<bool> SyncScaleBillToDMS(ScaleBillDto scaleBills)
         {
+            IRestResponse partnerResponse = HttpRequest.GetPartner(strToken, scaleBills);
+            var partnerResponseData = JsonConvert.DeserializeObject<GetPartnerResponse>(partnerResponse.Content);
+
+            if(partnerResponseData?.data == null)
+            {
+                var partner = await _partnerRepository.GetPartner(scaleBills?.PartnerCode);
+
+                IRestResponse addPartnerResponse = HttpRequest.AddPartner(strToken, partner);
+                var addResult = JsonConvert.DeserializeObject<GetPartnerResponse>(addPartnerResponse.Content);
+                if (addResult?.data == null) return false;
+            }
+
             IRestResponse response = HttpRequest.SyncScaleBillToDMS(strToken, scaleBills);
 
             var content = response.Content;
