@@ -289,7 +289,7 @@ namespace XHTD_SERVICES.Helper
             return response;
         }
 
-        public static IRestResponse GetPartner(string token, ScaleBillDto scaleBills)
+        public static IRestResponse GetPartner(string token, ScaleBillRequestDto scaleBills)
         {
             try
             {
