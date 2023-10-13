@@ -17,7 +17,7 @@ using System.IO;
 
 namespace XHTD_SERVICES_GATEWAY.Jobs
 {
-    public class GatewayModuleJob : IJob
+    public partial class GatewayModuleJob : IJob
     {
         protected readonly RfidRepository _rfidRepository;
 
@@ -43,17 +43,6 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
 
         [DllImport(@"C:\\Windows\\System32\\plcommpro.dll", EntryPoint = "GetRTLog")]
         public static extern int GetRTLog(IntPtr h, ref byte buffer, int buffersize);
-
-        #region Camera variables
-        private uint iLastErr = 0;
-        private int m_lUserID = -1;
-        private bool m_bInitSDK = false;
-        private int m_lRealHandle = -1;
-        private string str;
-
-        CHCNet.REALDATACALLBACK RealData = null;
-        public CHCNet.NET_DVR_PTZPOS m_struPtzCfg;
-        #endregion
 
         public GatewayModuleJob(
             RfidRepository rfidRepository,
