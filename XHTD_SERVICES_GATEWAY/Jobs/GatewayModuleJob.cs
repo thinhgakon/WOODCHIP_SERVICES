@@ -75,11 +75,11 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
             }
             else
             {
-                Login();
+                LoginCameraDahua();
             }
         }
 
-        private void Login()
+        private void LoginCameraDahua()
         {
             if (m_lUserID < 0)
             {
