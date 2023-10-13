@@ -324,7 +324,22 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
                 return "";
             }
             m_SnapSerialNum++;
-            return "Xxx";
+
+            string path = "C:\\MBF6\\GATEWAY";
+            var now = DateTime.Now;
+
+            string currentYear = now.ToString("yyyy");
+            string currentMonth = now.ToString("MM");
+            string currentDay = now.ToString("dd");
+
+            string capturedTime = DateTime.Now.ToString("yyyyMMdd");
+
+            var fileName = capturedTime + "_" + asyncSnap.CmdSerial.ToString() + ".jpg";
+
+            string folderPath = Path.Combine(path, currentYear, currentMonth, currentDay);
+            string imgFileName = Path.Combine(folderPath, fileName);
+
+            return imgFileName;
             #endregion
         }
 
@@ -381,9 +396,9 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
             string currentMonth = now.ToString("MM");
             string currentDay = now.ToString("dd");
 
-            string capturedTime = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+            string capturedTime = DateTime.Now.ToString("yyyyMMdd");
 
-            var fileName = capturedTime + ".jpg";
+            var fileName = capturedTime + "_" + CmdSerial.ToString() + ".jpg";
 
             string folderPath = Path.Combine(path, currentYear, currentMonth, currentDay);
             string imgFileName = Path.Combine(folderPath, fileName);
