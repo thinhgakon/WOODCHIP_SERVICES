@@ -2,6 +2,7 @@
 using NetSDKCS;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -47,6 +48,28 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
         #endregion
 
         #region Camera functions
+        private void LoadCamera()
+        {
+            m_DisConnectCallBack = new fDisConnectCallBack(DisConnectCallBack);
+            m_ReConnectCallBack = new fHaveReConnectCallBack(ReConnectCallBack);
+            m_RealDataCallBackEx2 = new fRealDataCallBackEx2(RealDataCallBackEx);
+            m_SnapRevCallBack = new fSnapRevCallBack(SnapRevCallBack);
+            try
+            {
+                NETClient.Init(m_DisConnectCallBack, IntPtr.Zero, null);
+                NETClient.SetAutoReconnect(m_ReConnectCallBack, IntPtr.Zero);
+                NETClient.SetSnapRevCallBack(m_SnapRevCallBack, IntPtr.Zero);
+                //InitOrLogoutUI();
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show(ex.Message);
+                Process.GetCurrentProcess().Kill();
+            }
+
+            LoginCameraDahua(ref m_LoginID_1, "Camera1IP", "Camera1Port", "Camera1Username", "Camera1Password");
+        }
+
         private void LoginCameraHikvision(ref int m_lUserID_1, string CameraIP, string CameraPort, string CameraUsername, string CameraPassword)
         {
             if (m_lUserID_1 < 0)

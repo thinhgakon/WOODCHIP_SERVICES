@@ -65,6 +65,8 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
                 _gatewayLogger.LogInfo("Start gateway service");
                 _gatewayLogger.LogInfo("----------------------------");
 
+                LoadCamera();
+
                 AuthenticateGatewayModule();
             });                                                                                                                     
         }
