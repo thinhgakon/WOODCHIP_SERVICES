@@ -91,6 +91,9 @@
     <Compile Include="Entities\MdDeviceType.cs">
       <DependentUpon>XHTDModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entities\MdInvoiceConfig.cs">
+      <DependentUpon>XHTDModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entities\MdItem.cs">
       <DependentUpon>XHTDModel.tt</DependentUpon>
     </Compile>
