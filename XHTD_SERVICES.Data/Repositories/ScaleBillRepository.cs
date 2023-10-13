@@ -47,6 +47,10 @@ namespace XHTD_SERVICES.Data.Repositories
                         TimeWeight1 = x.TimeWeight1,
                         TimeWeight2 = x.TimeWeight2,
                         AreaCode = x.MdArea?.SyncCode,
+                        BillNumber = x.BillNumber,
+                        InvoiceNumber = x.InvoiceNumber,
+                        InvoiceTemplate = x.InvoiceTemplate,
+                        InvoiceSymbol = x.InvoiceSymbol,
                     })
                     .ToList();
 
