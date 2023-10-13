@@ -184,12 +184,6 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
 
             await Task.Run(async () =>
             {
-                // Connect Scale Hub
-                //ConnectScaleHubAsync();
-
-                // Get System Parameters
-                await LoadSystemParameters();
-
                 if (!isActiveService)
                 {
                     _gatewayLogger.LogInfo("Service cong bao ve dang TAT.");
@@ -199,41 +193,8 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
                 _gatewayLogger.LogInfo("Start gateway service");
                 _gatewayLogger.LogInfo("----------------------------");
 
-                // Get devices info
-                await LoadDevicesInfo();
-
                 AuthenticateGatewayModule();
             });                                                                                                                     
-        }
-
-        private async void ConnectScaleHubAsync()
-        {
-            Connection = new HubConnection(ServerURI);
-            Connection.Closed += Connection_Closed;
-            HubProxy = Connection.CreateHubProxy("ScaleHub");
-            try
-            {
-                await Connection.Start();
-                _gatewayLogger.LogInfo($"Connected scale hub {ServerURI}");
-            }
-            catch (System.Net.Http.HttpRequestException ex)
-            {
-                _gatewayLogger.LogInfo($"Connect failed scale hub {ServerURI}");
-            }
-        }
-
-        private void Connection_Closed()
-        {
-        }
-
-        public async Task LoadSystemParameters()
-        {
-            
-        }
-
-        public async Task LoadDevicesInfo()
-        {
-            
         }
 
         public void AuthenticateGatewayModule()
