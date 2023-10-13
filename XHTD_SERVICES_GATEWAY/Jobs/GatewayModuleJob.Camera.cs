@@ -1,5 +1,5 @@
 ﻿using CHCNetSDK;
-using NetSDKCS;
+using XHTD_SERVICES_GATEWAY.NetSDKCS;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

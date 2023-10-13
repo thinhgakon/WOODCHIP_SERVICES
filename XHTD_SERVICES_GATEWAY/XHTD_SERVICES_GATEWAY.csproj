@@ -281,6 +281,9 @@
     <Compile Include="Models\Response\HUBResponse.cs" />
     <Compile Include="Models\Response\FakeRFIDResponse.cs" />
     <Compile Include="Models\Response\GetTokenResponse.cs" />
+    <Compile Include="NetSDKCS\NetSDK.cs" />
+    <Compile Include="NetSDKCS\NetSDKStruct.cs" />
+    <Compile Include="NetSDKCS\OriginalSDK.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>
     </Compile>

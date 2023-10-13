@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Runtime.InteropServices;
 
-namespace NetSDKCS
+namespace XHTD_SERVICES_GATEWAY.NetSDKCS
 {
     internal static class OriginalSDK
     {

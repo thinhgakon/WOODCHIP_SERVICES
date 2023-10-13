@@ -4,7 +4,7 @@ using System.Text;
 using System.Runtime.InteropServices;
 using System.ComponentModel;
 
-namespace NetSDKCS
+namespace XHTD_SERVICES_GATEWAY.NetSDKCS
 {
     public static class NETClient
     {

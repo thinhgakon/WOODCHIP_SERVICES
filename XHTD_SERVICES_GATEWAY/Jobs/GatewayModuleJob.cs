@@ -85,7 +85,7 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
 
         public bool ConnectGatewayModule()
         {
-            var ipAddress = "10.15.15.40";
+            var ipAddress = "192.168.1.247";
             var portNumber = 4370;
             try
             {
