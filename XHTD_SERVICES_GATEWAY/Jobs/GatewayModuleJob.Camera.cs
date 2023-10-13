@@ -309,41 +309,23 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
 
         private string CaptureCameraDahua(IntPtr m_RealPlayID, string type, int number)
         {
-            if (IntPtr.Zero == m_RealPlayID)
-            {
-                //MessageBox.Show(this, "Please realplay first(请先打开监视)!");
-                return "";
-            }
-
-            string path = "C:\\MBF6\\MMES";
-            var now = DateTime.Now;
-
-            string currentYear = now.ToString("yyyy");
-            string currentMonth = now.ToString("MM");
-            string currentDay = now.ToString("dd");
-
-            string capturedTime = DateTime.Now.ToString("yyyyMMdd_HHmmss");
-            var typeString = type == "IN" ? "anhvao" : "anhra";
-
-            var fileName = capturedTime + $"_{typeString}" + $"_{number.ToString()}" + ".jpg";
-
-            string folderPath = Path.Combine(path, currentYear, currentMonth, currentDay);
-            string imgFileName = Path.Combine(folderPath, fileName);
-
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
-
-            bool result = NETClient.CapturePicture(m_RealPlayID, imgFileName, EM_NET_CAPTURE_FORMATS.JPEG);
-            if (!result)
+            #region remote async snapshot 远程异步抓图
+            NET_SNAP_PARAMS asyncSnap = new NET_SNAP_PARAMS();
+            asyncSnap.Channel = 0;
+            asyncSnap.Quality = 6;
+            asyncSnap.ImageSize = 2;
+            asyncSnap.mode = 0;
+            asyncSnap.InterSnap = 0;
+            asyncSnap.CmdSerial = m_SnapSerialNum;
+            bool ret = NETClient.SnapPictureEx(m_LoginID_1, asyncSnap, IntPtr.Zero);
+            if (!ret)
             {
                 //MessageBox.Show(this, NETClient.GetLastError());
                 return "";
             }
-            //MessageBox.Show(this, "client capture success(本地抓图成功)!");
-
-            return imgFileName;
+            m_SnapSerialNum++;
+            return "Xxx";
+            #endregion
         }
 
         public string ConvertImageToBase64(string filePath)
@@ -392,16 +374,29 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
 
         private void SnapRevCallBack(IntPtr lLoginID, IntPtr pBuf, uint RevLen, uint EncodeType, uint CmdSerial, IntPtr dwUser)
         {
-            string path = AppDomain.CurrentDomain.BaseDirectory + "capture";
-            if (!Directory.Exists(path))
+            string path = "C:\\MBF6\\GATEWAY";
+            var now = DateTime.Now;
+
+            string currentYear = now.ToString("yyyy");
+            string currentMonth = now.ToString("MM");
+            string currentDay = now.ToString("dd");
+
+            string capturedTime = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+
+            var fileName = capturedTime + ".jpg";
+
+            string folderPath = Path.Combine(path, currentYear, currentMonth, currentDay);
+            string imgFileName = Path.Combine(folderPath, fileName);
+
+            if (!Directory.Exists(folderPath))
             {
-                Directory.CreateDirectory(path);
+                Directory.CreateDirectory(folderPath);
             }
             if (EncodeType == 10) //.jpg
             {
-                DateTime now = DateTime.Now;
-                string fileName = "async" + CmdSerial.ToString() + ".jpg";
-                string filePath = path + "\\" + fileName;
+                //DateTime now = DateTime.Now;
+                //string fileName = "async" + CmdSerial.ToString() + ".jpg";
+                string filePath = imgFileName;
                 byte[] data = new byte[RevLen];
                 Marshal.Copy(pBuf, data, 0, (int)RevLen);
                 using (FileStream stream = new FileStream(filePath, FileMode.OpenOrCreate))
