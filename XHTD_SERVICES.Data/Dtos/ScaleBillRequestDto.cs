@@ -24,6 +24,10 @@ namespace XHTD_SERVICES.Data.Dtos
             this.TimeWeight1 = dto.TimeWeight1?.ToString("s");
             this.TimeWeight2 = dto.TimeWeight2?.ToString("s");
             this.UnitCode = dto.UnitCode;
+            this.InvoiceNumber = dto.InvoiceNumber;
+            this.InvoiceSymbol = dto.InvoiceSymbol;
+            this.InvoiceTemplate = dto.InvoiceTemplate;
+            this.BillNumber = dto.BillNumber;
         }
 
         public string Code { get; set; }
@@ -55,5 +59,13 @@ namespace XHTD_SERVICES.Data.Dtos
         public string AreaCode { get; set; }
 
         public string UnitCode { get; set; }
+
+        public string BillNumber { get; set; }
+
+        public string InvoiceNumber { get; set; }
+
+        public string InvoiceTemplate { get; set; }
+
+        public string InvoiceSymbol { get; set; }
     }
 }
