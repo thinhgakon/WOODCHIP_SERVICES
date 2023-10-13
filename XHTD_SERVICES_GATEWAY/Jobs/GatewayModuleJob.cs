@@ -7,7 +7,6 @@ using XHTD_SERVICES.Data.Repositories;
 using XHTD_SERVICES_GATEWAY.Models.Response;
 using System.Runtime.InteropServices;
 using XHTD_SERVICES.Helper;
-using Microsoft.AspNet.SignalR.Client;
 using XHTD_SERVICES.Data.Common;
 using Autofac;
 using XHTD_SERVICES_GATEWAY.Business;
@@ -233,29 +232,36 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
 
                                     // Chụp ảnh
                                     _gatewayLogger.LogInfo($"2. Thuc hien chup anh");
-                                    var gatewayImage = CaptureCameraDahua(m_RealPlayID_1, "IN", 1);
 
-                                    FileInfo fi = new FileInfo(gatewayImage);
+                                    FileDto fileDto = new FileDto();
+                                    try
+                                    {
+                                        var gatewayImage = CaptureCameraDahua(m_RealPlayID_1, "IN", 1);
 
-                                    bool exists = fi.Exists;
-                                    string justFileName = fi.Name;
-                                    string fullFileName = fi.FullName;
-                                    string extn = fi.Extension;
-                                    string directoryName = fi.DirectoryName;
-                                    long size = fi.Length;
+                                        FileInfo fi = new FileInfo(gatewayImage);
+
+                                        bool exists = fi.Exists;
+                                        string justFileName = fi.Name;
+                                        string fullFileName = fi.FullName;
+                                        string extn = fi.Extension;
+                                        string directoryName = fi.DirectoryName;
+                                        long size = fi.Length;
+
+                                        fileDto.ByteData = FileHelper.ConvertImageToBase64(gatewayImage);
+                                        fileDto.Name = justFileName;
+                                        fileDto.Extension = extn;
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        _gatewayLogger.LogInfo($"Chup anh khong thanh cong");
+                                    }
 
                                     // Thực hiện nghiệp vụ
                                     var checkInOutData = new GatewayCheckInOutRequestDto
                                     {
                                         CheckTime = DateTime.Now,
                                         RfId = cardNoCurrent,
-                                        File = new FileDto
-                                        {
-                                            //ByteData = Convert.FromBase64String(FileHelper.ConvertImageToBase64(x.Attachment.Url)),
-                                            ByteData = FileHelper.ConvertImageToBase64(gatewayImage),
-                                            Name = justFileName,
-                                            Extension = extn,
-                                        }
+                                        File = fileDto
                                     };
 
                                     _gatewayLogger.LogInfo($"3. Gui du lieu len MMES");
