@@ -43,6 +43,10 @@ namespace XHTD_SERVICES.Data.Entities
         public string UpdateBy { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<System.DateTime> UpdateDate { get; set; }
+        public string BillNumber { get; set; }
+        public string InvoiceNumber { get; set; }
+        public string InvoiceTemplate { get; set; }
+        public string InvoiceSymbol { get; set; }
     
         public virtual MdArea MdArea { get; set; }
         public virtual MdItem MdItem { get; set; }

@@ -32,6 +32,7 @@ namespace XHTD_SERVICES.Data.Entities
         public virtual DbSet<MdDevice> MdDevices { get; set; }
         public virtual DbSet<MdDeviceGroup> MdDeviceGroups { get; set; }
         public virtual DbSet<MdDeviceType> MdDeviceTypes { get; set; }
+        public virtual DbSet<MdInvoiceConfig> MdInvoiceConfigs { get; set; }
         public virtual DbSet<MdItem> MdItems { get; set; }
         public virtual DbSet<MdItemType> MdItemTypes { get; set; }
         public virtual DbSet<MdPartner> MdPartners { get; set; }

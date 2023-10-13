@@ -105,6 +105,20 @@
           <Property Name="CreateDate" Type="datetime" />
           <Property Name="UpdateDate" Type="datetime" />
         </EntityType>
+        <EntityType Name="MdInvoiceConfig">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Number" Type="nvarchar" MaxLength="255" />
+          <Property Name="Template" Type="nvarchar" MaxLength="255" />
+          <Property Name="Symbol" Type="nvarchar" MaxLength="255" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="UpdateBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UpdateDate" Type="datetime" />
+        </EntityType>
         <EntityType Name="MdItem">
           <Key>
             <PropertyRef Name="Code" />
@@ -233,6 +247,10 @@
           <Property Name="UpdateBy" Type="nvarchar" MaxLength="50" />
           <Property Name="CreateDate" Type="datetime" />
           <Property Name="UpdateDate" Type="datetime" />
+          <Property Name="BillNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="InvoiceNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="InvoiceTemplate" Type="nvarchar" MaxLength="50" />
+          <Property Name="InvoiceSymbol" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="ScaleImage">
           <Key>
@@ -417,6 +435,7 @@
           <EntitySet Name="MdDevice" EntityType="Self.MdDevice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MdDeviceGroup" EntityType="Self.MdDeviceGroup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MdDeviceType" EntityType="Self.MdDeviceType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MdInvoiceConfig" EntityType="Self.MdInvoiceConfig" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MdItem" EntityType="Self.MdItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MdItemType" EntityType="Self.MdItemType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MdPartner" EntityType="Self.MdPartner" Schema="dbo" store:Type="Tables" />
@@ -591,6 +610,20 @@
           <Property Name="UpdateDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="MdDevices" Relationship="Self.FK_dbo_MdDevice_dbo_MdDeviceType_TypeCode" FromRole="MdDeviceType" ToRole="MdDevice" />
         </EntityType>
+        <EntityType Name="MdInvoiceConfig">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Number" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Template" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Symbol" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UpdateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+        </EntityType>
         <EntityType Name="MdItem">
           <Key>
             <PropertyRef Name="Code" />
@@ -731,6 +764,10 @@
           <Property Name="UpdateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
           <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+          <Property Name="BillNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="InvoiceNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="InvoiceTemplate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="InvoiceSymbol" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="MdArea" Relationship="Self.FK_dbo_ScaleBill_dbo_MdArea_AreaCode" FromRole="ScaleBill" ToRole="MdArea" />
           <NavigationProperty Name="MdItem" Relationship="Self.FK_dbo_ScaleBill_dbo_MdItem_ItemCode" FromRole="ScaleBill" ToRole="MdItem" />
           <NavigationProperty Name="MdPartner" Relationship="Self.FK_dbo_ScaleBill_dbo_MdPartner_PartnerCode" FromRole="ScaleBill" ToRole="MdPartner" />
@@ -922,6 +959,7 @@
           <EntitySet Name="MdDevices" EntityType="Self.MdDevice" />
           <EntitySet Name="MdDeviceGroups" EntityType="Self.MdDeviceGroup" />
           <EntitySet Name="MdDeviceTypes" EntityType="Self.MdDeviceType" />
+          <EntitySet Name="MdInvoiceConfigs" EntityType="Self.MdInvoiceConfig" />
           <EntitySet Name="MdItems" EntityType="Self.MdItem" />
           <EntitySet Name="MdItemTypes" EntityType="Self.MdItemType" />
           <EntitySet Name="MdPartners" EntityType="Self.MdPartner" />
@@ -1097,6 +1135,21 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="MdInvoiceConfigs">
+            <EntityTypeMapping TypeName="XHTD_SERVICES.Data.Entities.MdInvoiceConfig">
+              <MappingFragment StoreEntitySet="MdInvoiceConfig">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Template" ColumnName="Template" />
+                <ScalarProperty Name="Symbol" ColumnName="Symbol" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="MdItems">
             <EntityTypeMapping TypeName="XHTD_SERVICES.Data.Entities.MdItem">
               <MappingFragment StoreEntitySet="MdItem">
@@ -1231,6 +1284,10 @@
                 <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="BillNumber" ColumnName="BillNumber" />
+                <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
+                <ScalarProperty Name="InvoiceTemplate" ColumnName="InvoiceTemplate" />
+                <ScalarProperty Name="InvoiceSymbol" ColumnName="InvoiceSymbol" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
