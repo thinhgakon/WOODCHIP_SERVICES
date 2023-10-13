@@ -123,7 +123,7 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
             return;
         }
 
-        private string CaptureScaleImage()
+        private string CaptureCameraDahua()
         {
             int lChannel = short.Parse("1");
 
@@ -345,7 +345,7 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
 
                                     // Chụp ảnh
                                     _gatewayLogger.LogInfo($"2. Thuc hien chup anh");
-                                    var gatewayImage = CaptureScaleImage();
+                                    var gatewayImage = CaptureCameraDahua();
 
                                     FileInfo fi = new FileInfo(gatewayImage);
 
