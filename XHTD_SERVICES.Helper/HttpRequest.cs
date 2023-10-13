@@ -94,7 +94,7 @@ namespace XHTD_SERVICES.Helper
                 {
                     Method = Method.PUT
                 };
-                request.AddJsonBody(scaleBills);
+                request.AddJsonBody(new List<ScaleBillRequestDto> { scaleBills });
                 request.AddHeader("Authorization", "Bearer " + token);
                 request.AddHeader("Accept", "application/json");
                 request.AddHeader("Content-Type", "application/json");
