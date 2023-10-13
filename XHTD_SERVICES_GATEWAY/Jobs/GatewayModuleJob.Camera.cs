@@ -52,7 +52,7 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
             if (m_lUserID_1 < 0)
             {
                 string DVRIPAddress = "";
-                short DVRPortNumber = "";
+                short DVRPortNumber = 1;
                 string DVRUserName = "";
                 string DVRPassword = "";
 

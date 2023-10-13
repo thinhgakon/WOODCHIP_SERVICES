@@ -51,99 +51,6 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
         {
             _rfidRepository = rfidRepository;
             _gatewayLogger = gatewayLogger;
-
-            // Login camera
-            m_bInitSDK = CHCNet.NET_DVR_Init();
-            if (m_bInitSDK == false)
-            {
-                return;
-            }
-            else
-            {
-                LoginCameraDahua();
-            }
-        }
-
-        private void LoginCameraDahua()
-        {
-            if (m_lUserID < 0)
-            {
-                string DVRIPAddress = "10.15.15.33";
-                short DVRPortNumber = short.Parse("8002");
-                string DVRUserName = "admin";
-                string DVRPassword = "123456a@";
-
-                CHCNet.NET_DVR_DEVICEINFO_V30 DeviceInfo = new CHCNet.NET_DVR_DEVICEINFO_V30();
-
-                m_lUserID = CHCNet.NET_DVR_Login_V30(DVRIPAddress, DVRPortNumber, DVRUserName, DVRPassword, ref DeviceInfo);
-                if (m_lUserID < 0)
-                {
-                    iLastErr = CHCNet.NET_DVR_GetLastError();
-                    str = "NET_DVR_Login_V30 failed, error code = " + iLastErr;
-
-                    _gatewayLogger.LogInfo("Khong the login camera");
-                    _gatewayLogger.LogInfo("----------------------------");
-
-                    return;
-                }
-
-                _gatewayLogger.LogInfo("Login camera thanh cong");
-                _gatewayLogger.LogInfo("----------------------------");
-            }
-            else
-            {
-                if (m_lRealHandle >= 0)
-                {
-                    return;
-                }
-
-                if (!CHCNet.NET_DVR_Logout(m_lUserID))
-                {
-                    iLastErr = CHCNet.NET_DVR_GetLastError();
-                    str = "NET_DVR_Logout failed, error code = " + iLastErr;
-                    return;
-                }
-                m_lUserID = -1;
-            }
-            return;
-        }
-
-        private string CaptureCameraDahua()
-        {
-            int lChannel = short.Parse("1");
-
-            CHCNet.NET_DVR_JPEGPARA lpJpegPara = new CHCNet.NET_DVR_JPEGPARA
-            {
-                wPicQuality = 0,
-                wPicSize = 0xff
-            };
-
-            string rootPath = "C:\\log4net";
-
-            string capturedTime = DateTime.Now.ToString("yyyyMMdd_HHmmss");
-            //string folderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Captures");
-            string folderPath = Path.Combine(rootPath, "GatewayCaptures");
-            string imgFileName = Path.Combine(folderPath, capturedTime + ".jpg");
-
-            if (!Directory.Exists(folderPath))
-            {
-                Directory.CreateDirectory(folderPath);
-            }
-
-            if (!CHCNet.NET_DVR_CaptureJPEGPicture(m_lUserID, lChannel, ref lpJpegPara, imgFileName))
-            {
-                iLastErr = CHCNet.NET_DVR_GetLastError();
-                str = "NET_DVR_CaptureJPEGPicture failed, error code = " + iLastErr;
-
-                _gatewayLogger.LogInfo("Chup anh khong thanh cong.");
-            }
-            else
-            {
-                str = "Chụp ảnh thành công!";
-                _gatewayLogger.LogInfo($"Chup anh thanh cong: {imgFileName}");
-                return imgFileName;
-            }
-            return "";
         }
 
         public async Task Execute(IJobExecutionContext context)
@@ -324,7 +231,7 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
 
                                     // Chụp ảnh
                                     _gatewayLogger.LogInfo($"2. Thuc hien chup anh");
-                                    var gatewayImage = CaptureCameraDahua();
+                                    var gatewayImage = CaptureCameraDahua(m_RealPlayID_1, "IN", 1);
 
                                     FileInfo fi = new FileInfo(gatewayImage);
 
