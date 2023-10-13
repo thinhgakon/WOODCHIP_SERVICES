@@ -114,10 +114,10 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
         {
             if (IntPtr.Zero == m_LoginID_1)
             {
-                string DVRIPAddress = "";
-                string DVRPortNumber = "";
-                string DVRUserName = "";
-                string DVRPassword = "";
+                string DVRIPAddress = "192.168.1.248";
+                string DVRPortNumber = "37777";
+                string DVRUserName = "admin";
+                string DVRPassword = "123456a@";
 
                 ushort port = 0;
                 try
