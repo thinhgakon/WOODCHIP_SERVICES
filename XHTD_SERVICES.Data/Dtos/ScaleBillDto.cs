@@ -39,5 +39,13 @@ namespace XHTD_SERVICES.Data.Dtos
         public string AreaCode { get; set; }
 
         public string UnitCode { get; set; } = "KG";
+
+        public string BillNumber { get; set; }
+
+        public string InvoiceNumber { get; set; }
+
+        public string InvoiceTemplate { get; set; }
+
+        public string InvoiceSymbol { get; set; }
     }
 }
