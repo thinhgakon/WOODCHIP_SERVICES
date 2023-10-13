@@ -55,7 +55,7 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
 
             GetToken();
 
-            List<ScaleBillDto> scaleBills = _scaleBillRepository.GetList();
+            List<ScaleBillRequestDto> scaleBills = _scaleBillRepository.GetList();
 
             if (scaleBills == null || scaleBills.Count == 0)
             {
@@ -85,7 +85,7 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
             }
         }
 
-        public async Task<bool> SyncScaleBillToDMS(ScaleBillDto scaleBills)
+        public async Task<bool> SyncScaleBillToDMS(ScaleBillRequestDto scaleBills)
         {
             IRestResponse partnerResponse = HttpRequest.GetPartner(strToken, scaleBills);
             var partnerResponseData = JsonConvert.DeserializeObject<GetPartnerResponse>(partnerResponse.Content);

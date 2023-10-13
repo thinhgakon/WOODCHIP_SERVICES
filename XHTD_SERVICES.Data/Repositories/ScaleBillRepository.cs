@@ -12,7 +12,7 @@ using XHTD_SERVICES.Data.Dtos;
 
 namespace XHTD_SERVICES.Data.Repositories
 {
-    public class ScaleBillRepository : BaseRepository <ScaleBill>
+    public class ScaleBillRepository : BaseRepository<ScaleBill>
     {
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -20,11 +20,12 @@ namespace XHTD_SERVICES.Data.Repositories
         {
         }
 
-        public List<ScaleBillDto> GetList()
+        public List<ScaleBillRequestDto> GetList()
         {
             using (var dbContext = new XHTD_Entities())
             {
-                try { 
+                try
+                {
                     var items = dbContext.ScaleBills
                         .Include(x => x.MdItem)
                         .Include(x => x.MdPartner)
@@ -32,31 +33,31 @@ namespace XHTD_SERVICES.Data.Repositories
                         .Where(x => x.IsSynced == null || x.IsSynced == false)
                         .ToList()
                         .Select(x => new ScaleBillDto
-                    {
-                        Code = x.Code,
-                        CompanyCode = "VJ",
-                        ScaleTypeCode = x.ScaleTypeCode,
-                        PartnerCode = x.MdPartner?.SyncCode,
-                        Rfid = x.Rfid,
-                        VehicleCode = x.VehicleCode,
-                        DriverName = x.DriverName,
-                        ItemCode = x.MdItem?.SyncCode,
-                        Note = x.Note,
-                        Weight1 = x.Weight1,
-                        Weight2 = x.Weight2,
-                        TimeWeight1 = x.TimeWeight1,
-                        TimeWeight2 = x.TimeWeight2,
-                        AreaCode = x.MdArea?.SyncCode,
-                        BillNumber = x.BillNumber,
-                        InvoiceNumber = x.InvoiceNumber,
-                        InvoiceTemplate = x.InvoiceTemplate,
-                        InvoiceSymbol = x.InvoiceSymbol,
-                    })
+                        {
+                            Code = x.Code,
+                            CompanyCode = "VJ",
+                            ScaleTypeCode = x.ScaleTypeCode,
+                            PartnerCode = x.MdPartner?.SyncCode,
+                            Rfid = x.Rfid,
+                            VehicleCode = x.VehicleCode,
+                            DriverName = x.DriverName,
+                            ItemCode = x.MdItem?.SyncCode,
+                            Note = x.Note,
+                            Weight1 = x.Weight1,
+                            Weight2 = x.Weight2,
+                            TimeWeight1 = x.TimeWeight1,
+                            TimeWeight2 = x.TimeWeight2,
+                            AreaCode = x.MdArea?.SyncCode,
+                            BillNumber = x.BillNumber,
+                            InvoiceNumber = x.InvoiceNumber,
+                            InvoiceTemplate = x.InvoiceTemplate,
+                            InvoiceSymbol = x.InvoiceSymbol,
+                        })
                     .ToList();
 
-                    return items;
+                    return items.Select(x => new ScaleBillRequestDto(x)).ToList();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     return null;
                 }
