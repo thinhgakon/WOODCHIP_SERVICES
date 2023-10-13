@@ -21,8 +21,6 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
     {
         protected readonly RfidRepository _rfidRepository;
 
-        protected readonly Notification _notification;
-
         protected readonly GatewayLogger _gatewayLogger;
 
         private IntPtr h21 = IntPtr.Zero;
@@ -40,16 +38,6 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
         private static bool isActiveService = true;
 
         protected const string C3400_CBV_IP_ADDRESS = "10.0.9.1";
-
-        protected const string M221_CBV_IP_ADDRESS = "10.0.9.2";
-
-        protected const string C3400_951_2_IP_ADDRESS = "10.0.9.5";
-
-        private IHubProxy HubProxy { get; set; }
-
-        private string ServerURI = URIConfig.SIGNALR_GATEWAY_SERVICE_URL;
-
-        private HubConnection Connection { get; set; }
 
         [DllImport(@"C:\\Windows\\System32\\plcommpro.dll", EntryPoint = "Connect")]
         public static extern IntPtr Connect(string Parameters);
@@ -73,12 +61,10 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
 
         public GatewayModuleJob(
             RfidRepository rfidRepository,
-            Notification notification,
             GatewayLogger gatewayLogger
             )
         {
             _rfidRepository = rfidRepository;
-            _notification = notification;
             _gatewayLogger = gatewayLogger;
 
             // Login camera
