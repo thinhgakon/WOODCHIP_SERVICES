@@ -33,10 +33,6 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
 
         private List<CardNoLog> tmpInvalidCardNoLst = new List<CardNoLog>();
 
-        protected const string CBV_ACTIVE = "CBV_ACTIVE";
-
-        private static bool isActiveService = true;
-
         protected const string C3400_CBV_IP_ADDRESS = "10.0.9.1";
 
         [DllImport(@"C:\\Windows\\System32\\plcommpro.dll", EntryPoint = "Connect")]
@@ -170,12 +166,6 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
 
             await Task.Run(async () =>
             {
-                if (!isActiveService)
-                {
-                    _gatewayLogger.LogInfo("Service cong bao ve dang TAT.");
-                    return;
-                }
-
                 _gatewayLogger.LogInfo("Start gateway service");
                 _gatewayLogger.LogInfo("----------------------------");
 
