@@ -28,6 +28,7 @@ namespace XHTD_SERVICES.Data.Dtos
             this.InvoiceSymbol = dto.InvoiceSymbol;
             this.InvoiceTemplate = dto.InvoiceTemplate;
             this.BillNumber = dto.BillNumber;
+            this.IsCanceled = dto.IsCanceled;
         }
 
         public string Code { get; set; }
@@ -67,5 +68,7 @@ namespace XHTD_SERVICES.Data.Dtos
         public string InvoiceTemplate { get; set; }
 
         public string InvoiceSymbol { get; set; }
+
+        public bool? IsCanceled { get; set; }
     }
 }

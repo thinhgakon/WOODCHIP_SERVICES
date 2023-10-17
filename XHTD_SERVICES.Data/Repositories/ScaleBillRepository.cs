@@ -52,6 +52,7 @@ namespace XHTD_SERVICES.Data.Repositories
                             InvoiceNumber = x.InvoiceNumber,
                             InvoiceTemplate = x.InvoiceTemplate,
                             InvoiceSymbol = x.InvoiceSymbol,
+                            IsCanceled = x.IsCanceled,
                         })
                     .ToList();
 
