@@ -251,6 +251,7 @@
           <Property Name="InvoiceNumber" Type="nvarchar" MaxLength="50" />
           <Property Name="InvoiceTemplate" Type="nvarchar" MaxLength="50" />
           <Property Name="InvoiceSymbol" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsCanceled" Type="bit" />
         </EntityType>
         <EntityType Name="ScaleImage">
           <Key>
@@ -768,6 +769,7 @@
           <Property Name="InvoiceNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="InvoiceTemplate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="InvoiceSymbol" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsCanceled" Type="Boolean" />
           <NavigationProperty Name="MdArea" Relationship="Self.FK_dbo_ScaleBill_dbo_MdArea_AreaCode" FromRole="ScaleBill" ToRole="MdArea" />
           <NavigationProperty Name="MdItem" Relationship="Self.FK_dbo_ScaleBill_dbo_MdItem_ItemCode" FromRole="ScaleBill" ToRole="MdItem" />
           <NavigationProperty Name="MdPartner" Relationship="Self.FK_dbo_ScaleBill_dbo_MdPartner_PartnerCode" FromRole="ScaleBill" ToRole="MdPartner" />
@@ -1288,6 +1290,7 @@
                 <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
                 <ScalarProperty Name="InvoiceTemplate" ColumnName="InvoiceTemplate" />
                 <ScalarProperty Name="InvoiceSymbol" ColumnName="InvoiceSymbol" />
+                <ScalarProperty Name="IsCanceled" ColumnName="IsCanceled" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

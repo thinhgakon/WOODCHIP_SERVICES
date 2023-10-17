@@ -47,6 +47,7 @@ namespace XHTD_SERVICES.Data.Entities
         public string InvoiceNumber { get; set; }
         public string InvoiceTemplate { get; set; }
         public string InvoiceSymbol { get; set; }
+        public Nullable<bool> IsCanceled { get; set; }
     
         public virtual MdArea MdArea { get; set; }
         public virtual MdItem MdItem { get; set; }

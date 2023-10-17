@@ -47,5 +47,7 @@ namespace XHTD_SERVICES.Data.Dtos
         public string InvoiceTemplate { get; set; }
 
         public string InvoiceSymbol { get; set; }
+
+        public bool? IsCanceled { get; set; }
     }
 }
