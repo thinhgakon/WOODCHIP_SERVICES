@@ -25,6 +25,8 @@ namespace XHTD_SERVICES.Data.Dtos
         public double? Longitude { get; set; }
 
         public double? Latitude { get; set; }
+
+        public bool IsActiver { get => true; }
     }
 
 }
