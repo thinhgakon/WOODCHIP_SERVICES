@@ -9,6 +9,7 @@ using XHTD_SERVICES.Data.Models.Response;
 using log4net;
 using System.Data.Entity;
 using XHTD_SERVICES.Data.Dtos;
+using System.Configuration;
 
 namespace XHTD_SERVICES.Data.Repositories
 {
@@ -22,6 +23,7 @@ namespace XHTD_SERVICES.Data.Repositories
 
         public List<ScaleBillRequestDto> GetList()
         {
+            var companyCode = ConfigurationManager.AppSettings.Get("Company_Code");
             using (var dbContext = new XHTD_Entities())
             {
                 try
@@ -35,7 +37,7 @@ namespace XHTD_SERVICES.Data.Repositories
                         .Select(x => new ScaleBillDto
                         {
                             Code = x.Code,
-                            CompanyCode = "VJ",
+                            CompanyCode = companyCode,
                             ScaleTypeCode = x.ScaleTypeCode,
                             PartnerCode = x.MdPartner?.SyncCode,
                             Rfid = x.Rfid,
