@@ -18,6 +18,10 @@ namespace XHTD_SERVICES.Data.Repositories
             using (var dbContext = new XHTD_Entities())
             {
                 var partner = await dbContext.MdPartners.FirstOrDefaultAsync(x => x.Code == code);
+                if(partner == null)
+                {
+                    return null;
+                }
 
                 return new PartnerDto()
                 {
