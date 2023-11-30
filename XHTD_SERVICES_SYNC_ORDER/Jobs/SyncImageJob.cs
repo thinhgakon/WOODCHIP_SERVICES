@@ -48,6 +48,7 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
 
         public async Task SyncImageProcess()
         {
+            _logger.Info("===================================------------------===================================");
             _logger.Info("Start process Sync Image job");
 
             GetToken();
@@ -56,9 +57,11 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
 
             if (scaleImages == null || scaleImages.Count == 0)
             {
-                _logger.Info("Tat ca anh phieu can da duoc dong bo");
+                _logger.Info($"Tất cả ảnh phiếu cân đã được đồng bộ");
                 return;
             }
+
+            _logger.Info($"Thực hiện đồng bộ ảnh: {JsonConvert.SerializeObject(scaleImages)}");
 
             bool isSynced = await SyncScaleImageToDMS(scaleImages);
         }

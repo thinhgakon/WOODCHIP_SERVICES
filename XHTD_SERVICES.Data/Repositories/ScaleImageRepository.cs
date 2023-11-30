@@ -14,7 +14,7 @@ namespace XHTD_SERVICES.Data.Repositories
 {
     public class ScaleImageRepository : BaseRepository <ScaleBill>
     {
-        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog log = LogManager.GetLogger("SecondFileAppender");
 
         public ScaleImageRepository(XHTD_Entities appDbContext) : base(appDbContext)
         {
@@ -78,7 +78,7 @@ namespace XHTD_SERVICES.Data.Repositories
                 }
                 catch (Exception ex)
                 {
-                    log.Error($@"Sync {id} Error: " + ex.Message);
+                    log.Error($@"Sync {id} Error: {ex.Message} == {ex.StackTrace} == {ex.InnerException}");
                     return false;
                 }
             }
@@ -109,7 +109,7 @@ namespace XHTD_SERVICES.Data.Repositories
                 }
                 catch (Exception ex)
                 {
-                    log.Error($@"Sync {id} Error: " + ex.Message);
+                    log.Error($@"Sync {id} Error: {ex.Message} == {ex.StackTrace} == {ex.InnerException}");
                     return false;
                 }
             }

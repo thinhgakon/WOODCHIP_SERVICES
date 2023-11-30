@@ -51,6 +51,7 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
 
         public async Task SyncOrderProcess()
         {
+            _syncOrderLogger.LogInfo("===================================------------------===================================");
             _syncOrderLogger.LogInfo("Start process Sync Order job");
 
             GetToken();
@@ -59,9 +60,10 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
 
             if (scaleBills == null || scaleBills.Count == 0)
             {
-                _syncOrderLogger.LogInfo("Tat ca phieu can da duoc dong bo");
+                _syncOrderLogger.LogInfo($"Tất cả phiếu cân đã được đồng bộ");
                 return;
             }
+
             foreach (var item in scaleBills)
             {
                 bool isSynced = await SyncScaleBillToDMS(item);
@@ -87,6 +89,8 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
 
         public async Task<bool> SyncScaleBillToDMS(ScaleBillRequestDto scaleBills)
         {
+            _syncOrderLogger.LogInfo($"Thực hiện đồng bộ phiếu: {JsonConvert.SerializeObject(scaleBills)}");
+
             IRestResponse partnerResponse = HttpRequest.GetPartner(strToken, scaleBills);
             var partnerResponseData = JsonConvert.DeserializeObject<GetPartnerResponse>(partnerResponse.Content);
 
