@@ -325,7 +325,7 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
             }
             m_SnapSerialNum++;
 
-            string path = "C:\\MBF6\\GATEWAY";
+            string path = @"C:\MBF6\GATEWAY";
             var now = DateTime.Now;
 
             string currentYear = now.ToString("yyyy");
@@ -333,8 +333,10 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
             string currentDay = now.ToString("dd");
 
             string capturedTime = DateTime.Now.ToString("yyyyMMdd");
+            var typeString = type == "IN" ? "anhvao" : "anhra";
 
-            var fileName = capturedTime + "_" + asyncSnap.CmdSerial.ToString() + ".jpg";
+            //var fileName = capturedTime + "_" + asyncSnap.CmdSerial.ToString() + ".jpg";
+            var fileName = $"{capturedTime}_{asyncSnap.CmdSerial.ToString()}.jpg";
 
             string folderPath = Path.Combine(path, currentYear, currentMonth, currentDay);
             string imgFileName = Path.Combine(folderPath, fileName);
