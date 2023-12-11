@@ -149,107 +149,6 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
             }
         }
 
-        //private void LiveViewCameraHikvision(ref int m_lUserID_1, ref int m_lRealHandle_1, PictureBox cameraViewBox1)
-        //{
-        //    if (m_lUserID_1 < 0)
-        //    {
-        //        //MessageBox.Show("Please login to the device first!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-        //        return;
-        //    }
-
-        //    if (m_lRealHandle_1 < 0)
-        //    {
-        //        CHCNet.NET_DVR_PREVIEWINFO lpPreviewInfo = new CHCNet.NET_DVR_PREVIEWINFO
-        //        {
-        //            hPlayWnd = cameraViewBox1.Handle,
-        //            lChannel = short.Parse("1"),
-        //            dwStreamType = 0,
-        //            dwLinkMode = 0,
-        //            bBlocked = true,
-        //            dwDisplayBufNum = 1,
-        //            byProtoType = 0,
-        //            byPreviewMode = 0
-        //        };
-
-        //        if (RealData == null)
-        //        {
-        //            RealData = new CHCNet.REALDATACALLBACK(RealDataCallBack);
-        //        }
-
-        //        IntPtr pUser = new IntPtr();
-
-        //        m_lRealHandle_1 = CHCNet.NET_DVR_RealPlay_V40(m_lUserID_1, ref lpPreviewInfo, null/*RealData*/, pUser);
-        //        if (m_lRealHandle_1 < 0)
-        //        {
-        //            var iLastErr = CHCNet.NET_DVR_GetLastError();
-        //            var str = "NET_DVR_RealPlay_V40 failed, error code = " + iLastErr;
-        //            MessageBox.Show(str, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //            return;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        if (!CHCNet.NET_DVR_StopRealPlay(m_lRealHandle_1))
-        //        {
-        //            var iLastErr = CHCNet.NET_DVR_GetLastError();
-        //            var str = "NET_DVR_StopRealPlay failed, error code = " + iLastErr;
-        //            MessageBox.Show(str, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //            return;
-        //        }
-        //        m_lRealHandle_1 = -1;
-        //    }
-        //    return;
-        //}
-
-        //private void LiveViewCameraDahua(ref IntPtr m_LoginID_1, ref IntPtr m_RealPlayID_1, PictureBox cameraViewBox1)
-        //{
-        //    if (IntPtr.Zero == m_RealPlayID_1)
-        //    {
-        //        // realplay 监视
-        //        EM_RealPlayType type;
-        //        //if (streamtype_comboBox.SelectedIndex == 0)
-        //        //{
-        //        type = EM_RealPlayType.Realplay;
-        //        //}
-        //        //else
-        //        //{
-        //        //    type = EM_RealPlayType.Realplay_1;
-        //        //}
-        //        m_RealPlayID_1 = NETClient.RealPlay(m_LoginID_1, 0, cameraViewBox1.Handle, type);
-        //        if (IntPtr.Zero == m_RealPlayID_1)
-        //        {
-        //            MessageBox.Show(this, NETClient.GetLastError());
-        //            return;
-        //        }
-        //        NETClient.SetRealDataCallBack(m_RealPlayID_1, m_RealDataCallBackEx2, IntPtr.Zero, EM_REALDATA_FLAG.DATA_WITH_FRAME_INFO | EM_REALDATA_FLAG.PCM_AUDIO_DATA | EM_REALDATA_FLAG.RAW_DATA | EM_REALDATA_FLAG.YUV_DATA);
-        //        //start_realplay_button.Text = "StopReal(停止监视)";
-        //        //channel_comboBox.Enabled = false;
-        //        //streamtype_comboBox.Enabled = false;
-        //        //save_button.Enabled = true;
-        //    }
-        //    else
-        //    {
-        //        // stop realplay 关闭监视
-        //        bool ret = NETClient.StopRealPlay(m_RealPlayID_1);
-        //        if (!ret)
-        //        {
-        //            MessageBox.Show(this, NETClient.GetLastError());
-        //            return;
-        //        }
-        //        m_RealPlayID_1 = IntPtr.Zero;
-        //        //start_realplay_button.Text = "StartReal(开始监视)";
-        //        //realplay_pictureBox.Refresh();
-        //        //channel_comboBox.Enabled = true;
-        //        //streamtype_comboBox.Enabled = true;
-        //        //save_button.Enabled = false;
-        //        if (m_IsInSave)
-        //        {
-        //            m_IsInSave = false;
-        //            //save_button.Text = "StartSave(开始保存)";
-        //        }
-        //    }
-        //}
-
         private void RealDataCallBack(int lRealHandle, uint dwDataType, IntPtr pBuffer, uint dwBufSize, IntPtr pUser)
         {
             if (dwBufSize > 0)
@@ -291,15 +190,9 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
             {
                 var iLastErr = CHCNet.NET_DVR_GetLastError();
                 var str = "NET_DVR_CaptureJPEGPicture failed, error code = " + iLastErr;
-                //MessageBox.Show(str, "Lỗi");
-                //Close();
             }
             else
             {
-                //var str = "Chụp ảnh thành công!";
-                //MessageBox.Show(str, "Thông báo");
-
-                // Nếu ko sleep giữa 2 lần chụp camera khác nhau thì chỉ chụp 1 ảnh: chỉ run 1 lần CaptureScaleImage
                 Thread.Sleep(500);
 
                 return imgFileName;
@@ -320,12 +213,11 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
             bool ret = NETClient.SnapPictureEx(m_LoginID_1, asyncSnap, IntPtr.Zero);
             if (!ret)
             {
-                //MessageBox.Show(this, NETClient.GetLastError());
                 return "";
             }
             m_SnapSerialNum++;
 
-            string path = "C:\\MBF6\\GATEWAY";
+            string path = @"C:\MBF6\GATEWAY";
             var now = DateTime.Now;
 
             string currentYear = now.ToString("yyyy");
@@ -333,8 +225,9 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
             string currentDay = now.ToString("dd");
 
             string capturedTime = DateTime.Now.ToString("yyyyMMdd");
+            var typeString = type == "IN" ? "anhvao" : "anhra";
 
-            var fileName = capturedTime + "_" + asyncSnap.CmdSerial.ToString() + ".jpg";
+            var fileName =  $"{capturedTime}_{typeString}_{asyncSnap.CmdSerial.ToString()}.jpg";
 
             string folderPath = Path.Combine(path, currentYear, currentMonth, currentDay);
             string imgFileName = Path.Combine(folderPath, fileName);
