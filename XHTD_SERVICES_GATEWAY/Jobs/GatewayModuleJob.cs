@@ -300,7 +300,7 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
                                     // Thực hiện nghiệp vụ
                                     var checkInOutData = new GatewayCheckInOutRequestDto
                                     {
-                                        CheckTime = DateTime.Now,
+                                        CheckTimeDateTimeValue = DateTime.Now,
                                         RfId = cardNoCurrent,
                                         Files = files
                                     };

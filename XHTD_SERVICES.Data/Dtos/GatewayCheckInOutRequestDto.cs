@@ -10,7 +10,9 @@ namespace XHTD_SERVICES.Data.Dtos
     {
         public string RfId { get; set; }
 
-        public DateTime? CheckTime { get; set; }
+        public DateTime? CheckTimeDateTimeValue { get; set; }
+
+        public string CheckTime { get => CheckTimeDateTimeValue?.ToString("s"); }
 
         public List<FileDto> Files { get; set; }
     }
