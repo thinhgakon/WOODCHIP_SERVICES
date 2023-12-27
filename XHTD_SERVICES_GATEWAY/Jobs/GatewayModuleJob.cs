@@ -32,7 +32,7 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
 
         private List<CardNoLog> tmpInvalidCardNoLst = new List<CardNoLog>();
 
-        protected const string C3400_CBV_IP_ADDRESS = "10.0.9.1";
+        protected const string C3400_CBV_IP_ADDRESS = "192.168.1.247";
 
         [DllImport(@"C:\\Windows\\System32\\plcommpro.dll", EntryPoint = "Connect")]
         public static extern IntPtr Connect(string Parameters);
@@ -84,7 +84,7 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
 
         public bool ConnectGatewayModule()
         {
-            var ipAddress = "192.168.1.247";
+            var ipAddress = C3400_CBV_IP_ADDRESS;
             var portNumber = 4370;
             try
             {
