@@ -14,6 +14,7 @@ using XHTD_SERVICES.Data.Dtos;
 using CHCNetSDK;
 using System.IO;
 using XHTD_SERVICES_GATEWAY.Device;
+using XHTD_SERVICES.Data.Entities;
 
 namespace XHTD_SERVICES_GATEWAY.Jobs
 {
@@ -234,11 +235,11 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
                                     // Chụp ảnh
                                     _gatewayLogger.LogInfo($"2. Thuc hien chup anh");
 
-                                    FileDto fileDto = new FileDto();
+                                    List<FileDto> files = new List<FileDto>();
+                                    
                                     try
                                     {
                                         IStreamCamera camera = new DahuaStreamCamera();
-                                        //string scaleImg1 = camera.CaptureStream(CAMERA_1_IP, CAMERA_1_USERNAME, CAMERA_1_PASSWORD, "IN", 1, objParamSystemXml.GetKey(URL_IMAGE));
                                         var gatewayImage = camera.CaptureStream(CAMERA_1_IP, CAMERA_1_USERNAME, CAMERA_1_PASSWORD, "IN", 1, URL_IMAGE);
 
                                         FileInfo fi = new FileInfo(gatewayImage);
@@ -250,13 +251,44 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
                                         string directoryName = fi.DirectoryName;
                                         long size = fi.Length;
 
-                                        fileDto.ByteData = FileHelper.ConvertImageToBase64(gatewayImage);
-                                        fileDto.Name = justFileName;
-                                        fileDto.Extension = extn;
+                                        FileDto fileDto1 = new FileDto();
+
+                                        fileDto1.ByteData = FileHelper.ConvertImageToBase64(gatewayImage);
+                                        fileDto1.Name = justFileName;
+                                        fileDto1.Extension = extn;
+
+                                        files.Add(fileDto1);
                                     }
                                     catch (Exception ex)
                                     {
-                                        _gatewayLogger.LogInfo($"Chup anh khong thanh cong");
+                                        _gatewayLogger.LogInfo($"Chup anh {CAMERA_1_IP} khong thanh cong");
+                                    }
+
+                                    try
+                                    {
+                                        IStreamCamera camera = new DahuaStreamCamera();
+                                        var gatewayImage = camera.CaptureStream(CAMERA_2_IP, CAMERA_2_USERNAME, CAMERA_2_PASSWORD, "OUT", 2, URL_IMAGE);
+
+                                        FileInfo fi = new FileInfo(gatewayImage);
+
+                                        bool exists = fi.Exists;
+                                        string justFileName = fi.Name;
+                                        string fullFileName = fi.FullName;
+                                        string extn = fi.Extension;
+                                        string directoryName = fi.DirectoryName;
+                                        long size = fi.Length;
+
+                                        FileDto fileDto2 = new FileDto();
+
+                                        fileDto2.ByteData = FileHelper.ConvertImageToBase64(gatewayImage);
+                                        fileDto2.Name = justFileName;
+                                        fileDto2.Extension = extn;
+
+                                        files.Add(fileDto2);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        _gatewayLogger.LogInfo($"Chup anh {CAMERA_2_IP} khong thanh cong");
                                     }
 
                                     // Thực hiện nghiệp vụ
@@ -264,7 +296,7 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
                                     {
                                         CheckTime = DateTime.Now,
                                         RfId = cardNoCurrent,
-                                        File = fileDto
+                                        Files = files
                                     };
 
                                     _gatewayLogger.LogInfo($"3. Gui du lieu len MMES");

@@ -12,6 +12,6 @@ namespace XHTD_SERVICES.Data.Dtos
 
         public DateTime? CheckTime { get; set; }
 
-        public FileDto File { get; set; }
+        public List<FileDto> Files { get; set; }
     }
 }
