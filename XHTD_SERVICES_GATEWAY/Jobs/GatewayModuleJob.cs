@@ -240,22 +240,22 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
                                     try
                                     {
                                         IStreamCamera camera = new DahuaStreamCamera();
-                                        var gatewayImage = camera.CaptureStream(CAMERA_1_IP, CAMERA_1_USERNAME, CAMERA_1_PASSWORD, "IN", 1, URL_IMAGE);
+                                        var gatewayImage1 = camera.CaptureStream(CAMERA_1_IP, CAMERA_1_USERNAME, CAMERA_1_PASSWORD, "IN", 1, URL_IMAGE);
 
-                                        if (!String.IsNullOrEmpty(gatewayImage))
+                                        if (!String.IsNullOrEmpty(gatewayImage1))
                                         {
-                                            FileInfo fi = new FileInfo(gatewayImage);
+                                            FileInfo fi1 = new FileInfo(gatewayImage1);
 
-                                            bool exists = fi.Exists;
-                                            string justFileName = fi.Name;
-                                            string fullFileName = fi.FullName;
-                                            string extn = fi.Extension;
-                                            string directoryName = fi.DirectoryName;
-                                            long size = fi.Length;
+                                            bool exists = fi1.Exists;
+                                            string justFileName = fi1.Name;
+                                            string fullFileName = fi1.FullName;
+                                            string extn = fi1.Extension;
+                                            string directoryName = fi1.DirectoryName;
+                                            long size = fi1.Length;
 
                                             FileDto fileDto1 = new FileDto();
 
-                                            fileDto1.ByteData = FileHelper.ConvertImageToBase64(gatewayImage);
+                                            fileDto1.ByteData = FileHelper.ConvertImageToBase64(gatewayImage1);
                                             fileDto1.Name = justFileName;
                                             fileDto1.Extension = extn;
 
@@ -270,22 +270,22 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
                                     try
                                     {
                                         IStreamCamera camera = new DahuaStreamCamera();
-                                        var gatewayImage = camera.CaptureStream(CAMERA_2_IP, CAMERA_2_USERNAME, CAMERA_2_PASSWORD, "OUT", 2, URL_IMAGE);
+                                        var gatewayImage2 = camera.CaptureStream(CAMERA_2_IP, CAMERA_2_USERNAME, CAMERA_2_PASSWORD, "OUT", 2, URL_IMAGE);
 
-                                        if (!String.IsNullOrEmpty(gatewayImage))
+                                        if (!String.IsNullOrEmpty(gatewayImage2))
                                         {
-                                            FileInfo fi = new FileInfo(gatewayImage);
+                                            FileInfo fi2 = new FileInfo(gatewayImage2);
 
-                                            bool exists = fi.Exists;
-                                            string justFileName = fi.Name;
-                                            string fullFileName = fi.FullName;
-                                            string extn = fi.Extension;
-                                            string directoryName = fi.DirectoryName;
-                                            long size = fi.Length;
+                                            bool exists = fi2.Exists;
+                                            string justFileName = fi2.Name;
+                                            string fullFileName = fi2.FullName;
+                                            string extn = fi2.Extension;
+                                            string directoryName = fi2.DirectoryName;
+                                            long size = fi2.Length;
 
                                             FileDto fileDto2 = new FileDto();
 
-                                            fileDto2.ByteData = FileHelper.ConvertImageToBase64(gatewayImage);
+                                            fileDto2.ByteData = FileHelper.ConvertImageToBase64(gatewayImage2);
                                             fileDto2.Name = justFileName;
                                             fileDto2.Extension = extn;
 
