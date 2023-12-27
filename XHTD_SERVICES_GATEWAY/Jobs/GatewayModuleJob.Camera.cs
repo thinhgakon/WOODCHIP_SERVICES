@@ -33,10 +33,10 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
             CAMERA_1_USERNAME = "admin";
             CAMERA_1_PASSWORD = "abcd@1234";
 
-            CAMERA_1_IP = "10.15.15.103";
-            CAMERA_1_PORT = "554";
-            CAMERA_1_USERNAME = "admin";
-            CAMERA_1_PASSWORD = "abcd@1234";
+            CAMERA_2_IP = "10.15.15.103";
+            CAMERA_2_PORT = "554";
+            CAMERA_2_USERNAME = "admin";
+            CAMERA_2_PASSWORD = "abcd@1234";
 
             URL_IMAGE = @"C:\MBF6\MMES";
         }
