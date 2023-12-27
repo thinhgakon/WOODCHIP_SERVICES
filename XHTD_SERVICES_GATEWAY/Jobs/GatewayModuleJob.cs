@@ -13,6 +13,7 @@ using XHTD_SERVICES_GATEWAY.Business;
 using XHTD_SERVICES.Data.Dtos;
 using CHCNetSDK;
 using System.IO;
+using XHTD_SERVICES_GATEWAY.Device;
 
 namespace XHTD_SERVICES_GATEWAY.Jobs
 {
@@ -236,7 +237,9 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
                                     FileDto fileDto = new FileDto();
                                     try
                                     {
-                                        var gatewayImage = CaptureCameraDahua(m_RealPlayID_1, "IN", 1);
+                                        IStreamCamera camera = new DahuaStreamCamera();
+                                        //string scaleImg1 = camera.CaptureStream(CAMERA_1_IP, CAMERA_1_USERNAME, CAMERA_1_PASSWORD, "IN", 1, objParamSystemXml.GetKey(URL_IMAGE));
+                                        var gatewayImage = camera.CaptureStream(CAMERA_1_IP, CAMERA_1_USERNAME, CAMERA_1_PASSWORD, "IN", 1, URL_IMAGE);
 
                                         FileInfo fi = new FileInfo(gatewayImage);
 
