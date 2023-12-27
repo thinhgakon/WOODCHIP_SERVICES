@@ -266,6 +266,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Business\ScaleApiLib.cs" />
+    <Compile Include="Device\DahuaStreamCamera.cs" />
+    <Compile Include="Device\HikvisionStreamCamera.cs" />
+    <Compile Include="Device\IStreamCamera.cs" />
     <Compile Include="DIBootstrapper.cs" />
     <Compile Include="GatewayLogger.cs" />
     <Compile Include="Hubs\GatewayHub.cs" />
