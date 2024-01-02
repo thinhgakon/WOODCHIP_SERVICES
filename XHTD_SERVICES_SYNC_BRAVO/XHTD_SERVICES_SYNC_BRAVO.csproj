@@ -123,7 +123,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DIBootstrapper.cs" />
-    <Compile Include="Jobs\SyncImageJob.cs" />
     <Compile Include="Models\Request\ScaleBillDto.cs" />
     <Compile Include="Models\Response\GetPartnerResponse.cs" />
     <Compile Include="Models\Response\GetSyncResponse.cs" />
