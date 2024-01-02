@@ -76,6 +76,21 @@
     <Compile Include="Entities\Attachment.cs">
       <DependentUpon>XHTDModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entities\BravoModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BravoModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\BravoModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BravoModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\BravoModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BravoModel.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Entities\ItemFormula.cs">
       <DependentUpon>XHTDModel.tt</DependentUpon>
     </Compile>
@@ -121,6 +136,9 @@
     <Compile Include="Entities\ScaleImage.cs">
       <DependentUpon>XHTDModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entities\Weightman.cs">
+      <DependentUpon>BravoModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entities\XHTDModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -159,6 +177,13 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>XHTDModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <EntityDeploy Include="Entities\BravoModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>BravoModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Entities\BravoModel.edmx.diagram">
+      <DependentUpon>BravoModel.edmx</DependentUpon>
+    </None>
     <None Include="Entities\XHTDModel.edmx.diagram">
       <DependentUpon>XHTDModel.edmx</DependentUpon>
     </None>
@@ -169,6 +194,16 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="Entities\BravoModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BravoModel.edmx</DependentUpon>
+      <LastGenOutput>BravoModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Entities\BravoModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BravoModel.edmx</DependentUpon>
+      <LastGenOutput>BravoModel.cs</LastGenOutput>
+    </Content>
     <Content Include="Entities\XHTDModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>XHTDModel.edmx</DependentUpon>

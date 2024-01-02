@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="XHTD_SERVICES.Data.Entities.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Weightman">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Ticketnum" Type="decimal" Precision="11" Scale="0" Nullable="false" />
+          <Property Name="Trantype" Type="nvarchar" MaxLength="20" />
+          <Property Name="Truckno" Type="nvarchar" MaxLength="15" />
+          <Property Name="Date_in" Type="datetime" />
+          <Property Name="time_in" Type="time" Precision="7" />
+          <Property Name="Date_out" Type="datetime" />
+          <Property Name="time_out" Type="time" Precision="7" />
+          <Property Name="Custcode" Type="nvarchar" MaxLength="50" />
+          <Property Name="Custname" Type="nvarchar(max)" />
+          <Property Name="Prodcode" Type="nvarchar" MaxLength="50" />
+          <Property Name="Prodname" Type="nvarchar(max)" />
+          <Property Name="Firstweight" Type="decimal" Precision="11" Scale="0" />
+          <Property Name="Secondweight" Type="decimal" Precision="11" Scale="0" />
+          <Property Name="NetWeight" Type="decimal" Precision="11" Scale="0" />
+          <Property Name="mauhd" Type="nvarchar" MaxLength="50" />
+          <Property Name="Docnum" Type="nvarchar" MaxLength="30" />
+          <Property Name="sohd" Type="nvarchar" MaxLength="50" />
+          <Property Name="Netweight2" Type="decimal" Precision="6" Scale="0" />
+          <Property Name="Note" Type="datetime" />
+          <Property Name="dongia" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="thanhtien" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="vat" Type="float" />
+          <Property Name="tienvat" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="tongtien" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="date_time" Type="datetime" />
+          <Property Name="sp" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityContainer Name="XHTD_SERVICESDataEntitiesStoreContainer">
+          <EntitySet Name="Weightman" EntityType="Self.Weightman" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="XHTD_SERVICES.Data.Entities" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Weightman">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ticketnum" Type="Decimal" Precision="11" Scale="0" Nullable="false" />
+          <Property Name="Trantype" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Truckno" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Date_in" Type="DateTime" Precision="3" />
+          <Property Name="time_in" Type="Time" Precision="7" />
+          <Property Name="Date_out" Type="DateTime" Precision="3" />
+          <Property Name="time_out" Type="Time" Precision="7" />
+          <Property Name="Custcode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Custname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Prodcode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Prodname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Firstweight" Type="Decimal" Precision="11" Scale="0" />
+          <Property Name="Secondweight" Type="Decimal" Precision="11" Scale="0" />
+          <Property Name="NetWeight" Type="Decimal" Precision="11" Scale="0" />
+          <Property Name="mauhd" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Docnum" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="sohd" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Netweight2" Type="Decimal" Precision="6" Scale="0" />
+          <Property Name="Note" Type="DateTime" Precision="3" />
+          <Property Name="dongia" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="thanhtien" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="vat" Type="Double" />
+          <Property Name="tienvat" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="tongtien" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="date_time" Type="DateTime" Precision="3" />
+          <Property Name="sp" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityContainer Name="mmes_bravoEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Weightmen" EntityType="Self.Weightman" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="XHTD_SERVICESDataEntitiesStoreContainer" CdmEntityContainer="mmes_bravoEntities">
+          <EntitySetMapping Name="Weightmen">
+            <EntityTypeMapping TypeName="XHTD_SERVICES.Data.Entities.Weightman">
+              <MappingFragment StoreEntitySet="Weightman">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Ticketnum" ColumnName="Ticketnum" />
+                <ScalarProperty Name="Trantype" ColumnName="Trantype" />
+                <ScalarProperty Name="Truckno" ColumnName="Truckno" />
+                <ScalarProperty Name="Date_in" ColumnName="Date_in" />
+                <ScalarProperty Name="time_in" ColumnName="time_in" />
+                <ScalarProperty Name="Date_out" ColumnName="Date_out" />
+                <ScalarProperty Name="time_out" ColumnName="time_out" />
+                <ScalarProperty Name="Custcode" ColumnName="Custcode" />
+                <ScalarProperty Name="Custname" ColumnName="Custname" />
+                <ScalarProperty Name="Prodcode" ColumnName="Prodcode" />
+                <ScalarProperty Name="Prodname" ColumnName="Prodname" />
+                <ScalarProperty Name="Firstweight" ColumnName="Firstweight" />
+                <ScalarProperty Name="Secondweight" ColumnName="Secondweight" />
+                <ScalarProperty Name="NetWeight" ColumnName="NetWeight" />
+                <ScalarProperty Name="mauhd" ColumnName="mauhd" />
+                <ScalarProperty Name="Docnum" ColumnName="Docnum" />
+                <ScalarProperty Name="sohd" ColumnName="sohd" />
+                <ScalarProperty Name="Netweight2" ColumnName="Netweight2" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="dongia" ColumnName="dongia" />
+                <ScalarProperty Name="thanhtien" ColumnName="thanhtien" />
+                <ScalarProperty Name="vat" ColumnName="vat" />
+                <ScalarProperty Name="tienvat" ColumnName="tienvat" />
+                <ScalarProperty Name="tongtien" ColumnName="tongtien" />
+                <ScalarProperty Name="date_time" ColumnName="date_time" />
+                <ScalarProperty Name="sp" ColumnName="sp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
