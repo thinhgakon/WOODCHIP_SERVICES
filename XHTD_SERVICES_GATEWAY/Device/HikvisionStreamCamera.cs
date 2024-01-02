@@ -14,7 +14,7 @@ namespace XHTD_SERVICES_GATEWAY.Device
         {
             string imageUrl = $"http://{CameraIP}/ISAPI/Streaming/channels/1/picture";
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(imageUrl);
-            request.Timeout = 3000;
+            request.Timeout = 1500;
             request.Credentials = new NetworkCredential(CameraUsername, CameraPassword);
 
             try
