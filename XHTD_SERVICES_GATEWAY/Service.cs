@@ -21,7 +21,7 @@ namespace XHTD_SERVICES_GATEWAY
             Autofac.IContainer container = DIBootstrapper.Init();
             container.Resolve<JobScheduler>().Start();
 
-            new SignalRService().OnStart(null);
+            //new SignalRService().OnStart(null);
         }
 
         protected override void OnStop()
