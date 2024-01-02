@@ -18,14 +18,14 @@ namespace XHTD_SERVICES.Data.Entities
         public string ScaleBillCode { get; set; }
         public System.Guid AttachmentId { get; set; }
         public string Type { get; set; }
-        public Nullable<bool> IsSynced { get; set; }
-        public Nullable<System.DateTime> SyncDate { get; set; }
-        public string SyncLog { get; set; }
         public Nullable<bool> IsActive { get; set; }
         public string CreateBy { get; set; }
         public string UpdateBy { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<System.DateTime> UpdateDate { get; set; }
+        public Nullable<bool> IsSynced { get; set; }
+        public Nullable<System.DateTime> SyncDate { get; set; }
+        public string SyncLog { get; set; }
     
         public virtual Attachment Attachment { get; set; }
         public virtual ScaleBill ScaleBill { get; set; }

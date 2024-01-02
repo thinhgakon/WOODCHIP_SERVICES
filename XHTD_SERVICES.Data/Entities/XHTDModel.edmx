@@ -228,30 +228,32 @@
           <Property Name="OrderCode" Type="nvarchar(max)" />
           <Property Name="ScaleTypeCode" Type="nvarchar(max)" />
           <Property Name="PartnerCode" Type="nvarchar" MaxLength="50" />
-          <Property Name="Rfid" Type="nvarchar(max)" />
           <Property Name="VehicleCode" Type="nvarchar" MaxLength="50" />
           <Property Name="DriverName" Type="nvarchar(max)" />
           <Property Name="ItemCode" Type="nvarchar" MaxLength="50" />
-          <Property Name="AreaCode" Type="nvarchar" MaxLength="50" />
           <Property Name="Note" Type="nvarchar(max)" />
           <Property Name="Weight1" Type="float" />
           <Property Name="Weight2" Type="float" />
           <Property Name="TimeWeight1" Type="datetime" />
           <Property Name="TimeWeight2" Type="datetime" />
           <Property Name="Weight" Type="float" />
-          <Property Name="IsSynced" Type="bit" />
-          <Property Name="SyncDate" Type="datetime" />
-          <Property Name="SyncLog" Type="nvarchar" MaxLength="1000" />
           <Property Name="IsActive" Type="bit" />
           <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
           <Property Name="UpdateBy" Type="nvarchar" MaxLength="50" />
           <Property Name="CreateDate" Type="datetime" />
           <Property Name="UpdateDate" Type="datetime" />
+          <Property Name="IsSynced" Type="bit" />
+          <Property Name="SyncDate" Type="datetime" />
+          <Property Name="SyncLog" Type="nvarchar" MaxLength="1000" />
+          <Property Name="AreaCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="Rfid" Type="nvarchar(max)" />
           <Property Name="BillNumber" Type="nvarchar" MaxLength="50" />
           <Property Name="InvoiceNumber" Type="nvarchar" MaxLength="50" />
           <Property Name="InvoiceTemplate" Type="nvarchar" MaxLength="50" />
           <Property Name="InvoiceSymbol" Type="nvarchar" MaxLength="50" />
           <Property Name="IsCanceled" Type="bit" />
+          <Property Name="BravoId" Type="int" />
+          <Property Name="IsSyncToBravo" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="ScaleImage">
           <Key>
@@ -261,14 +263,14 @@
           <Property Name="ScaleBillCode" Type="nvarchar" MaxLength="50" />
           <Property Name="AttachmentId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Type" Type="nvarchar(max)" />
-          <Property Name="IsSynced" Type="bit" />
-          <Property Name="SyncDate" Type="datetime" />
-          <Property Name="SyncLog" Type="nvarchar" MaxLength="1000" />
           <Property Name="IsActive" Type="bit" />
           <Property Name="CreateBy" Type="nvarchar" MaxLength="50" />
           <Property Name="UpdateBy" Type="nvarchar" MaxLength="50" />
           <Property Name="CreateDate" Type="datetime" />
           <Property Name="UpdateDate" Type="datetime" />
+          <Property Name="IsSynced" Type="bit" />
+          <Property Name="SyncDate" Type="datetime" />
+          <Property Name="SyncLog" Type="nvarchar" MaxLength="1000" />
         </EntityType>
         <Association Name="FK_dbo_MdDevice_dbo_MdDeviceGroup_GroupCode">
           <End Role="MdDeviceGroup" Type="Self.MdDeviceGroup" Multiplicity="0..1" />
@@ -746,30 +748,32 @@
           <Property Name="OrderCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ScaleTypeCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="PartnerCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Rfid" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="VehicleCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="DriverName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ItemCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="AreaCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Weight1" Type="Double" />
           <Property Name="Weight2" Type="Double" />
           <Property Name="TimeWeight1" Type="DateTime" Precision="3" />
           <Property Name="TimeWeight2" Type="DateTime" Precision="3" />
           <Property Name="Weight" Type="Double" />
-          <Property Name="IsSynced" Type="Boolean" />
-          <Property Name="SyncDate" Type="DateTime" Precision="3" />
-          <Property Name="SyncLog" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="IsActive" Type="Boolean" />
           <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UpdateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
           <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+          <Property Name="IsSynced" Type="Boolean" />
+          <Property Name="SyncDate" Type="DateTime" Precision="3" />
+          <Property Name="SyncLog" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="AreaCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Rfid" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="BillNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="InvoiceNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="InvoiceTemplate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="InvoiceSymbol" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IsCanceled" Type="Boolean" />
+          <Property Name="BravoId" Type="Int32" />
+          <Property Name="IsSyncToBravo" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="MdArea" Relationship="Self.FK_dbo_ScaleBill_dbo_MdArea_AreaCode" FromRole="ScaleBill" ToRole="MdArea" />
           <NavigationProperty Name="MdItem" Relationship="Self.FK_dbo_ScaleBill_dbo_MdItem_ItemCode" FromRole="ScaleBill" ToRole="MdItem" />
           <NavigationProperty Name="MdPartner" Relationship="Self.FK_dbo_ScaleBill_dbo_MdPartner_PartnerCode" FromRole="ScaleBill" ToRole="MdPartner" />
@@ -784,14 +788,14 @@
           <Property Name="ScaleBillCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="AttachmentId" Type="Guid" Nullable="false" />
           <Property Name="Type" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="IsSynced" Type="Boolean" />
-          <Property Name="SyncDate" Type="DateTime" Precision="3" />
-          <Property Name="SyncLog" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="IsActive" Type="Boolean" />
           <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UpdateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
           <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+          <Property Name="IsSynced" Type="Boolean" />
+          <Property Name="SyncDate" Type="DateTime" Precision="3" />
+          <Property Name="SyncLog" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Attachment" Relationship="Self.FK_dbo_ScaleImage_dbo_Attachment_AttachmentId" FromRole="ScaleImage" ToRole="Attachment" />
           <NavigationProperty Name="ScaleBill" Relationship="Self.FK_dbo_ScaleImage_dbo_ScaleBill_ScaleBillCode" FromRole="ScaleImage" ToRole="ScaleBill" />
         </EntityType>
@@ -953,7 +957,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="XHTD_Entities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="XHTD_Entities_111" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="AdAccounts" EntityType="Self.AdAccount" />
           <EntitySet Name="Attachments" EntityType="Self.Attachment" />
           <EntitySet Name="ItemFormulas" EntityType="Self.ItemFormula" />
@@ -1029,7 +1033,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="XHTD_SERVICESDataEntitiesStoreContainer" CdmEntityContainer="XHTD_Entities">
+        <EntityContainerMapping StorageEntityContainer="XHTD_SERVICESDataEntitiesStoreContainer" CdmEntityContainer="XHTD_Entities_111">
           <EntitySetMapping Name="AdAccounts">
             <EntityTypeMapping TypeName="XHTD_SERVICES.Data.Entities.AdAccount">
               <MappingFragment StoreEntitySet="AdAccount">
@@ -1267,30 +1271,32 @@
                 <ScalarProperty Name="OrderCode" ColumnName="OrderCode" />
                 <ScalarProperty Name="ScaleTypeCode" ColumnName="ScaleTypeCode" />
                 <ScalarProperty Name="PartnerCode" ColumnName="PartnerCode" />
-                <ScalarProperty Name="Rfid" ColumnName="Rfid" />
                 <ScalarProperty Name="VehicleCode" ColumnName="VehicleCode" />
                 <ScalarProperty Name="DriverName" ColumnName="DriverName" />
                 <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
-                <ScalarProperty Name="AreaCode" ColumnName="AreaCode" />
                 <ScalarProperty Name="Note" ColumnName="Note" />
                 <ScalarProperty Name="Weight1" ColumnName="Weight1" />
                 <ScalarProperty Name="Weight2" ColumnName="Weight2" />
                 <ScalarProperty Name="TimeWeight1" ColumnName="TimeWeight1" />
                 <ScalarProperty Name="TimeWeight2" ColumnName="TimeWeight2" />
                 <ScalarProperty Name="Weight" ColumnName="Weight" />
-                <ScalarProperty Name="IsSynced" ColumnName="IsSynced" />
-                <ScalarProperty Name="SyncDate" ColumnName="SyncDate" />
-                <ScalarProperty Name="SyncLog" ColumnName="SyncLog" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
                 <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="IsSynced" ColumnName="IsSynced" />
+                <ScalarProperty Name="SyncDate" ColumnName="SyncDate" />
+                <ScalarProperty Name="SyncLog" ColumnName="SyncLog" />
+                <ScalarProperty Name="AreaCode" ColumnName="AreaCode" />
+                <ScalarProperty Name="Rfid" ColumnName="Rfid" />
                 <ScalarProperty Name="BillNumber" ColumnName="BillNumber" />
                 <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
                 <ScalarProperty Name="InvoiceTemplate" ColumnName="InvoiceTemplate" />
                 <ScalarProperty Name="InvoiceSymbol" ColumnName="InvoiceSymbol" />
                 <ScalarProperty Name="IsCanceled" ColumnName="IsCanceled" />
+                <ScalarProperty Name="BravoId" ColumnName="BravoId" />
+                <ScalarProperty Name="IsSyncToBravo" ColumnName="IsSyncToBravo" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1301,14 +1307,14 @@
                 <ScalarProperty Name="ScaleBillCode" ColumnName="ScaleBillCode" />
                 <ScalarProperty Name="AttachmentId" ColumnName="AttachmentId" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="IsSynced" ColumnName="IsSynced" />
-                <ScalarProperty Name="SyncDate" ColumnName="SyncDate" />
-                <ScalarProperty Name="SyncLog" ColumnName="SyncLog" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
                 <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="IsSynced" ColumnName="IsSynced" />
+                <ScalarProperty Name="SyncDate" ColumnName="SyncDate" />
+                <ScalarProperty Name="SyncLog" ColumnName="SyncLog" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

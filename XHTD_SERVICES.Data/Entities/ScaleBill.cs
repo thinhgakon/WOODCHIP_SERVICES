@@ -24,30 +24,32 @@ namespace XHTD_SERVICES.Data.Entities
         public string OrderCode { get; set; }
         public string ScaleTypeCode { get; set; }
         public string PartnerCode { get; set; }
-        public string Rfid { get; set; }
         public string VehicleCode { get; set; }
         public string DriverName { get; set; }
         public string ItemCode { get; set; }
-        public string AreaCode { get; set; }
         public string Note { get; set; }
         public Nullable<double> Weight1 { get; set; }
         public Nullable<double> Weight2 { get; set; }
         public Nullable<System.DateTime> TimeWeight1 { get; set; }
         public Nullable<System.DateTime> TimeWeight2 { get; set; }
         public Nullable<double> Weight { get; set; }
-        public Nullable<bool> IsSynced { get; set; }
-        public Nullable<System.DateTime> SyncDate { get; set; }
-        public string SyncLog { get; set; }
         public Nullable<bool> IsActive { get; set; }
         public string CreateBy { get; set; }
         public string UpdateBy { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<System.DateTime> UpdateDate { get; set; }
+        public Nullable<bool> IsSynced { get; set; }
+        public Nullable<System.DateTime> SyncDate { get; set; }
+        public string SyncLog { get; set; }
+        public string AreaCode { get; set; }
+        public string Rfid { get; set; }
         public string BillNumber { get; set; }
         public string InvoiceNumber { get; set; }
         public string InvoiceTemplate { get; set; }
         public string InvoiceSymbol { get; set; }
         public Nullable<bool> IsCanceled { get; set; }
+        public Nullable<int> BravoId { get; set; }
+        public bool IsSyncToBravo { get; set; }
     
         public virtual MdArea MdArea { get; set; }
         public virtual MdItem MdItem { get; set; }
