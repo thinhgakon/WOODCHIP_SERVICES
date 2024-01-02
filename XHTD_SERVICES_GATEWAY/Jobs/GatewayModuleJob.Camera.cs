@@ -9,6 +9,8 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Configuration;
+using System.Collections.Specialized;
 
 namespace XHTD_SERVICES_GATEWAY.Jobs
 {
@@ -28,17 +30,21 @@ namespace XHTD_SERVICES_GATEWAY.Jobs
 
         private void LoadCamera()
         {
-            CAMERA_1_IP = "10.15.15.103";
-            CAMERA_1_PORT = "554";
-            CAMERA_1_USERNAME = "admin";
-            CAMERA_1_PASSWORD = "abcd@1234";
+            var camera1 = ConfigurationManager.GetSection("Device/Camera1") as NameValueCollection;
+            var camera2 = ConfigurationManager.GetSection("Device/Camera2") as NameValueCollection;
+            var common = ConfigurationManager.GetSection("Device/Common") as NameValueCollection;
 
-            CAMERA_2_IP = "10.15.15.103";
-            CAMERA_2_PORT = "554";
-            CAMERA_2_USERNAME = "admin";
-            CAMERA_2_PASSWORD = "abcd@1234";
+            CAMERA_1_IP = camera1["Ip"];
+            CAMERA_1_PORT = camera1["Port"];
+            CAMERA_1_USERNAME = camera1["Username"];
+            CAMERA_1_PASSWORD = camera1["Password"];
 
-            URL_IMAGE = @"C:\MBF6\MMES";
+            CAMERA_2_IP = camera2["Ip"];
+            CAMERA_2_PORT = camera2["Port"];
+            CAMERA_2_USERNAME = camera2["Username"];
+            CAMERA_2_PASSWORD = camera2["Password"];
+
+            URL_IMAGE = common["UrlImage"];
         }
     }
 }
