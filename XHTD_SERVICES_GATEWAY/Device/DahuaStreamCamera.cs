@@ -14,7 +14,7 @@ namespace XHTD_SERVICES_GATEWAY.Device
         {
             string imageUrl = $"http://{CameraIP}/cgi-bin/snapshot.cgi";
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(imageUrl);
-            request.Timeout = 1500;
+            request.Timeout = 7000;
             request.Credentials = new NetworkCredential(CameraUsername, CameraPassword);
 
             try
