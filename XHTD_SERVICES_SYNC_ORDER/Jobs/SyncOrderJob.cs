@@ -1,25 +1,39 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Quartz;
-using XHTD_SERVICES.Data.Entities;
-using System.Linq;
-using System.Data.Entity;
-using System.Data.Entity.Migrations;
+using log4net;
+using XHTD_SERVICES.Data.Repositories;
+using RestSharp;
+using XHTD_SERVICES_SYNC_ORDER.Models.Response;
+using XHTD_SERVICES.Data.Models.Response;
+using Newtonsoft.Json;
+using XHTD_SERVICES_SYNC_ORDER.Models.Values;
 using XHTD_SERVICES.Helper;
+using XHTD_SERVICES.Helper.Models.Request;
+using System.Threading;
+using XHTD_SERVICES.Data.Dtos;
 
 namespace XHTD_SERVICES_SYNC_ORDER.Jobs
 {
     public class SyncOrderJob : IJob
     {
-        private readonly mmes_bravoEntities _bravoContext;
-        private readonly XHTD_Entities _mMesContext;
+        protected readonly ScaleBillRepository _scaleBillRepository;
+        protected readonly PartnerRepository _partnerRepository;
         protected readonly SyncOrderLogger _syncOrderLogger;
 
-        public SyncOrderJob(mmes_bravoEntities bravoContext, XHTD_Entities mMesContext, SyncOrderLogger syncOrderLogger)
+        private static string strToken;
+
+        public SyncOrderJob(
+            ScaleBillRepository scaleBillRepository,
+            SyncOrderLogger syncOrderLogger,
+            PartnerRepository partnerRepository
+            )
         {
-            _bravoContext = bravoContext;
-            _mMesContext = mMesContext;
+            _scaleBillRepository = scaleBillRepository;
             _syncOrderLogger = syncOrderLogger;
+            _partnerRepository = partnerRepository;
         }
 
         public async Task Execute(IJobExecutionContext context)
@@ -39,61 +53,85 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
         {
             _syncOrderLogger.LogInfo("===================================------------------===================================");
             _syncOrderLogger.LogInfo("Start process Sync Order job");
-            Console.WriteLine("Start process Sync Order job");
-            var unSyncBills = await _mMesContext.ScaleBills.Include(x => x.MdPartner).Include(x => x.MdArea).Where(x => !x.IsSyncToBravo).ToListAsync();
 
+            GetToken();
+
+            List<ScaleBillRequestDto> scaleBills = _scaleBillRepository.GetList();
+
+            if (scaleBills == null || scaleBills.Count == 0)
+            {
+                _syncOrderLogger.LogInfo($"Tất cả phiếu cân đã được đồng bộ");
+                return;
+            }
+
+            foreach (var item in scaleBills)
+            {
+                bool isSynced = await SyncScaleBillToDMS(item);
+            }
+        }
+
+        public void GetToken()
+        {
             try
             {
-                _bravoContext.Database.BeginTransaction();
-                _mMesContext.Database.BeginTransaction();
-                foreach (var x in unSyncBills)
-                {
-                    var bravoBill = new Weightman()
-                    {
-                        Trantype = x.ScaleTypeCode,
-                        Custcode = x.PartnerCode,
-                        Custname = x.MdPartner.Name,
-                        Truckno = x.VehicleCode,
-                        Note = x.CreateDate ?? DateTime.Now,
-                        Firstweight = Convert.ToDecimal(x.Weight1),
-                        Secondweight = Convert.ToDecimal(x.Weight2),
-                        Date_in = x.TimeWeight1.Value.Date,
-                        Date_out = x?.TimeWeight2?.Date,
-                        time_in = x.TimeWeight1.Value.TimeOfDay,
-                        time_out = x?.TimeWeight2?.TimeOfDay,
-                        NetWeight = Convert.ToDecimal(x.Weight),
-                        Prodcode = x?.AreaCode,
-                        Prodname = x?.MdArea?.Name,
-                        sp = x.BillNumber,
-                        sohd = x.InvoiceNumber,
-                        mauhd = x.InvoiceTemplate,
-                        Docnum = x.InvoiceSymbol,
-                        Id = x?.BravoId ?? 0
-                    };
+                IRestResponse response = HttpRequest.GetWebsaleToken();
 
-                    _bravoContext.Weightmen.AddOrUpdate(bravoBill);
+                var content = response.Content;
 
-                    x.IsSyncToBravo = true;
-                    if (x.BravoId == null || x.BravoId == 0)
-                    {
-                        x.BravoId = bravoBill.Id;
-                        _mMesContext.ScaleBills.AddOrUpdate(x);
-                    }
-                    Console.WriteLine($"Sync {x.Code}");
-                }
-                await _mMesContext.SaveChangesAsync();
-                await _bravoContext.SaveChangesAsync();
-
-                _bravoContext.Database.CurrentTransaction.Commit();
-                _mMesContext.Database.CurrentTransaction.Commit();
+                var responseData = JsonConvert.DeserializeObject<GetMmesTokenResponse>(content);
+                strToken = responseData?.data?.accessToken;
             }
             catch (Exception ex)
             {
-                _syncOrderLogger.LogInfo(ex.Message);
-                _syncOrderLogger.LogInfo(ex.StackTrace);
-                _bravoContext.Database.CurrentTransaction.Rollback();
-                _mMesContext.Database.CurrentTransaction.Rollback();
+                _syncOrderLogger.LogInfo("getToken error: " + ex.Message);
             }
+        }
+
+        public async Task<bool> SyncScaleBillToDMS(ScaleBillRequestDto scaleBills)
+        {
+            _syncOrderLogger.LogInfo($"Thực hiện đồng bộ phiếu: {JsonConvert.SerializeObject(scaleBills)}");
+
+            IRestResponse partnerResponse = HttpRequest.GetPartner(strToken, scaleBills);
+            var partnerResponseData = JsonConvert.DeserializeObject<GetPartnerResponse>(partnerResponse.Content);
+
+            if(partnerResponseData?.data == null)
+            {
+                var partner = await _partnerRepository.GetPartner(scaleBills?.PartnerCode);
+
+                IRestResponse addPartnerResponse = HttpRequest.AddPartner(strToken, partner);
+                var addResult = JsonConvert.DeserializeObject<GetPartnerResponse>(addPartnerResponse.Content);
+                if (addResult?.data == null) return false;
+            }
+
+            IRestResponse response = HttpRequest.SyncScaleBillToDMS(strToken, scaleBills);
+
+            var content = response.Content;
+
+            var responseData = JsonConvert.DeserializeObject<GetSyncResponse>(content);
+
+            var successList = responseData?.data?.success;
+
+            var failList = responseData?.data?.fails;
+
+            if (successList != null)
+            {
+                foreach (var itemSuccess in successList)
+                {
+                    _syncOrderLogger.LogInfo($"Đồng bộ thành công: {itemSuccess.Code}");
+                    await this._scaleBillRepository.UpdateSyncSuccess(itemSuccess.Code);
+                }
+            }
+
+            if (failList != null)
+            {
+                foreach (var itemFail in failList)
+                {
+                    _syncOrderLogger.LogInfo($"Đồng bộ thất bại: {itemFail.Code}");
+                    await this._scaleBillRepository.UpdateSyncFail(itemFail.Code);
+                }
+            }
+
+            return true;
         }
     }
 }
