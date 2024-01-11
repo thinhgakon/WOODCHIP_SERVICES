@@ -86,7 +86,7 @@ namespace XHTD_SERVICES.Data.Repositories
 
                     order.IsSynced = true;
                     order.SyncDate = DateTime.Now;
-                    if (order.SyncLog.Length > 800)
+                    if (order.SyncLog?.Length > 800)
                     {
                         order.SyncLog = $@"#Đồng bộ lúc {syncTime} ";
                     }
@@ -124,7 +124,7 @@ namespace XHTD_SERVICES.Data.Repositories
                     }
 
                     order.SyncDate = DateTime.Now;
-                    if (order.SyncLog.Length > 800)
+                    if (order.SyncLog?.Length > 800)
                     {
                         order.SyncLog = $@"#Đồng bộ thất bại lúc {syncTime} ";
                     }
