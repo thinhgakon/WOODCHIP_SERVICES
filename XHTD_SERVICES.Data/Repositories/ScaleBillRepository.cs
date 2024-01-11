@@ -117,7 +117,14 @@ namespace XHTD_SERVICES.Data.Repositories
                     }
 
                     order.SyncDate = DateTime.Now;
-                    order.SyncLog = $@"{order.SyncLog} #Đồng bộ thất bại lúc {syncTime} ";
+                    if (order.SyncLog.Length > 800)
+                    {
+                        order.SyncLog = $@"#Đồng bộ thất bại lúc {syncTime} ";
+                    }
+                    else
+                    {
+                        order.SyncLog = $@"{order.SyncLog} #Đồng bộ thất bại lúc {syncTime} ";
+                    }
 
                     await dbContext.SaveChangesAsync();
                     return true;
