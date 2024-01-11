@@ -29,6 +29,7 @@ namespace XHTD_SERVICES.Data.Repositories
                         .Where(x => x.IsSynced == null || x.IsSynced == false)
                         .OrderByDescending(x => x.CreateDate)
                         .ToList()
+                        .Take(100)
                         .Select(x => new ScaleImageDto
                     {
                         Id = x.Id,
