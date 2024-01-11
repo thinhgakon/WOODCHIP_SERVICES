@@ -15,6 +15,7 @@ using XHTD_SERVICES.Helper.Models.Request;
 using System.Threading;
 using XHTD_SERVICES.Data.Dtos;
 using log4net;
+using XHTD_SERVICES.Data.Entities;
 
 namespace XHTD_SERVICES_SYNC_ORDER.Jobs
 {
@@ -61,9 +62,11 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
                 return;
             }
 
-            _logger.Info($"Thực hiện đồng bộ ảnh: {JsonConvert.SerializeObject(scaleImages)}");
-
-            bool isSynced = await SyncScaleImageToDMS(scaleImages);
+            foreach (var item in scaleImages)
+            {
+                _logger.Info($"Thực hiện đồng bộ ảnh: {JsonConvert.SerializeObject(new List<ScaleImageDto> { item })}");
+                await SyncScaleImageToDMS(new List<ScaleImageDto> { item });
+            }
         }
 
         public void GetToken()
