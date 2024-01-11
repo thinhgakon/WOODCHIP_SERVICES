@@ -86,7 +86,14 @@ namespace XHTD_SERVICES.Data.Repositories
 
                     order.IsSynced = true;
                     order.SyncDate = DateTime.Now;
-                    order.SyncLog = $@"{order.SyncLog} #Đồng bộ lúc {syncTime} ";
+                    if (order.SyncLog.Length > 800)
+                    {
+                        order.SyncLog = $@"#Đồng bộ lúc {syncTime} ";
+                    }
+                    else
+                    {
+                        order.SyncLog = $@"{order.SyncLog} #Đồng bộ lúc {syncTime} ";
+                    }
 
                     await dbContext.SaveChangesAsync();
                     return true;
