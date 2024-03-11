@@ -238,6 +238,10 @@
       <Project>{a155e121-cc6a-4a34-8808-d142454bb3db}</Project>
       <Name>XHTD_SERVICES_GATEWAY</Name>
     </ProjectReference>
+    <ProjectReference Include="..\XHTD_SERVICES_SYNC_BRAVO\XHTD_SERVICES_SYNC_BRAVO.csproj">
+      <Project>{d28575e4-0f68-4aa4-abae-022aab04dbe2}</Project>
+      <Name>XHTD_SERVICES_SYNC_BRAVO</Name>
+    </ProjectReference>
     <ProjectReference Include="..\XHTD_SERVICES_SYNC_ORDER\XHTD_SERVICES_SYNC_ORDER.csproj">
       <Project>{65239e17-08cd-4427-85bd-ff7487654a74}</Project>
       <Name>XHTD_SERVICES_SYNC_ORDER</Name>

@@ -16,6 +16,7 @@ namespace XHTD_SERVICES_SYNC_BRAVO
             var builder = new ContainerBuilder();
 
             builder.RegisterType<XHTD_Entities>().AsSelf();
+            builder.RegisterType<mmes_bravoEntities>().AsSelf();
             builder.RegisterType<RfidRepository>().AsSelf();
             builder.RegisterType<ScaleBillRepository>().AsSelf();
             builder.RegisterType<ScaleImageRepository>().AsSelf();
