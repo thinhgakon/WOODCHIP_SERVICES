@@ -44,14 +44,12 @@ namespace XHTD_SERVICES_SYNC_BRAVO.Jobs
 
             try
             {
-                _bravoContext.Database.BeginTransaction();
-                _mMesContext.Database.BeginTransaction();
                 foreach (var x in unSyncBills)
                 {
                     var bravoBill = new Weightman()
                     {
-                        Trantype = x.ScaleTypeCode,
-                        Custcode = x.PartnerCode,
+                        Trantype = GetScaleType(x.ScaleTypeCode),
+                        Custcode = GetCustCode(x.PartnerCode),
                         Custname = x.MdPartner.Name,
                         Truckno = x.VehicleCode,
                         Note = x.CreateDate ?? DateTime.Now,
@@ -62,37 +60,88 @@ namespace XHTD_SERVICES_SYNC_BRAVO.Jobs
                         time_in = x.TimeWeight1.Value.TimeOfDay,
                         time_out = x?.TimeWeight2?.TimeOfDay,
                         NetWeight = Convert.ToDecimal(x.Weight),
-                        Prodcode = x?.AreaCode,
+                        Prodcode = GetProdcode(x?.AreaCode),
                         Prodname = x?.MdArea?.Name,
-                        sp = x.BillNumber,
+                        Ticketnum = int.TryParse(x.BillNumber,out int i) ? i : 0,
                         sohd = x.InvoiceNumber,
                         mauhd = x.InvoiceTemplate,
                         Docnum = x.InvoiceSymbol,
-                        Id = x?.BravoId ?? 0
+                        Id = x?.BravoId ?? 0,
+                        date_time = x.TimeWeight2,
+                        Netweight2 = Convert.ToDecimal(x.Weight),
                     };
 
                     _bravoContext.Weightmen.AddOrUpdate(bravoBill);
+                    var result = await _bravoContext.SaveChangesAsync();
 
-                    x.IsSyncToBravo = true;
-                    if (x.BravoId == null || x.BravoId == 0)
+                    if(result > 0 && bravoBill.Id > 0)
                     {
+                        x.IsSyncToBravo = true;
                         x.BravoId = bravoBill.Id;
                         _mMesContext.ScaleBills.AddOrUpdate(x);
+                        Console.WriteLine($"Sync {x.Code}");
+                        await _mMesContext.SaveChangesAsync();
                     }
-                    Console.WriteLine($"Sync {x.Code}");
                 }
-                await _mMesContext.SaveChangesAsync();
-                await _bravoContext.SaveChangesAsync();
-
-                _bravoContext.Database.CurrentTransaction.Commit();
-                _mMesContext.Database.CurrentTransaction.Commit();
             }
             catch (Exception ex)
             {
                 _syncOrderLogger.LogInfo(ex.Message);
                 _syncOrderLogger.LogInfo(ex.StackTrace);
-                _bravoContext.Database.CurrentTransaction.Rollback();
-                _mMesContext.Database.CurrentTransaction.Rollback();
+            }
+        }
+        private string GetScaleType(string scaleTypeCode)
+        {
+            if(scaleTypeCode == "NHAP_HANG")
+            {
+                return "NHẬP HÀNG";
+            }
+
+            return "XUẤT HÀNG";
+        }
+
+        private string GetCustCode(string partnerCode)
+        {
+            switch (partnerCode)
+            {
+                case "DN-VNF-HQ": return "DN-VNF-HQ";
+                case "VP": return "DAMBUI2";
+                case "VJC": return "VJC3";
+                case "TH": return "CTTH";
+                case "SCHK": return "SCHK.";
+                case "RENEN": return "TCT-RENEN";
+                case "Qnafor.FM": return "QNAFOR.FM";
+                case "QN": return "QN";
+                case "NDMT": return "DAMNGADOANH";
+                case "KL02": return "KL02";
+                case "KHL": return "KHL";
+                case "KH": return "KHANHHAN";
+                case "HTH": return "HTH";
+                case "HNV": return "DAMBUI3";
+                case "HN": return "CTHN";
+                default: return partnerCode; 
+            }
+        }
+
+        private string GetProdcode(string areaCode)
+        {
+            switch (areaCode)
+            {
+                case "KTCDX": return "KTCDX";
+                case "BBDD": return "KDDBB";
+                case "BBTCDD": return "BBTCDD";
+                case "DD": return "KDD";
+                case "DGTG": return "KDGTG";
+                case "DK": return "KDK";
+                case "DL": return "KDL";
+                case "DLVB": return "KDL-VB";
+                case "DN": return "KDN";
+                case "HN-NG": return "KHN-NG";
+                case "HN-PS": return "KHN-PS";
+                case "QTR": return "KQTR";
+                case "QND": return "KQND";
+                case "H-QTR-QB-HT": return "KH-QTR-QB-HT";
+                default: return areaCode;
             }
         }
     }
