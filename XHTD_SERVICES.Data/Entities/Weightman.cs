@@ -18,7 +18,7 @@ namespace XHTD_SERVICES.Data.Entities
         public decimal Ticketnum { get; set; }
         public string Trantype { get; set; }
         public string Truckno { get; set; }
-        public Nullable<System.DateTime> Date_in { get; set; }
+        public System.DateTime Date_in { get; set; }
         public Nullable<System.TimeSpan> time_in { get; set; }
         public Nullable<System.DateTime> Date_out { get; set; }
         public Nullable<System.TimeSpan> time_out { get; set; }
@@ -26,14 +26,14 @@ namespace XHTD_SERVICES.Data.Entities
         public string Custname { get; set; }
         public string Prodcode { get; set; }
         public string Prodname { get; set; }
-        public Nullable<decimal> Firstweight { get; set; }
+        public decimal Firstweight { get; set; }
         public Nullable<decimal> Secondweight { get; set; }
         public Nullable<decimal> NetWeight { get; set; }
         public string mauhd { get; set; }
         public string Docnum { get; set; }
         public string sohd { get; set; }
         public Nullable<decimal> Netweight2 { get; set; }
-        public Nullable<System.DateTime> Note { get; set; }
+        public System.DateTime Note { get; set; }
         public Nullable<decimal> dongia { get; set; }
         public Nullable<decimal> thanhtien { get; set; }
         public Nullable<double> vat { get; set; }
@@ -41,5 +41,8 @@ namespace XHTD_SERVICES.Data.Entities
         public Nullable<decimal> tongtien { get; set; }
         public Nullable<System.DateTime> date_time { get; set; }
         public string sp { get; set; }
+        public int ID { get; set; }
+        public Nullable<decimal> Netweight { get; set; }
+        public string ScaleBillCode { get; set; }
     }
 }
