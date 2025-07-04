@@ -4,17 +4,10 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="XHTD_SERVICES.Data.Entities.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'CANNOTE.dbo.Weightman' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+      <Schema Namespace="XHTD_SERVICES.Data.Entities.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Weightman">
           <Key>
             <PropertyRef Name="ID" />
-            
-            
-            
-            
-            
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Ticketnum" Type="decimal" Precision="11" Scale="0" Nullable="false" />
@@ -46,53 +39,22 @@ warning 6002: The table/view 'CANNOTE.dbo.Weightman' does not have a primary key
           <Property Name="ScaleBillCode" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityContainer Name="XHTD_SERVICESDataEntitiesStoreContainer">
-          <EntitySet Name="Weightman" EntityType="Self.Weightman" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [Weightman].[ID] AS [ID], 
-    [Weightman].[Ticketnum] AS [Ticketnum], 
-    [Weightman].[Trantype] AS [Trantype], 
-    [Weightman].[Truckno] AS [Truckno], 
-    [Weightman].[Date_in] AS [Date_in], 
-    [Weightman].[time_in] AS [time_in], 
-    [Weightman].[Date_out] AS [Date_out], 
-    [Weightman].[time_out] AS [time_out], 
-    [Weightman].[Custcode] AS [Custcode], 
-    [Weightman].[Custname] AS [Custname], 
-    [Weightman].[Prodcode] AS [Prodcode], 
-    [Weightman].[Prodname] AS [Prodname], 
-    [Weightman].[Firstweight] AS [Firstweight], 
-    [Weightman].[Secondweight] AS [Secondweight], 
-    [Weightman].[Netweight] AS [Netweight], 
-    [Weightman].[mauhd] AS [mauhd], 
-    [Weightman].[Docnum] AS [Docnum], 
-    [Weightman].[sohd] AS [sohd], 
-    [Weightman].[Netweight2] AS [Netweight2], 
-    [Weightman].[Note] AS [Note], 
-    [Weightman].[dongia] AS [dongia], 
-    [Weightman].[thanhtien] AS [thanhtien], 
-    [Weightman].[vat] AS [vat], 
-    [Weightman].[tienvat] AS [tienvat], 
-    [Weightman].[tongtien] AS [tongtien], 
-    [Weightman].[date_time] AS [date_time], 
-    [Weightman].[sp] AS [sp], 
-    [Weightman].[ScaleBillCode] AS [ScaleBillCode]
-    FROM [dbo].[Weightman] AS [Weightman]</DefiningQuery>
-          </EntitySet>
+          <EntitySet Name="Weightman" EntityType="Self.Weightman" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="XHTD_SERVICES.Data.Entities" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Weightman">
           <Key>
-            <PropertyRef Name="Id" />
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Ticketnum" Type="Decimal" Precision="11" Scale="0" Nullable="false" />
           <Property Name="Trantype" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="Truckno" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Date_in" Type="DateTime" Precision="0" Nullable="false" />
+          <Property Name="Date_in" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="time_in" Type="Time" Precision="7" />
           <Property Name="Date_out" Type="DateTime" Precision="0" />
           <Property Name="time_out" Type="Time" Precision="7" />
@@ -102,12 +64,12 @@ warning 6002: The table/view 'CANNOTE.dbo.Weightman' does not have a primary key
           <Property Name="Prodname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Firstweight" Type="Decimal" Precision="11" Scale="0" Nullable="false" />
           <Property Name="Secondweight" Type="Decimal" Precision="11" Scale="0" />
-          <Property Name="NetWeight" Type="Decimal" Precision="11" Scale="0" />
+          <Property Name="Netweight" Type="Decimal" Precision="11" Scale="0" />
           <Property Name="mauhd" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Docnum" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="sohd" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Netweight2" Type="Decimal" Precision="6" Scale="0" />
-          <Property Name="Note" Type="DateTime" Precision="0" Nullable="false" />
+          <Property Name="Note" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="dongia" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="thanhtien" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="vat" Type="Double" />
@@ -115,8 +77,6 @@ warning 6002: The table/view 'CANNOTE.dbo.Weightman' does not have a primary key
           <Property Name="tongtien" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="date_time" Type="DateTime" Precision="3" />
           <Property Name="sp" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Netweight" Type="Decimal" Precision="11" Scale="0" />
           <Property Name="ScaleBillCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityContainer Name="mmes_bravoEntities" annotation:LazyLoadingEnabled="true">
@@ -131,8 +91,6 @@ warning 6002: The table/view 'CANNOTE.dbo.Weightman' does not have a primary key
           <EntitySetMapping Name="Weightmen">
             <EntityTypeMapping TypeName="XHTD_SERVICES.Data.Entities.Weightman">
               <MappingFragment StoreEntitySet="Weightman">
-                <ScalarProperty Name="ScaleBillCode" ColumnName="ScaleBillCode" />
-                <ScalarProperty Name="Netweight" ColumnName="Netweight" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Ticketnum" ColumnName="Ticketnum" />
                 <ScalarProperty Name="Trantype" ColumnName="Trantype" />
@@ -147,6 +105,7 @@ warning 6002: The table/view 'CANNOTE.dbo.Weightman' does not have a primary key
                 <ScalarProperty Name="Prodname" ColumnName="Prodname" />
                 <ScalarProperty Name="Firstweight" ColumnName="Firstweight" />
                 <ScalarProperty Name="Secondweight" ColumnName="Secondweight" />
+                <ScalarProperty Name="Netweight" ColumnName="Netweight" />
                 <ScalarProperty Name="mauhd" ColumnName="mauhd" />
                 <ScalarProperty Name="Docnum" ColumnName="Docnum" />
                 <ScalarProperty Name="sohd" ColumnName="sohd" />
@@ -159,6 +118,7 @@ warning 6002: The table/view 'CANNOTE.dbo.Weightman' does not have a primary key
                 <ScalarProperty Name="tongtien" ColumnName="tongtien" />
                 <ScalarProperty Name="date_time" ColumnName="date_time" />
                 <ScalarProperty Name="sp" ColumnName="sp" />
+                <ScalarProperty Name="ScaleBillCode" ColumnName="ScaleBillCode" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

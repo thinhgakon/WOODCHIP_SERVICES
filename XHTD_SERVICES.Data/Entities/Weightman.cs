@@ -14,7 +14,7 @@ namespace XHTD_SERVICES.Data.Entities
     
     public partial class Weightman
     {
-        public int Id { get; set; }
+        public int ID { get; set; }
         public decimal Ticketnum { get; set; }
         public string Trantype { get; set; }
         public string Truckno { get; set; }
@@ -28,7 +28,7 @@ namespace XHTD_SERVICES.Data.Entities
         public string Prodname { get; set; }
         public decimal Firstweight { get; set; }
         public Nullable<decimal> Secondweight { get; set; }
-        public Nullable<decimal> NetWeight { get; set; }
+        public Nullable<decimal> Netweight { get; set; }
         public string mauhd { get; set; }
         public string Docnum { get; set; }
         public string sohd { get; set; }
@@ -41,8 +41,6 @@ namespace XHTD_SERVICES.Data.Entities
         public Nullable<decimal> tongtien { get; set; }
         public Nullable<System.DateTime> date_time { get; set; }
         public string sp { get; set; }
-        public int ID { get; set; }
-        public Nullable<decimal> Netweight { get; set; }
         public string ScaleBillCode { get; set; }
     }
 }

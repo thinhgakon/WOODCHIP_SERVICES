@@ -173,6 +173,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <EntityDeploy Include="Entities\XHTDModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>XHTDModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
     <EntityDeploy Include="Entities\BravoModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>BravoModel.Designer.cs</LastGenOutput>
@@ -180,10 +184,6 @@
     <None Include="Entities\BravoModel.edmx.diagram">
       <DependentUpon>BravoModel.edmx</DependentUpon>
     </None>
-    <EntityDeploy Include="Entities\XHTDModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>XHTDModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
     <None Include="Entities\XHTDModel.edmx.diagram">
       <DependentUpon>XHTDModel.edmx</DependentUpon>
     </None>
