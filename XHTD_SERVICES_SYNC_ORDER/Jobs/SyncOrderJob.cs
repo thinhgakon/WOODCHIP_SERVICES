@@ -51,8 +51,7 @@ namespace XHTD_SERVICES_SYNC_ORDER.Jobs
 
         public async Task SyncOrderProcess()
         {
-            _syncOrderLogger.LogInfo("===================================------------------===================================");
-            _syncOrderLogger.LogInfo("Start process Sync Order job");
+            _syncOrderLogger.LogInfo("===================================- Start process Sync Order job -===================================");
 
             GetToken();
 
