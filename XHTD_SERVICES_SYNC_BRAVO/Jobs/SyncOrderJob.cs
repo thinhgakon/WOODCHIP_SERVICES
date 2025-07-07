@@ -9,6 +9,7 @@ using XHTD_SERVICES.Helper;
 
 namespace XHTD_SERVICES_SYNC_BRAVO.Jobs
 {
+    [DisallowConcurrentExecution]
     public class SyncOrderJob : IJob
     {
         private readonly mmes_bravoEntities _bravoContext;
