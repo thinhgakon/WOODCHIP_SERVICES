@@ -17,6 +17,7 @@ using XHTD_SERVICES.Data.Dtos;
 
 namespace XHTD_SERVICES_SYNC_ORDER.Jobs
 {
+    [DisallowConcurrentExecution]
     public class SyncOrderJob : IJob
     {
         protected readonly ScaleBillRepository _scaleBillRepository;

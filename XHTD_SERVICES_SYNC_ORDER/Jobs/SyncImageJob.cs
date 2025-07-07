@@ -14,11 +14,11 @@ using XHTD_SERVICES.Helper;
 using XHTD_SERVICES.Helper.Models.Request;
 using System.Threading;
 using XHTD_SERVICES.Data.Dtos;
-using log4net;
 using XHTD_SERVICES.Data.Entities;
 
 namespace XHTD_SERVICES_SYNC_ORDER.Jobs
 {
+    [DisallowConcurrentExecution]
     public class SyncImageJob : IJob
     {
         ILog _logger = LogManager.GetLogger("SecondFileAppender");
