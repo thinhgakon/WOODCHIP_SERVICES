@@ -63,7 +63,6 @@ namespace XHTD_SERVICES_SYNC_BRAVO.Jobs
                     {
                         var bravoBill = new Weightman()
                         {
-                            ID = x?.BravoId ?? 0,
                             Trantype = GetScaleType(x.ScaleTypeCode),
                             Custcode = GetCustCode(x.PartnerCode),
                             Custname = x.MdPartner.Name,
