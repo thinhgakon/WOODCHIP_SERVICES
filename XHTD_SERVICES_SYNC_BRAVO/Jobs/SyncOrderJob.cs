@@ -41,6 +41,12 @@ namespace XHTD_SERVICES_SYNC_BRAVO.Jobs
             _syncOrderLogger.LogInfo("===================================- Start process Sync Order job -===================================");
             var unSyncBills = await _mMesContext.ScaleBills.Include(x => x.MdPartner).Include(x => x.MdArea).Where(x => !x.IsSyncToBravo).ToListAsync();
 
+            if (unSyncBills == null || unSyncBills.Count == 0)
+            {
+                _syncOrderLogger.LogInfo($"Tất cả phiếu cân đã được đồng bộ");
+                return;
+            }
+
             try
             {
                 foreach (var x in unSyncBills)
