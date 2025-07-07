@@ -37,9 +37,7 @@ namespace XHTD_SERVICES_SYNC_BRAVO.Jobs
 
         public async Task SyncOrderProcess()
         {
-            _syncOrderLogger.LogInfo("===================================------------------===================================");
-            _syncOrderLogger.LogInfo("Start process Sync Order job");
-            Console.WriteLine("Start process Sync Order job");
+            _syncOrderLogger.LogInfo("===================================- Start process Sync Order job -===================================");
             var unSyncBills = await _mMesContext.ScaleBills.Include(x => x.MdPartner).Include(x => x.MdArea).Where(x => !x.IsSyncToBravo).ToListAsync();
 
             try
