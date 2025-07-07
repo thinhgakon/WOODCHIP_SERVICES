@@ -52,7 +52,6 @@ namespace XHTD_SERVICES_SYNC_BRAVO.Jobs
                         await _bravoContext.SaveChangesAsync();
                         await _mMesContext.SaveChangesAsync();
                     }
-
                     else
                     {
                         var bravoBill = new Weightman()
@@ -98,7 +97,6 @@ namespace XHTD_SERVICES_SYNC_BRAVO.Jobs
                             x.IsSyncToBravo = true;
                             x.BravoId = bravoBill.ID;
                             _mMesContext.ScaleBills.AddOrUpdate(x);
-                            Console.WriteLine($"Sync {x.Code}");
                             await _mMesContext.SaveChangesAsync();
                         }
                     }
