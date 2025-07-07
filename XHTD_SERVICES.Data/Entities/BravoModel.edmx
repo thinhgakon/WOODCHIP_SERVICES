@@ -7,28 +7,28 @@
       <Schema Namespace="XHTD_SERVICES.Data.Entities.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Weightman">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Ticketnum" Type="decimal" Precision="11" Scale="0" Nullable="false" />
           <Property Name="Trantype" Type="nvarchar" MaxLength="20" />
-          <Property Name="Truckno" Type="nvarchar" MaxLength="15" />
-          <Property Name="Date_in" Type="datetime" />
+          <Property Name="Truckno" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="Date_in" Type="date" Nullable="false" />
           <Property Name="time_in" Type="time" Precision="7" />
-          <Property Name="Date_out" Type="datetime" />
+          <Property Name="Date_out" Type="date" />
           <Property Name="time_out" Type="time" Precision="7" />
           <Property Name="Custcode" Type="nvarchar" MaxLength="50" />
           <Property Name="Custname" Type="nvarchar(max)" />
           <Property Name="Prodcode" Type="nvarchar" MaxLength="50" />
           <Property Name="Prodname" Type="nvarchar(max)" />
-          <Property Name="Firstweight" Type="decimal" Precision="11" Scale="0" />
+          <Property Name="Firstweight" Type="decimal" Precision="11" Scale="0" Nullable="false" />
           <Property Name="Secondweight" Type="decimal" Precision="11" Scale="0" />
-          <Property Name="NetWeight" Type="decimal" Precision="11" Scale="0" />
+          <Property Name="Netweight" Type="decimal" Precision="11" Scale="0" />
           <Property Name="mauhd" Type="nvarchar" MaxLength="50" />
           <Property Name="Docnum" Type="nvarchar" MaxLength="30" />
           <Property Name="sohd" Type="nvarchar" MaxLength="50" />
           <Property Name="Netweight2" Type="decimal" Precision="6" Scale="0" />
-          <Property Name="Note" Type="datetime" />
+          <Property Name="Note" Type="date" Nullable="false" />
           <Property Name="dongia" Type="decimal" Precision="18" Scale="0" />
           <Property Name="thanhtien" Type="decimal" Precision="18" Scale="0" />
           <Property Name="vat" Type="float" />
@@ -36,6 +36,7 @@
           <Property Name="tongtien" Type="numeric" Precision="18" Scale="0" />
           <Property Name="date_time" Type="datetime" />
           <Property Name="sp" Type="nvarchar" MaxLength="50" />
+          <Property Name="ScaleBillCode" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityContainer Name="XHTD_SERVICESDataEntitiesStoreContainer">
           <EntitySet Name="Weightman" EntityType="Self.Weightman" Schema="dbo" store:Type="Tables" />
@@ -47,28 +48,28 @@
       <Schema Namespace="XHTD_SERVICES.Data.Entities" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Weightman">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Ticketnum" Type="Decimal" Precision="11" Scale="0" Nullable="false" />
           <Property Name="Trantype" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="Truckno" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
-          <Property Name="Date_in" Type="DateTime" Precision="3" />
+          <Property Name="Truckno" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Date_in" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="time_in" Type="Time" Precision="7" />
-          <Property Name="Date_out" Type="DateTime" Precision="3" />
+          <Property Name="Date_out" Type="DateTime" Precision="0" />
           <Property Name="time_out" Type="Time" Precision="7" />
           <Property Name="Custcode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Custname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Prodcode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Prodname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Firstweight" Type="Decimal" Precision="11" Scale="0" />
+          <Property Name="Firstweight" Type="Decimal" Precision="11" Scale="0" Nullable="false" />
           <Property Name="Secondweight" Type="Decimal" Precision="11" Scale="0" />
-          <Property Name="NetWeight" Type="Decimal" Precision="11" Scale="0" />
+          <Property Name="Netweight" Type="Decimal" Precision="11" Scale="0" />
           <Property Name="mauhd" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Docnum" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="sohd" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Netweight2" Type="Decimal" Precision="6" Scale="0" />
-          <Property Name="Note" Type="DateTime" Precision="3" />
+          <Property Name="Note" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="dongia" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="thanhtien" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="vat" Type="Double" />
@@ -76,6 +77,7 @@
           <Property Name="tongtien" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="date_time" Type="DateTime" Precision="3" />
           <Property Name="sp" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ScaleBillCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityContainer Name="mmes_bravoEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Weightmen" EntityType="Self.Weightman" />
@@ -89,7 +91,7 @@
           <EntitySetMapping Name="Weightmen">
             <EntityTypeMapping TypeName="XHTD_SERVICES.Data.Entities.Weightman">
               <MappingFragment StoreEntitySet="Weightman">
-                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Ticketnum" ColumnName="Ticketnum" />
                 <ScalarProperty Name="Trantype" ColumnName="Trantype" />
                 <ScalarProperty Name="Truckno" ColumnName="Truckno" />
@@ -103,7 +105,7 @@
                 <ScalarProperty Name="Prodname" ColumnName="Prodname" />
                 <ScalarProperty Name="Firstweight" ColumnName="Firstweight" />
                 <ScalarProperty Name="Secondweight" ColumnName="Secondweight" />
-                <ScalarProperty Name="NetWeight" ColumnName="NetWeight" />
+                <ScalarProperty Name="Netweight" ColumnName="Netweight" />
                 <ScalarProperty Name="mauhd" ColumnName="mauhd" />
                 <ScalarProperty Name="Docnum" ColumnName="Docnum" />
                 <ScalarProperty Name="sohd" ColumnName="sohd" />
@@ -116,6 +118,7 @@
                 <ScalarProperty Name="tongtien" ColumnName="tongtien" />
                 <ScalarProperty Name="date_time" ColumnName="date_time" />
                 <ScalarProperty Name="sp" ColumnName="sp" />
+                <ScalarProperty Name="ScaleBillCode" ColumnName="ScaleBillCode" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
