@@ -93,8 +93,16 @@ namespace XHTD_SERVICES_SYNC_BRAVO.Jobs
                         }
                         else
                         {
-                            _bravoContext.Entry(existed).CurrentValues.SetValues(bravoBill);
-                            _bravoContext.Entry(existed).State = EntityState.Modified;
+                            var entry = _bravoContext.Entry(existed);
+                            var values = _bravoContext.Entry(bravoBill).CurrentValues;
+                            foreach (var prop in values.PropertyNames)
+                            {
+                                if (prop != "ID")
+                                {
+                                    entry.CurrentValues[prop] = values[prop];
+                                }
+                            }
+                            entry.State = EntityState.Modified;
                         }
 
                         var result = await _bravoContext.SaveChangesAsync();
