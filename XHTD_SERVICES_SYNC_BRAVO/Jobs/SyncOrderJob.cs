@@ -99,7 +99,7 @@ namespace XHTD_SERVICES_SYNC_BRAVO.Jobs
                                     entry.CurrentValues[prop] = values[prop];
                                 }
                             }
-                            _bravoContext.Entry(existed).State = EntityState.Modified;
+                            entry.State = EntityState.Modified;
                         }
 
                         var result = await _bravoContext.SaveChangesAsync();
