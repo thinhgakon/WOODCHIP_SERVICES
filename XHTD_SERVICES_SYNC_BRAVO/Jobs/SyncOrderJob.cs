@@ -37,50 +37,68 @@ namespace XHTD_SERVICES_SYNC_BRAVO.Jobs
 
         public async Task SyncOrderProcess()
         {
-            _syncOrderLogger.LogInfo("===================================------------------===================================");
-            _syncOrderLogger.LogInfo("Start process Sync Order job");
-            Console.WriteLine("Start process Sync Order job");
+            _syncOrderLogger.LogInfo("===================================- Start process Sync Order job -===================================");
             var unSyncBills = await _mMesContext.ScaleBills.Include(x => x.MdPartner).Include(x => x.MdArea).Where(x => !x.IsSyncToBravo).ToListAsync();
 
             try
             {
                 foreach (var x in unSyncBills)
                 {
-                    var bravoBill = new Weightman()
-                    {
-                        Trantype = GetScaleType(x.ScaleTypeCode),
-                        Custcode = GetCustCode(x.PartnerCode),
-                        Custname = x.MdPartner.Name,
-                        Truckno = x.VehicleCode,
-                        Note = x.CreateDate ?? DateTime.Now,
-                        Firstweight = Convert.ToDecimal(x.Weight1),
-                        Secondweight = Convert.ToDecimal(x.Weight2),
-                        Date_in = x.TimeWeight1.Value.Date,
-                        Date_out = x?.TimeWeight2?.Date,
-                        time_in = x.TimeWeight1.Value.TimeOfDay,
-                        time_out = x?.TimeWeight2?.TimeOfDay,
-                        NetWeight = Convert.ToDecimal(x.Weight),
-                        Prodcode = GetProdcode(x?.AreaCode),
-                        Prodname = x?.MdArea?.Name,
-                        Ticketnum = int.TryParse(x.BillNumber,out int i) ? i : 0,
-                        sohd = x.InvoiceNumber,
-                        mauhd = x.InvoiceTemplate,
-                        Docnum = x.InvoiceSymbol,
-                        Id = x?.BravoId ?? 0,
-                        date_time = x.TimeWeight2,
-                        Netweight2 = Convert.ToDecimal(x.Weight),
-                    };
-
-                    _bravoContext.Weightmen.AddOrUpdate(bravoBill);
-                    var result = await _bravoContext.SaveChangesAsync();
-
-                    if(result > 0 && bravoBill.Id > 0)
+                    if (x.IsCanceled == true)
                     {
                         x.IsSyncToBravo = true;
-                        x.BravoId = bravoBill.Id;
-                        _mMesContext.ScaleBills.AddOrUpdate(x);
-                        Console.WriteLine($"Sync {x.Code}");
+                        var _bravoBills = await _bravoContext.Weightmen.Where(br => br.ScaleBillCode == x.Code).ToListAsync();
+                        _bravoContext.Weightmen.RemoveRange(_bravoBills);
+                        await _bravoContext.SaveChangesAsync();
                         await _mMesContext.SaveChangesAsync();
+                    }
+                    else
+                    {
+                        var bravoBill = new Weightman()
+                        {
+                            ID = x?.BravoId ?? 0,
+                            Trantype = GetScaleType(x.ScaleTypeCode),
+                            Custcode = GetCustCode(x.PartnerCode),
+                            Custname = x.MdPartner.Name,
+                            Truckno = x.VehicleCode,
+                            Note = x.CreateDate ?? DateTime.Now,
+                            Firstweight = Convert.ToDecimal(x.Weight1),
+                            Secondweight = Convert.ToDecimal(x.Weight2),
+                            Date_in = x.TimeWeight1.Value.Date,
+                            Date_out = x?.TimeWeight2?.Date,
+                            time_in = x.TimeWeight1.Value.TimeOfDay,
+                            time_out = x?.TimeWeight2?.TimeOfDay,
+                            Netweight = Convert.ToDecimal(x.Weight),
+                            Prodcode = GetProdcode(x?.AreaCode),
+                            Prodname = x?.MdArea?.Name,
+                            Ticketnum = int.TryParse(x.BillNumber, out int i) ? i : 0,
+                            sohd = x.InvoiceNumber,
+                            mauhd = x.InvoiceTemplate,
+                            Docnum = x.InvoiceSymbol,
+                            date_time = x.TimeWeight2,
+                            Netweight2 = Convert.ToDecimal(x.Weight),
+                            ScaleBillCode = x.Code
+                        };
+
+                        var existed = await _bravoContext.Weightmen.FirstOrDefaultAsync(br => br.ScaleBillCode == x.Code);
+                        if (existed == null)
+                        {
+                            _bravoContext.Weightmen.Add(bravoBill);
+                        }
+                        else
+                        {
+                            _bravoContext.Entry(existed).CurrentValues.SetValues(bravoBill);
+                            _bravoContext.Entry(existed).State = EntityState.Modified;
+                        }
+
+                        var result = await _bravoContext.SaveChangesAsync();
+                        if (result > 0 && bravoBill.ID > 0)
+                        {
+                            x.IsSyncToBravo = true;
+                            x.BravoId = bravoBill.ID;
+                            _mMesContext.ScaleBills.AddOrUpdate(x);
+                            await _mMesContext.SaveChangesAsync();
+                        }
                     }
                 }
             }
