@@ -41,6 +41,12 @@ namespace XHTD_SERVICES_SYNC_BRAVO.Jobs
             _syncOrderLogger.LogInfo("===================================- Start process Sync Order job -===================================");
             var unSyncBills = await _mMesContext.ScaleBills.Include(x => x.MdPartner).Include(x => x.MdArea).Where(x => !x.IsSyncToBravo).ToListAsync();
 
+            if (unSyncBills == null || unSyncBills.Count == 0)
+            {
+                _syncOrderLogger.LogInfo($"Tất cả phiếu cân đã được đồng bộ");
+                return;
+            }
+
             try
             {
                 foreach (var x in unSyncBills)
@@ -57,7 +63,6 @@ namespace XHTD_SERVICES_SYNC_BRAVO.Jobs
                     {
                         var bravoBill = new Weightman()
                         {
-                            ID = x?.BravoId ?? 0,
                             Trantype = GetScaleType(x.ScaleTypeCode),
                             Custcode = GetCustCode(x.PartnerCode),
                             Custname = x.MdPartner.Name,
@@ -88,8 +93,27 @@ namespace XHTD_SERVICES_SYNC_BRAVO.Jobs
                         }
                         else
                         {
-                            _bravoContext.Entry(existed).CurrentValues.SetValues(bravoBill);
-                            _bravoContext.Entry(existed).State = EntityState.Modified;
+                            existed.Trantype = bravoBill.Trantype;
+                            existed.Custcode = bravoBill.Custcode;
+                            existed.Custname = bravoBill.Custname;
+                            existed.Truckno = bravoBill.Truckno;
+                            existed.Note = bravoBill.Note;
+                            existed.Firstweight = bravoBill.Firstweight;
+                            existed.Secondweight = bravoBill.Secondweight;
+                            existed.Date_in = bravoBill.Date_in;
+                            existed.Date_out = bravoBill.Date_out;
+                            existed.time_in = bravoBill.time_in;
+                            existed.time_out = bravoBill.time_out;
+                            existed.Netweight = bravoBill.Netweight;
+                            existed.Prodcode = bravoBill.Prodcode;
+                            existed.Prodname = bravoBill.Prodname;
+                            existed.Ticketnum = bravoBill.Ticketnum;
+                            existed.sohd = bravoBill.sohd;
+                            existed.mauhd = bravoBill.mauhd;
+                            existed.Docnum = bravoBill.Docnum;
+                            existed.date_time = bravoBill.date_time;
+                            existed.Netweight2 = bravoBill.Netweight2;
+                            existed.ScaleBillCode = bravoBill.ScaleBillCode;
                         }
 
                         var result = await _bravoContext.SaveChangesAsync();
