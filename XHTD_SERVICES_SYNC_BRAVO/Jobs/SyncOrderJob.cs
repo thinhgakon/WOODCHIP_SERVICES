@@ -49,15 +49,27 @@ namespace XHTD_SERVICES_SYNC_BRAVO.Jobs
 
             try
             {
+                _syncOrderLogger.LogInfo($"Các đơn chưa đồng bộ: {string.Join(",", unSyncBills.Select(x => x.Code))}");
+
                 foreach (var x in unSyncBills)
                 {
                     if (x.IsCanceled == true)
                     {
+                        _syncOrderLogger.LogInfo($"Đơn: {x.Code} - IsCanceled = TRUE => Set IsSyncToBravo = TRUE");
                         x.IsSyncToBravo = true;
                         var _bravoBills = await _bravoContext.Weightmen.Where(br => br.ScaleBillCode == x.Code).ToListAsync();
                         _bravoContext.Weightmen.RemoveRange(_bravoBills);
-                        await _bravoContext.SaveChangesAsync();
-                        await _mMesContext.SaveChangesAsync();
+                        var bravoResult = await _bravoContext.SaveChangesAsync();
+                        var mmesResult = await _mMesContext.SaveChangesAsync();
+                        if (bravoResult > 0 && mmesResult > 0)
+                        {
+                            _syncOrderLogger.LogInfo($"Đơn: {x.Code} - IsCanceled = TRUE => Set IsSyncToBravo = TRUE, xóa đơn Bravo thành công!");
+                        }
+                        else
+                        {
+                            _syncOrderLogger.LogInfo($"Đơn: {x.Code} - IsCanceled = TRUE => Set IsSyncToBravo = TRUE, xóa đơn Bravo thất bại!");
+                            _syncOrderLogger.LogInfo($"_bravoContext.SaveChanges = {bravoResult} || _mMesContext.SaveChanges = {mmesResult}");
+                        }
                     }
                     else
                     {
@@ -89,10 +101,30 @@ namespace XHTD_SERVICES_SYNC_BRAVO.Jobs
                         var existed = await _bravoContext.Weightmen.FirstOrDefaultAsync(br => br.ScaleBillCode == x.Code);
                         if (existed == null)
                         {
+                            _syncOrderLogger.LogInfo($"Đơn: {x.Code} - Bravo existed = FALSE => Thêm mới đơn Bravo");
+
                             _bravoContext.Weightmen.Add(bravoBill);
+                            var result = await _bravoContext.SaveChangesAsync();
+                            if (result > 0 && bravoBill.ID > 0)
+                            {
+                                x.IsSyncToBravo = true;
+                                x.BravoId = bravoBill.ID;
+                                _mMesContext.ScaleBills.AddOrUpdate(x);
+                                var mmesResult = await _mMesContext.SaveChangesAsync();
+                                if (mmesResult > 0)
+                                {
+                                    _syncOrderLogger.LogInfo($"Đơn: {x.Code} - Bravo ID: {bravoBill.ID} => Thêm mới đơn Bravo, cập nhật IsSyncToBravo, BravoId thành công!");
+                                }
+                                else
+                                {
+                                    _syncOrderLogger.LogInfo($"Đơn: {x.Code} - Bravo ID: {bravoBill.ID} => Cập nhật IsSyncToBravo, BravoId thất bại!");
+                                }
+                            }
                         }
                         else
                         {
+                            _syncOrderLogger.LogInfo($"Đơn: {x.Code} - Bravo existed = TRUE => Cập nhật đơn Bravo Id: {existed.ID}");
+
                             existed.Trantype = bravoBill.Trantype;
                             existed.Custcode = bravoBill.Custcode;
                             existed.Custname = bravoBill.Custname;
@@ -114,15 +146,21 @@ namespace XHTD_SERVICES_SYNC_BRAVO.Jobs
                             existed.date_time = bravoBill.date_time;
                             existed.Netweight2 = bravoBill.Netweight2;
                             existed.ScaleBillCode = bravoBill.ScaleBillCode;
-                        }
 
-                        var result = await _bravoContext.SaveChangesAsync();
-                        if (result > 0 && bravoBill.ID > 0)
-                        {
                             x.IsSyncToBravo = true;
-                            x.BravoId = bravoBill.ID;
-                            _mMesContext.ScaleBills.AddOrUpdate(x);
-                            await _mMesContext.SaveChangesAsync();
+
+                            var mmesResult = await _mMesContext.SaveChangesAsync();
+                            var bravoResult = await _bravoContext.SaveChangesAsync();
+                            if (mmesResult > 0 && bravoResult > 0)
+                            {
+                                _syncOrderLogger.LogInfo($"Cập nhật đơn Bravo Id: {existed.ID} thành công!");
+                                _syncOrderLogger.LogInfo($"Cập nhật đơn IsSyncToBravo = TRUE đơn: {x.Code} thành công!");
+                            }
+                            else
+                            {
+                                _syncOrderLogger.LogInfo($"Đơn: {x.Code} cập nhật Bravo / cập nhật IsSyncToBravo thất bại!");
+                                _syncOrderLogger.LogInfo($"_bravoContext.SaveChanges = {bravoResult} || _mMesContext.SaveChanges = {mmesResult}");
+                            }
                         }
                     }
                 }
